@@ -1,0 +1,16 @@
+Extent - instrukcije
+
+
+1) Koristimo underscore (snakecase) notaciju sa engleskim nazivima - npr. my_var, osim u slucaju da
+pisemo klase (sto je preporuka) - u tom slucaju pisemo camel case
+
+2) koristimo gitlab za version control - obavezno radite pull request pre pocetka rada - uvek komitujte
+kada radite nesto
+
+3) svaka commit poruka treba da ima ovu formu - broj taska | ime komitenta | poruka na engleskom u imperativu
+npr. #2 | Nenad Pantelic | Add login methods
+
+4) struktuirajte projekat da bude sto cistiji, js kod izdvojite u poseban fajl, pa povezite uz html, 
+isto vazi i za css, jedino ako je nesto kratko ili vazi samo za taj fajl
+
+Posaljite mi nickove sa gitlaba da bih vas dodao na projekat.
