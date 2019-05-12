@@ -1,0 +1,5 @@
+USER za bazu
+
+username:extent
+password:extent123
+db name:extent
