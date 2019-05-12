@@ -17,7 +17,7 @@ $(function () {
   var salesChart       = new Chart(salesChartCanvas);
 
   var salesChartData = {
-    labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    labels  : ['Januar', 'Februar', 'Mart', 'April', 'Maj', 'Jun', 'Jul'],
     datasets: [
       {
         label               : 'Electronics',
