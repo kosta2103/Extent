@@ -1,3 +1,6 @@
+<?php
+  session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,8 +29,14 @@
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <style>
+    .error {color: #FF0000;}
+  </style>
 </head>
 <body class="hold-transition login-page">
+<?php
+  require_once('login_backend.php');
+?>
 <div class="login-box">
   <div class="login-logo">
     <a href="../index2.html"><b>Buildira</b></a>
@@ -36,26 +45,29 @@
   <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
 
-    <form action="../index2.html" method="post">
+    <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" method="post">
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email">
+        <input type="email" class="form-control" placeholder="Email" name="email" value="<?php if(isset($_COOKIE["email_cookie"])) {echo $_COOKIE["email_cookie"];}?>">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+        <div class="error"><?php echo $email_err; ?></div>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Password">
+        <input type="password" class="form-control" placeholder="Password" name="password" value="<?php if(isset($_COOKIE["password_cookie"])) {echo $_COOKIE["password_cookie"];}?>">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        <div class="error"><?php echo $password_err; ?></div>
       </div>
+      <div class="error"><?php echo $credentials_err; ?></div>
       <div class="row">
         <div class="col-xs-8">
           <div class="checkbox icheck">
             <label>
-              <input type="checkbox"> Remember Me
+              <input type="checkbox" name="chkbox"> Remember Me
             </label>
           </div>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat" name="login">Sign In</button>
         </div>
         <!-- /.col -->
       </div>
