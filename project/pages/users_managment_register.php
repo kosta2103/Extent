@@ -32,6 +32,9 @@
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <style>
+    .error_var {color: #FF0000;}
+  </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -325,54 +328,71 @@
             
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form">
+            <?php require_once('user_managment_register_logic.php');?>
+            <form role="form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
               <div class="box-body">
+                  <?php if(!empty($message_fail)){?>
+                  <div class="alert alert-error">
+                    <?php echo $message_fail;?>
+                  </div>
+                  <?php } else if(!empty($message_success)){?>
+                  <div class="alert alert-success">
+                    <?php echo $message_success;?>
+                  </div>
+                  <?php }?>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Ime</label>
-                  <input type="text" class="form-control" id="exampleInputFirstName" placeholder="Unesite ime">
+                  <input type="text" class="form-control" id="exampleInputFirstName" placeholder="Unesite ime" name="fname">
+                  <div class="error_var"><?php echo $first_name_err;?></div>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Prezime</label>
-                  <input type="text" class="form-control" id="exampleInputLastName" placeholder="Unesite prezime">
+                  <input type="text" class="form-control" id="exampleInputLastName" placeholder="Unesite prezime" name="lname">
+                  <div class="error_var"><?php echo $last_name_err;?></div>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Korisničko ime</label>
-                  <input type="text" class="form-control" id="exampleInputUsername" placeholder="Unesite korisničko ime">
+                  <input type="text" class="form-control" id="exampleInputUsername" placeholder="Unesite korisničko ime" name="username">
+                  <div class="error_var"><?php echo $username_err;?></div>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Mejl</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Unesite mejl">
+                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Unesite mejl" name="mail">
+                  <div class="error_var"><?php echo $email_err;?></div>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Šifra</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Unesite šifru">
+                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Unesite šifru" name="passwd">
+                  <div class="error_var"><?php echo $password_err;?></div>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Broj telefona</label>
-                  <input type="text" class="form-control" id="exampleInputNumber" placeholder="Unesite broj telefona">
+                  <input type="text" class="form-control" id="exampleInputNumber" placeholder="Unesite broj telefona" name="phonenum">
+                  <div class="error_var"><?php echo $phone_number_err;?></div>
                 </div>
                 <div class="form-group">
                   <label for="exampleInputFile">Profilna slika</label>
-                  <input type="file" id="exampleInputFile">
+                  <input type="file" id="exampleInputFile" name="profilepic">
                 </div>
                 <div class="form-group">
                     <label>Role</label>
-                    <select class="form-control select2" style="width: 100%;">
+                    <select class="form-control select2" style="width: 100%;" name="role">
                       <option>Admin</option>
                       <option>Project Manager</option>
-                      <option>Team leader</option>
+                      <option>Team Leader</option>
                       <option>Executor</option>
                     </select>
                   </div>
                 <div class="form-group">
                   <label for="exampleInputEmail1">Profesija </label>
-                  <input type="text" class="form-control" id="exampleInputProffession" placeholder="Unesite naziv profesije">
+                  <input type="text" class="form-control" id="exampleInputProffession" placeholder="Unesite naziv profesije"name="profession">
+                  <div class="error_var"><?php echo $profession_err;?></div>
                 </div>
               </div>
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Registruj korisnika</button>
+                <input type="submit" name="register" value="Registruj korisnika" class="btn btn-primary">
               </div>
             </form>
           </div>

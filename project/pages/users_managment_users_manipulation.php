@@ -378,8 +378,8 @@
                               break;
                       }echo $role_name;?></td>
                       <td>
-                        <button class="btn btn-primary">Izmeni podatke</button>
-                        <button class="btn btn-primary">Obriši korisnika</button>
+                        <button class="btn btn-secondary">Izmeni podatke</button>
+                        <button class="btn btn-danger">Obriši korisnika</button>
                       </td>
                   <?php } ?>
                   
