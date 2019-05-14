@@ -1,3 +1,9 @@
+<?php
+  //session_start();
+  require_once("backend_pages/project_management_backend.php")
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,6 +49,9 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+<style>
+    .error {color: #FF0000;}
+  </style>
 <div class="wrapper">
 
     <header class="main-header">
@@ -336,16 +345,17 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form">
+            <form role="form" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
               <div class="box-body">
                 <div class="form-group">
-                  <label for="imeProjekta">Ime Projekta</label>
-                  <input type="text" class="form-control" id="imeProjekta" placeholder="Unesi ime projekta">
+                  <label for="projectName">Ime Projekta</label>
+                  <input type="text" class="form-control" id="projectName" name="projectName" placeholder="Unesi ime projekta">
+                  <div class="error"><?php echo $projectNameErr; ?></div>
                 </div>
                 <div class="form-group">
                     <label>Odgovorno lice</label>
-                    <select class="form-control select2" style="width: 100%;">
-                           <option>Project Manager 1</option>
+                    <select name="projectManager" class="form-control select2" style="width: 100%;">
+                      <option>Project Manager 1</option>
                       <option>Project Manager 2</option>
                       <option>Project Manager 3</option>
                       <option>Project Manager 4</option>
@@ -362,16 +372,18 @@
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
-                      <input type="text" class="form-control pull-right" id="reservation">
+                      <input type="text" class="form-control pull-right" name="reservation" id="reservation">
+                      <div class="error"><?php echo $projectReservationErr; ?></div>
                     </div>
                     <!-- /.input group -->
                   </div>
                   </div>
                   <div class="form-group">
-                    <label for="finansijer">Finansijer</label>
+                    <label for="projectInvestor">Finansijer</label>
                         <div class="input-group">
                             <div class="input-group-addon">
-                    <input type="text" class="form-control" id="finansijer" placeholder="Finansijer">
+                              <input type="text" class="form-control" name="projectInvestor" id="projectInvestor" placeholder="Finansijer">
+                              <div class="error"><?php echo $projectInvestorErr; ?></div>
                             </div>
                         </div>
                   </div>
@@ -381,7 +393,7 @@
                     <label>Napomena</label>
                         <div class="input-group">
                             <div class="input-group-addon">  
-                                <textarea class="form-control" rows="3" id="napomena" placeholder="..."></textarea>
+                                <textarea class="form-control" rows="3" name="notes" id="notes" placeholder="..."></textarea>
                             </div>
                         </div>
                   </div>
@@ -390,7 +402,7 @@
               <!-- /.box-body -->
 
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Pošalji</button>
+                <button name="submitProject" type="submit" class="btn btn-primary">Pošalji</button>
               </div>
             </form>
           </div>
