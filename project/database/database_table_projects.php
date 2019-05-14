@@ -7,7 +7,7 @@
                                     project_manager VARCHAR(30) NOT NULL,
                                     project_deadline VARCHAR(30) NOT NULL,
                                     project_investor VARCHAR(30) NOT NULL,
-                                    project_notes VARCHAR(100) NOT NULL
+                                    project_notes VARCHAR(100)
 								)";
 		$state = $connection->exec($sql_create_table_projects);
 		echo "Successfully created table!";

@@ -337,6 +337,7 @@
     <section class="content">
       <div class="row">
         <!-- left column -->
+        <div class="col-md-3"></div>
         <div class="col-md-6">
           <!-- general form elements -->
           <div class="box box-primary">
@@ -373,29 +374,19 @@
                         <i class="fa fa-calendar"></i>
                       </div>
                       <input type="text" class="form-control pull-right" name="reservation" id="reservation">
-                      <div class="error"><?php echo $projectReservationErr; ?></div>
                     </div>
                     <!-- /.input group -->
                   </div>
-                  </div>
                   <div class="form-group">
                     <label for="projectInvestor">Finansijer</label>
-                        <div class="input-group">
-                            <div class="input-group-addon">
                               <input type="text" class="form-control" name="projectInvestor" id="projectInvestor" placeholder="Finansijer">
                               <div class="error"><?php echo $projectInvestorErr; ?></div>
-                            </div>
-                        </div>
                   </div>
     
                 
                   <div class="form-group">
                     <label>Napomena</label>
-                        <div class="input-group">
-                            <div class="input-group-addon">  
-                                <textarea class="form-control" rows="3" name="notes" id="notes" placeholder="..."></textarea>
-                            </div>
-                        </div>
+                        <textarea class="form-control" rows="3" name="notes" id="notes" placeholder="..." ></textarea>
                   </div>
   
               </div>
