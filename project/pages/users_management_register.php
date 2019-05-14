@@ -32,6 +32,9 @@
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <style>
+    .error_var {color: #FF0000;}
+  </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -274,15 +277,15 @@
           </a>
         </li>
         <li class="treeview">
-          <a href="pages/users_managment.php">
+          <a href="#">
             <i class="fa fa-envelope"></i> <span>Korisnici</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="users_managment_register.php"><i class="fa fa-circle-o"></i> Registrovanje korisnika</a></li>
-            <li><a href="users_managment_users_manipulation.php"><i class="fa fa-circle-o"></i> Pregled korisnika</a></li>
+            <li><a href="users_management_register.php"><i class="fa fa-circle-o"></i> Registrovanje korisnika</a></li>
+            <li><a href="users_management_users_manipulation.php"><i class="fa fa-circle-o"></i> Pregled korisnika</a></li>
          </ul>
         </li>
         <li class="treeview">
@@ -295,8 +298,6 @@
           <ul class="treeview-menu">
             <li><a href="invoice.html"><i class="fa fa-circle-o"></i> Uplate</a></li>
             <li><a href="payments.html"><i class="fa fa-circle-o"></i> Izvestaji</a></li>
-
-
          </ul>
         </li>
       </ul>
@@ -309,87 +310,91 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Users managment
+        Users management
         <small>Demo</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Users managment</li>
+        <li class="active">Users management</li>
       </ol>
     </section>
 
     <section class="content">
       <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">KORISNICI</h3>
-            </div>
+        <!-- left column -->
+        <div class="col-md-6">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            
             <!-- /.box-header -->
-            <?php require_once('users_managment_all_users.php'); ?>
-            <div class="box-body">
-              <table id="example2" class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                  <th>Ime</th>
-                  <th>Prezime</th>
-                  <th>Korisničko ime</th>
-                  <th>Šifra</th>
-                  <th>Mejl</th>
-                  <th>Broj telefona</th>
-                  <th>Zanimanje</th>
-                  <th>Profilna slika</th>
-                  <th>Rola</th>
-                  <th>Modifikacija korisnika</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach($user as $usr){?>
-                <tr>
-                  <td><?php echo $usr["first_name"];?></td>
-                  <td><?php echo $usr["last_name"];?></td>
-                  <td><?php echo $usr["username"];?></td>
-                  <td><?php echo $usr["password"];?></td>
-                  <td><?php echo $usr["email"];?></td>
-                  <td><?php echo $usr["phone_number"];?></td>
-                  <td><?php echo $usr["profession"];?></td>
-                  <td><?if(!empty($usr["profile_picture"])){
-                        echo $usr["profile_picture"];
-                  }else{
-                        echo "Korisnik nije postavio profilnu sliku!";
-                  }?></td>
-                  <td><?php $role_name = "";
-                      switch ($usr["role_id"]) {
-                            case 1:
-                              $role_name = "Admin";
-                              break;
-                            case 2:
-                              $role_name = "Project Manager";
-                              break;
-                            case 3:
-                              $role_name = "Team Leader";
-                              break;
-                            case 4:
-                              $role_name = "Executor";
-                              break;
-                            
-                            default:
-                              # code...
-                              break;
-                      }echo $role_name;?></td>
-                      <td>
-                        <button class="btn btn-secondary">Izmeni podatke</button>
-                        <button class="btn btn-danger">Obriši korisnika</button>
-                      </td>
-                  <?php } ?>
-                  
-                </tr>
-                </tbody>
-                <tfoot>
-                </tfoot>
-              </table>
-            </div>
-            <!-- /.box-body -->
+            <!-- form start -->
+            <?php require_once('backend_pages/user_management_register_logic.php');?>
+            <form role="form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+              <div class="box-body">
+                  <?php if(!empty($message_fail)){?>
+                  <div class="alert alert-error">
+                    <?php echo $message_fail;?>
+                  </div>
+                  <?php } else if(!empty($message_success)){?>
+                  <div class="alert alert-success">
+                    <?php echo $message_success;?>
+                  </div>
+                  <?php }?>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Ime</label>
+                  <input type="text" class="form-control" id="exampleInputFirstName" placeholder="Unesite ime" name="fname">
+                  <div class="error_var"><?php echo $first_name_err;?></div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Prezime</label>
+                  <input type="text" class="form-control" id="exampleInputLastName" placeholder="Unesite prezime" name="lname">
+                  <div class="error_var"><?php echo $last_name_err;?></div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Korisničko ime</label>
+                  <input type="text" class="form-control" id="exampleInputUsername" placeholder="Unesite korisničko ime" name="username">
+                  <div class="error_var"><?php echo $username_err;?></div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Mejl</label>
+                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Unesite mejl" name="mail">
+                  <div class="error_var"><?php echo $email_err;?></div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Šifra</label>
+                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Unesite šifru" name="passwd">
+                  <div class="error_var"><?php echo $password_err;?></div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Broj telefona</label>
+                  <input type="text" class="form-control" id="exampleInputNumber" placeholder="Unesite broj telefona" name="phonenum">
+                  <div class="error_var"><?php echo $phone_number_err;?></div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputFile">Profilna slika</label>
+                  <input type="file" id="exampleInputFile" name="profilepic">
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select class="form-control select2" style="width: 100%;" name="role">
+                      <option>Admin</option>
+                      <option>Project Manager</option>
+                      <option>Team Leader</option>
+                      <option>Executor</option>
+                    </select>
+                  </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Profesija </label>
+                  <input type="text" class="form-control" id="exampleInputProffession" placeholder="Unesite naziv profesije"name="profession">
+                  <div class="error_var"><?php echo $profession_err;?></div>
+                </div>
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <input type="submit" name="register" value="Registruj korisnika" class="btn btn-primary">
+              </div>
+            </form>
           </div>
         </div>
       </div>

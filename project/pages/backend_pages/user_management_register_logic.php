@@ -1,6 +1,6 @@
 <?php
 	require_once('../database_connection.php');
-	require_once('user_managment_model.php');
+	require_once('user_management_model.php');
 
 	$first_name_err = $last_name_err = $username_err = $email_err = $password_err = $phone_number_err = $profession_err = "";
 	$message = "";
