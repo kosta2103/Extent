@@ -1,9 +1,3 @@
-<?php
-  //session_start();
-  require_once("backend_pages/project_management_backend.php")
-?>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,24 +12,13 @@
   <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="../bower_components/Ionicons/css/ionicons.min.css">
-  <!-- daterange picker -->
-  <link rel="stylesheet" href="../bower_components/bootstrap-daterangepicker/daterangepicker.css">
-  <!-- bootstrap datepicker -->
-  <link rel="stylesheet" href="../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
-  <!-- iCheck for checkboxes and radio inputs -->
-  <link rel="stylesheet" href="../plugins/iCheck/all.css">
-  <!-- Bootstrap Color Picker -->
-  <link rel="stylesheet" href="../bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
-  <!-- Bootstrap time Picker -->
-  <link rel="stylesheet" href="../plugins/timepicker/bootstrap-timepicker.min.css">
-  <!-- Select2 -->
-  <link rel="stylesheet" href="../bower_components/select2/dist/css/select2.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../dist/css/buildira.min.css">
-  <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
   <!-- jvectormap -->
   <link rel="stylesheet" href="../bower_components/jvectormap/jquery-jvectormap.css">
-  
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../dist/css/buildira.min.css">
+  <!-- buildira Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -49,9 +32,6 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-<style>
-    .error {color: #FF0000;}
-  </style>
 <div class="wrapper">
 
     <header class="main-header">
@@ -270,7 +250,7 @@
           <ul class="treeview-menu">
             <li><a href="project_management.php"><i class="fa fa-circle-o"></i> Upravljanje</a></li>
             <li><a href="project_teams.php"><i class="fa fa-circle-o"></i> Projektni timovi</a></li>
-            <li><a href="commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
+            <li><a href="pages/commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -283,7 +263,7 @@
       
         </li>
         <li>
-          <a href="calendar.html">
+          <a href="pages/calendar.html">
             <i class="fa fa-calendar"></i> <span>Kalendar</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-red">3</small>
@@ -292,7 +272,7 @@
           </a>
         </li>
         <li>
-          <a href="mailbox/mailbox.html">
+          <a href="pages/mailbox/mailbox.html">
             <i class="fa fa-envelope"></i> <span>Korisnici</span>
 
           </a>
@@ -305,8 +285,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="invoice.html"><i class="fa fa-circle-o"></i> Uplate</a></li>
-            <li><a href="payments.html"><i class="fa fa-circle-o"></i> Izvestaji</a></li>
+            <li><a href="pages/invoice.html"><i class="fa fa-circle-o"></i> Uplate</a></li>
+            <li><a href="pages/payments.html"><i class="fa fa-circle-o"></i> Izvestaji</a></li>
 
 
          </ul>
@@ -317,90 +297,20 @@
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
- 
-
-  <!-- /.content-wrapper -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Upravljanje projektima
+        Blank page
+        <small>Demo</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Projekti</a></li>
-        <li class="active">Upravljanje</li>
+        <li class="active">Blank page</li>
       </ol>
     </section>
 
-    <!-- Main content -->
-    <section class="content">
-      <div class="row">
-        <!-- left column -->
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-          <!-- general form elements -->
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">Unesi projekat</h3>
-            </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <form role="form" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
-              <div class="box-body">
-                <div class="form-group">
-                  <label for="projectName">Ime Projekta</label>
-                  <input type="text" class="form-control" id="projectName" name="projectName" placeholder="Unesi ime projekta">
-                  <div class="error"><?php echo $projectNameErr; ?></div>
-                </div>
-                <div class="form-group">
-                    <label>Odgovorno lice</label>
-                    <select name="projectManager" class="form-control select2" style="width: 100%;">
-                      <option>Project Manager 1</option>
-                      <option>Project Manager 2</option>
-                      <option>Project Manager 3</option>
-                      <option>Project Manager 4</option>
-                      <option>Project Manager 5</option>
-                      <option>Project Manager 6</option>
-                      <option>Project Manager 7</option>
-                    </select>
-                  </div>
-
-                  <div class="form-group">
-                    <label>Rok projekta</label>
-    
-                    <div class="input-group">
-                      <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                      </div>
-                      <input type="text" class="form-control pull-right" name="reservation" id="reservation">
-                    </div>
-                    <!-- /.input group -->
-                  </div>
-                  <div class="form-group">
-                    <label for="projectInvestor">Finansijer</label>
-                              <input type="text" class="form-control" name="projectInvestor" id="projectInvestor" placeholder="Finansijer">
-                              <div class="error"><?php echo $projectInvestorErr; ?></div>
-                  </div>
-    
-                
-                  <div class="form-group">
-                    <label>Napomena</label>
-                        <textarea class="form-control" rows="3" name="notes" id="notes" placeholder="..." ></textarea>
-                  </div>
-  
-              </div>
-              <!-- /.box-body -->
-
-              <div class="box-footer">
-                <button name="submitProject" type="submit" class="btn btn-primary">Pošalji</button>
-              </div>
-            </form>
-          </div>
-          </div>
-        </section>
-
-
+  <!-- /.content-wrapper -->
 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
@@ -413,7 +323,6 @@
   
       <!-- /.tab-pane -->
 
-
      
 <!-- ./wrapper -->
 
@@ -421,25 +330,6 @@
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- Select2 -->
-<script src="../bower_components/select2/dist/js/select2.full.min.js"></script>
-<!-- InputMask -->
-<script src="../plugins/input-mask/jquery.inputmask.js"></script>
-<script src="../plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
-<script src="../plugins/input-mask/jquery.inputmask.extensions.js"></script>
-<!-- date-range-picker -->
-<script src="../bower_components/moment/min/moment.min.js"></script>
-<script src="../bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-<!-- bootstrap datepicker -->
-<script src="../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-<!-- bootstrap color picker -->
-<script src="../bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
-<!-- bootstrap time picker -->
-<script src="../plugins/timepicker/bootstrap-timepicker.min.js"></script>
-<!-- SlimScroll -->
-<script src="../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-<!-- iCheck 1.0.1 -->
-<script src="../plugins/iCheck/icheck.min.js"></script>
 <!-- FastClick -->
 <script src="../bower_components/fastclick/lib/fastclick.js"></script>
 <!-- buildira App -->
@@ -455,51 +345,6 @@
 <script src="../bower_components/chart.js/Chart.js"></script>
 <script src="../dist/js/pages/dashboard2.js"></script>
 <!-- buildira for demo purposes -->
-<!-- Page script -->
-
-<script>
- $(function () {
-    //Initialize Select2 Elements
-    $('.select2').select2()
-
-    //Datemask dd/mm/yyyy
-    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
-    //Datemask2 mm/dd/yyyy
-    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-    //Money Euro
-    $('[data-mask]').inputmask()
-
-    //Date range picker
-    $('#reservation').daterangepicker()
-    //Date range picker with time picker
-    $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' })
-    //Date range as a button
-    $('#daterange-btn').daterangepicker(
-      {
-        ranges   : {
-          'Today'       : [moment(), moment()],
-          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
-          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
-          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-        },
-        startDate: moment().subtract(29, 'days'),
-        endDate  : moment()
-      },
-      function (start, end) {
-        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
-      }
-    )
-
-    //Date picker
-    $('#datepicker').datepicker({
-      autoclose: true
-    })
-
-
-    })
-
-</script>
+<script src="../dist/js/demo.js"></script>
 </body>
 </html>

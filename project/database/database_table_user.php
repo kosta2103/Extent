@@ -1,5 +1,5 @@
 <?php
-	require_once('../database_connection.php');
+	//require_once('../database_connection.php');
 	try{
 		$sql_create_table_user = "CREATE TABLE IF NOT EXISTS User (
 									user_id INT(6) UNSIGNED AUTO_INCREMENT,
@@ -20,6 +20,6 @@
 	}catch(PDOException $e){
 		echo $sql_create_table_user . "<br>" . $e->getMessage();
 	}finally{
-		$connection = null;
+		//$connection = null;
 	}
 ?>

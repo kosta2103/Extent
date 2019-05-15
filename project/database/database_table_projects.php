@@ -1,5 +1,5 @@
 <?php
-	require_once('../database_connection.php');
+	//require_once('../database_connection.php');
 	try{
 		$sql_create_table_projects = "CREATE TABLE IF NOT EXISTS Projects (
 									project_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -14,6 +14,6 @@
 	}catch(PDOException $e){
 		echo $e->getMessage(); 
 	}finally{
-		$connection = null;
+		//$connection = null;
 	}
 ?>
