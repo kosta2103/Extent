@@ -1,3 +1,8 @@
+<?php
+  session_start();
+  $_SESSION["editable"] = false;
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -263,7 +268,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="project_teams.php"><i class="fa fa-minus"></i> Dodavanje</a></li>
-                <li><a href="project_teams_view.php"><i class="fa fa-minus"></i> Prikaz</a></li>
+                <li><a href="#"><i class="fa fa-minus"></i> Prikaz</a></li>
               </ul>
             </li>
             <li><a href="pages/commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
@@ -325,70 +330,120 @@
         <li class="active">Blank page</li>
       </ol>
     </section>
-
+    <?php
+        require_once("backend_pages/project_teams_backend.php")
+        
+    ?>
   <!-- /.content-wrapper -->
     <div class="container pt_container">
       <div class="box box-info">
         <div class="box-header with-border">
-          <h3 class="box-title">Forma za dodavanje projektnog tima</h3>
+          <h3 class="box-title">Prikaz projektnih timova</h3>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
         <form class="form-horizontal">
-          <div class="box-body">
-            <div class="form-group">
-              <label for="inputEmail3" class="col-sm-2 control-label">Naziv tima</label>
-              <div class="col-sm-10">
-                <input type="email" class="form-control" id="inputEmail3" placeholder="Naziv tima">
-              </div>
-            </div>
+            <div class="box-body">
+                <ul class="sidebar-menu" data-widget="tree">
+                    <?php if($_SESSION['editable'])
+                    {?>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-edit"></i> <span>Tim1</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li style="display: flex">
+                              <a href="#" class="pt_a"><i class="fa fa-minus"></i>Tim lider - </a><input class="pt_input" type="text" value="@timlider">
+                            </li>
+                            <li class="treeview">
+                                <a href="#">
+                                <i class="fa fa-minus"></i> <span>Clanovi tima</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li>
+                                      <a htef="#"><i class="glyphicon glyphicon-plus"></i></a>
+                                    </li>
+                                    <li style="display: flex">
+                                      <a href="#" class="pt_a"><i class="fa fa-minus"></i></a><input class="pt_input" type="text" value="Developer 1"><a href='#'><i class='glyphicon glyphicon-remove'></i></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li style="display: flex; margin-top: 10px; margin-bottom: 10px;">
+                                <a href="#" class="pt_a"><i class="fa fa-minus"></i>Zaduzenje - </a>
+                                <select class="form-control select2 select2-hidden-accessible pt_select">
+                                  <option selected hidden disabled>Odaberi opciju </option>
+                                  <option>A</option>
+                                  <option>A2</option>
+                                  <option>A3</option>
+                                  <option>A4</option>
+                                  <option>A5</option>
+                                  <option>A6</option>
+                                  <option>A7</option>
+                                </select>
+                            </li>
+                            <li class="pt_li1">
+                              <a href='#' name='submit'><i class='glyphicon glyphicon-ok'></i></a><a href='?edit=0'><i class='glyphicon glyphicon-remove'></i></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <?php }
 
-            <div class="form-group">
-              <label for="inputPassword3" class="col-sm-2 control-label">Clanovi tima</label>
-              <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword3" placeholder="Korisnicka imena clanova tima odvojena jednim praznim poljem">
-              </div>
-            </div>
+                    else
+                    {?>
+                      <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-edit"></i> <span>Tim1</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li style="display: flex">
+                              <a href="#"><i class="fa fa-minus"></i> Tim lider - @timlider</a>
+                            </li>
+                            <li class="treeview">
+                                <a href="#">
+                                <i class="fa fa-minus"></i> <span>Clanovi tima</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li style="display: flex">
+                                      <a href="#"><i class="fa fa-minus"></i> Developer 1</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li style="display: flex;">
+                                <a href="#"><i class="fa fa-minus"></i> Zaduzenje - Neko zaduzenje</a>
+                            </li>
+                            <li class="pt_li1">
+                                <a href="?edit=1" name="edit">Izmena</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <?php }
+                    ?>
+                    
 
-            <div class="form-group">
-              <label for="inputPassword3" class="col-sm-2 control-label">Tim lider</label>
-              <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword3" placeholder="Korisnicko ime tim lidera">
-              </div>
-            </div>
+                    
+                </ul>
 
-            <div class="form-group">
-              <label for="inputPassword3" class="col-sm-2 control-label">Zaduzenje</label>
-              <div class="col-sm-10">
-                <select class="form-control select2 select2-hidden-accessible">
-                  <option selected hidden disabled>Odaberi opciju </option>
-                  <option>A</option>
-                  <option>A2</option>
-                  <option>A3</option>
-                  <option>A4</option>
-                  <option>A5</option>
-                  <option>A6</option>
-                  <option>A7</option>
-                </select>
-              </div>
+                             
             </div>
-
-            <div class="form-group">
-              <label for="inputPassword3" class="col-sm-2 control-label">Opis</label>
-              <div class="col-sm-10">
-                <textarea class="form-control" rows="3" placeholder="Opis ..."></textarea>
-              </div>  
-            </div>
-       
           <!-- /.box-body -->
-          <div class="box-footer">
-            <button type="submit" class="btn btn-info pull-right"><i class="glyphicon glyphicon-plus"></i> Dodaj tim</button>
-          </div>
+          
           <!-- /.box-footer -->
         </form>
       </div>
     </div>
-  </div>
+  
     
 
 
@@ -428,3 +483,6 @@
 <script src="../dist/js/demo.js"></script>
 </body>
 </html>
+<?php
+  unset($_SESSION['editable']);
+?>
