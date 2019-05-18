@@ -6,6 +6,8 @@
     require_once('database_insert_role.php');
 
     require_once('database_table_projects.php');
+    require_once('database_table_teams.php');
+    
     require_once('database_table_user.php');
     require_once('database_insert_user.php');
     

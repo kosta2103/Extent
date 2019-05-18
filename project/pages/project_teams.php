@@ -312,6 +312,8 @@
     <!-- /.sidebar -->
   </aside>
 
+    <?php require_once("backend_pages/project_teams_backend.php");?>
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -334,33 +336,33 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form class="form-horizontal">
+        <form method="POST" action="project_teams.php" class="form-horizontal">
           <div class="box-body">
             <div class="form-group">
               <label for="inputEmail3" class="col-sm-2 control-label">Naziv tima</label>
               <div class="col-sm-10">
-                <input type="email" class="form-control" id="inputEmail3" placeholder="Naziv tima">
+                <input type="text" class="form-control" id="inputEmail3" name="team_name" placeholder="Naziv tima" required>
               </div>
             </div>
 
             <div class="form-group">
               <label for="inputPassword3" class="col-sm-2 control-label">Clanovi tima</label>
               <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword3" placeholder="Korisnicka imena clanova tima odvojena jednim praznim poljem">
+                <input type="text" class="form-control" id="inputPassword3" name="team_members" placeholder="Korisnicka imena clanova tima odvojena jednim praznim poljem" required>
               </div>
             </div>
 
             <div class="form-group">
               <label for="inputPassword3" class="col-sm-2 control-label">Tim lider</label>
               <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword3" placeholder="Korisnicko ime tim lidera">
+                <input type="text" class="form-control" id="inputPassword3" name="team_leader" placeholder="Korisnicko ime tim lidera" required>
               </div>
             </div>
 
             <div class="form-group">
               <label for="inputPassword3" class="col-sm-2 control-label">Zaduzenje</label>
               <div class="col-sm-10">
-                <select class="form-control select2 select2-hidden-accessible">
+                <select name="team_task" class="form-control select2 select2-hidden-accessible" required>
                   <option selected hidden disabled>Odaberi opciju </option>
                   <option>A</option>
                   <option>A2</option>
@@ -376,13 +378,13 @@
             <div class="form-group">
               <label for="inputPassword3" class="col-sm-2 control-label">Opis</label>
               <div class="col-sm-10">
-                <textarea class="form-control" rows="3" placeholder="Opis ..."></textarea>
+                <textarea class="form-control" name="team_description" rows="3" placeholder="Opis ..." required></textarea>
               </div>  
             </div>
        
           <!-- /.box-body -->
           <div class="box-footer">
-            <button type="submit" class="btn btn-info pull-right"><i class="glyphicon glyphicon-plus"></i> Dodaj tim</button>
+            <button type="submit" name="submit_btn" class="btn btn-info pull-right"><i class="glyphicon glyphicon-plus"></i> Dodaj tim</button>
           </div>
           <!-- /.box-footer -->
         </form>

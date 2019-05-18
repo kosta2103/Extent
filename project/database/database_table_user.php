@@ -12,8 +12,10 @@
 									profession VARCHAR(30) NOT NULL,
 									profile_picture LONGBLOB,
 									role_id INT(6) NOT NULL,
+									team_id INT(6) NOT NULL DEFAULT 0,
 									PRIMARY KEY (user_id),
-									FOREIGN KEY (role_id) REFERENCES Role(role_id)
+									FOREIGN KEY (role_id) REFERENCES Role(role_id),
+									FOREIGN KEY (team_id) REFERENCES Teams(team_id)
 								)";
 		$connection->exec($sql_create_table_user);
 		echo "Successfully created table!";

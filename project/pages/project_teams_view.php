@@ -331,8 +331,7 @@
       </ol>
     </section>
     <?php
-        require_once("backend_pages/project_teams_backend.php")
-        
+        require_once("backend_pages/project_teams_view_backend.php");
     ?>
   <!-- /.content-wrapper -->
     <div class="container pt_container">
@@ -342,21 +341,31 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form class="form-horizontal">
+        <form method="POST" action="project_teams_view.php" class="form-horizontal">
             <div class="box-body">
                 <ul class="sidebar-menu" data-widget="tree">
-                    <?php if($_SESSION['editable'])
-                    {?>
+                    <?php
+                    foreach($arr as $line)
+                    {
+                      $team_id = $line['team_id'];
+                      $team_leader = $line['team_leader_username'];
+                      $arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();
+
+                      if($_SESSION['editable'])
+                      {
+                      
+                      
+                    ?>
                     <li class="treeview">
                         <a href="#">
-                            <i class="fa fa-edit"></i> <span>Tim1</span>
+                            <i class="fa fa-edit"></i> <span><?php echo $line['team_name'] ?></span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
                             <li style="display: flex">
-                              <a href="#" class="pt_a"><i class="fa fa-minus"></i>Tim lider - </a><input class="pt_input" type="text" value="@timlider">
+                              <a href="#" class="pt_a"><i class="fa fa-minus"></i>Tim lider - @</a><input class="pt_input" type="text" value="<?php echo $line['team_leader_username'] ?>">
                             </li>
                             <li class="treeview">
                                 <a href="#">
@@ -369,15 +378,18 @@
                                     <li>
                                       <a htef="#"><i class="glyphicon glyphicon-plus"></i></a>
                                     </li>
+                                    <?php foreach($arr_members as $member)
+                                      {
+                                    ?>
                                     <li style="display: flex">
-                                      <a href="#" class="pt_a"><i class="fa fa-minus"></i></a><input class="pt_input" type="text" value="Developer 1"><a href='#'><i class='glyphicon glyphicon-remove'></i></a>
-                                    </li>
+                                      <a href="#" class="pt_a"><i class="fa fa-minus"></i>@</a><input class="pt_input" type="text" value="<?php echo $member['username'] ?>"><a href='#'><i class='glyphicon glyphicon-remove'></i></a>
+                                    </li><?php }?>
                                 </ul>
                             </li>
                             <li style="display: flex; margin-top: 10px; margin-bottom: 10px;">
                                 <a href="#" class="pt_a"><i class="fa fa-minus"></i>Zaduzenje - </a>
                                 <select class="form-control select2 select2-hidden-accessible pt_select">
-                                  <option selected hidden disabled>Odaberi opciju </option>
+                                  <option selected hidden disabled><?php echo $line['team_task'] ?> </option>
                                   <option>A</option>
                                   <option>A2</option>
                                   <option>A3</option>
@@ -386,6 +398,9 @@
                                   <option>A6</option>
                                   <option>A7</option>
                                 </select>
+                            </li>
+                            <li style="display: flex">
+                              <a href="#" class="pt_a"><i class="fa fa-minus"></i>Opis - </a><input class="pt_input" type="text" value="<?php echo $line['team_description'] ?>">
                             </li>
                             <li class="pt_li1">
                               <a href='#' name='submit'><i class='glyphicon glyphicon-ok'></i></a><a href='?edit=0'><i class='glyphicon glyphicon-remove'></i></a>
@@ -398,14 +413,14 @@
                     {?>
                       <li class="treeview">
                         <a href="#">
-                            <i class="fa fa-edit"></i> <span>Tim1</span>
+                            <i class="fa fa-edit"></i> <span><?php echo $line['team_name'] ?></span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
                             <li style="display: flex">
-                              <a href="#"><i class="fa fa-minus"></i> Tim lider - @timlider</a>
+                              <a href="#"><i class="fa fa-minus"></i> Tim lider - @<?php echo $line['team_leader_username'] ?></a>
                             </li>
                             <li class="treeview">
                                 <a href="#">
@@ -415,13 +430,20 @@
                                 </span>
                                 </a>
                                 <ul class="treeview-menu">
+                                    <?php 
+                                      foreach($arr_members as $member)
+                                      {
+                                    ?>
                                     <li style="display: flex">
-                                      <a href="#"><i class="fa fa-minus"></i> Developer 1</a>
-                                    </li>
+                                      <a href="#"><i class="fa fa-minus"></i> <?php echo "@".$member["username"] ?></a>
+                                    </li><?php } ?>
                                 </ul>
                             </li>
                             <li style="display: flex;">
-                                <a href="#"><i class="fa fa-minus"></i> Zaduzenje - Neko zaduzenje</a>
+                                <a href="#"><i class="fa fa-minus"></i> Zaduzenje - <?php echo $line['team_task'] ?></a>
+                            </li>
+                            <li style="display: flex;">
+                                <a href="#"><i class="fa fa-minus"></i> Opis - <?php echo $line['team_description'] ?></a>
                             </li>
                             <li class="pt_li1">
                                 <a href="?edit=1" name="edit">Izmena</a>
@@ -429,6 +451,7 @@
                         </ul>
                     </li>
                     <?php }
+                    }
                     ?>
                     
 
