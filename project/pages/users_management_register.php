@@ -253,7 +253,18 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="project_management.php"><i class="fa fa-circle-o"></i> Upravljanje</a></li>
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i> <span>Upravljanje</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="project_management.php"><i class="fa fa-minus"></i>Kreiranje projekta</a></li>
+                  <li><a href="project_management_manipulation.php"><i class="fa fa-minus"></i>Prikaza projekata</a></li>
+                </ul>
+              </li>
             <li><a href="teams.html"><i class="fa fa-circle-o"></i> Projektni timovi</a></li>
             <li><a href="commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
           </ul>

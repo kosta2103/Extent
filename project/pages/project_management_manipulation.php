@@ -320,12 +320,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Users management
-        <small>Demo</small>
+        Prikaz projekata
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Users management</li>
+        <li><a href="#">Projekti</a></li>
+        <li class="active">Prikaz projekata</li>
       </ol>
     </section>
 
@@ -334,71 +334,50 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">KORISNICI</h3>
+              <h3 class="box-title">Projekti</h3>
             </div>
             <!-- /.box-header -->
-            <?php require_once('backend_pages/users_management_all_users.php'); ?>
+            <?php 
+                //require_once('../database_connection.php');
+                require_once('backend_pages/project_management_all_projects.php');
+                $j = 0;
+            ?>
             <div class="box-body">
+            <form role="form" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
               <table id="example2" class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                  <th>Ime</th>
-                  <th>Prezime</th>
-                  <th>Korisničko ime</th>
-                  <th>Šifra</th>
-                  <th>Mejl</th>
-                  <th>Broj telefona</th>
-                  <th>Zanimanje</th>
-                  <th>Profilna slika</th>
-                  <th>Rola</th>
-                  <th>Modifikacija korisnika</th>
+                  <th id="id">Šifra projekta</th>
+                  <th id="name">Ime projekta</th>
+                  <th id="pm">Menadžer projekta</th>
+                  <th id="deadline">Rok projekta</th>
+                  <th id="investor">Finansijer projekta</th>
+                  <th id="notes">Napomena</th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach($user as $usr){?>
+                <?php foreach($projects as $project){?>
                 <tr>
-                  <td><?php echo $usr["first_name"];?></td>
-                  <td><?php echo $usr["last_name"];?></td>
-                  <td><?php echo $usr["username"];?></td>
-                  <td><?php echo $usr["password"];?></td>
-                  <td><?php echo $usr["email"];?></td>
-                  <td><?php echo $usr["phone_number"];?></td>
-                  <td><?php echo $usr["profession"];?></td>
-                  <td><?if(!empty($usr["profile_picture"])){
-                        echo $usr["profile_picture"];
-                  }else{
-                        echo "Korisnik nije postavio profilnu sliku!";
-                  }?></td>
-                  <td><?php $role_name = "";
-                      switch ($usr["role_id"]) {
-                            case 1:
-                              $role_name = "Admin";
-                              break;
-                            case 2:
-                              $role_name = "Project Manager";
-                              break;
-                            case 3:
-                              $role_name = "Team Leader";
-                              break;
-                            case 4:
-                              $role_name = "Executor";
-                              break;
-                            
-                            default:
-                              # code...
-                              break;
-                      }echo $role_name;?></td>
+                  <td><input type="text" name="id<?php echo $j?>" value="<?php echo $project["project_id"];?>" readonly></td>
+                  <td><input type="text" name="name<?php echo $j?>" value="<?php echo $project["project_name"];?>" ></td>
+                  <td><input type="text" name="pm<?php echo $j?>" value="<?php echo $project["project_manager"];?>"></td>
+                  <td><input type="text" name="deadline<?php echo $j?>" value="<?php echo $project["project_deadline"];?>"></td>
+                  <td><input type="text" name="investor<?php echo $j?>" value="<?php echo $project["project_investor"];?>"></td>
+                  <td><input type="text" name="notes<?php echo $j?>" value="<?php echo $project["project_notes"];?>"></td>
                       <td>
-                        <button class="btn btn-secondary">Izmeni podatke</button>
-                        <button class="btn btn-danger">Obriši korisnika</button>
+                        <button type="submit" name="izmeni<?php echo $j?>" class="btn btn-secondary">Izmeni podatke</button>
+                        <button type="submit" name="obrisi<?php echo $j?>"class="btn btn-danger">Obriši projekat</button>
                       </td>
-                  <?php } ?>
+                  <?php 
+                    $j++;
+                } ?>
                   
                 </tr>
                 </tbody>
                 <tfoot>
                 </tfoot>
               </table>
+             </form>
             </div>
             <!-- /.box-body -->
           </div>
@@ -445,3 +424,49 @@
 <script src="../dist/js/demo.js"></script>
 </body>
 </html>
+<?php
+    for($i=0; $i<= $j; $i++){
+        if(isset($_POST["izmeni".$i])){
+            $projectID = $_POST["id".$i];
+            $projectName = $_POST["name".$i];
+            $PM = $_POST["pm".$i];
+            $projectDeadline = $_POST["deadline".$i];
+            $projectInvestor = $_POST["investor".$i];
+            $projectNotes = $_POST["notes".$i];
+            try{
+                $sql_update_project = "UPDATE Projects
+                                       SET project_name = '$projectName', project_manager = '$PM',
+                                           project_deadline = '$projectDeadline', project_investor= '$projectInvestor',
+                                           project_notes = '$projectNotes'
+                                       WHERE project_id = $projectID";
+                $stmt = $connection->prepare($sql_update_project);
+                $stmt->execute();
+                if($stmt->rowCount() > 0){
+                    $message = "Projekat je uspešno promenjen";
+                }
+                
+            }catch(Exception $e){
+                echo $e->getMessage();
+            }finally{
+                $connection = null;
+            }
+            
+        }
+        else if(isset($_POST["obrisi".$i])){
+            $projectID = $_POST["id".$i];
+            try{
+                $sql_delete_from_project = "DELETE FROM Projects WHERE project_id=$projectID";
+                $stmt = $connection->prepare($sql_delete_from_project);
+                $stmt->execute();
+                if($stmt->rowCount() > 0){
+                    $message = "Projekat je uspešno promenjen";
+                }
+                
+            }catch(Exception $e){
+                echo $e->getMessage();
+            }finally{
+                $connection = null;
+            }
+        }
+    }
+?>
