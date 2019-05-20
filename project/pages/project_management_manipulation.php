@@ -319,7 +319,7 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
+      <h1 style="text-align: -webkit-center;">
         Prikaz projekata
       </h1>
       <ol class="breadcrumb">
@@ -340,33 +340,62 @@
             <?php 
                 //require_once('../database_connection.php');
                 require_once('backend_pages/project_management_all_projects.php');
+                require_once('backend_pages/project_management_all_pm.php');
+                
                 $j = 0;
             ?>
             <div class="box-body">
             <form role="form" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
-              <table id="example2" class="table table-bordered table-hover">
+            <?php if(!empty($message_fail)){?>
+                  <div class="alert alert-error">
+                    <?php echo $message_fail;?>
+                  </div>
+                  <?php } else if(!empty($message_success)){?>
+                  <div class="alert alert-success">
+                    <?php echo $message_success;?>
+                  </div>
+                  <?php } ?>
+                  
+              <table class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                  <th id="id">Šifra projekta</th>
-                  <th id="name">Ime projekta</th>
-                  <th id="pm">Menadžer projekta</th>
-                  <th id="deadline">Rok projekta</th>
-                  <th id="investor">Finansijer projekta</th>
-                  <th id="notes">Napomena</th>
+                  <th>Šifra projekta</th>
+                  <th>Ime projekta</th>
+                  <th>Menadžer projekta</th>
+                  <th>Rok projekta</th>
+                  <th>Finansijer projekta</th>
+                  <th>Napomena</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php foreach($projects as $project){?>
                 <tr>
-                  <td><input type="text" name="id<?php echo $j?>" value="<?php echo $project["project_id"];?>" readonly></td>
-                  <td><input type="text" name="name<?php echo $j?>" value="<?php echo $project["project_name"];?>" ></td>
-                  <td><input type="text" name="pm<?php echo $j?>" value="<?php echo $project["project_manager"];?>"></td>
-                  <td><input type="text" name="deadline<?php echo $j?>" value="<?php echo $project["project_deadline"];?>"></td>
-                  <td><input type="text" name="investor<?php echo $j?>" value="<?php echo $project["project_investor"];?>"></td>
-                  <td><input type="text" name="notes<?php echo $j?>" value="<?php echo $project["project_notes"];?>"></td>
+                  <td><input type="text" style="height: 28px" name="id<?php echo $j?>" value="<?php echo $project["project_id"];?>" readonly></td>
+                  <td><input type="text" style="height: 28px" name="name<?php echo $j?>" value="<?php echo $project["project_name"];?>" ></td>
+                  <td>
+                  <select name="pm<?php echo $j?>" style="height: 28px">
+                    <?php foreach($pms as $pm){
+                            if($project["project_manager"]==$pm["username"])
+                                echo "<option selected>".$pm["username"]."</option>";
+                            else echo "<option>".$pm["username"]."</option>";
+                    }?>
+                  </td>
+                  <td>
+    
+                    <div class="input-group">
+                    <div class="input-group">
+                      <div class="input-group-addon" >
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="text" class="form-control pull-right"  style="height: 28px" name="deadline<?php echo $j?>" id="reservation" value="<?php echo $project["project_deadline"];?>">
+                    </div>
+                    <!-- /.input group -->
+                  </td>
+                  <td><input type="text" name="investor<?php echo $j?>" style="height: 28px" value="<?php echo $project["project_investor"];?>"></td>
+                  <td><input type="text" name="notes<?php echo $j?>" style="height: 28px" value="<?php echo $project["project_notes"];?>"></td>
                       <td>
                         <button type="submit" name="izmeni<?php echo $j?>" class="btn btn-secondary">Izmeni podatke</button>
-                        <button type="submit" name="obrisi<?php echo $j?>"class="btn btn-danger">Obriši projekat</button>
+                        <button type="submit" name="obrisi<?php echo $j?>" class="btn btn-danger">Obriši projekat</button>
                       </td>
                   <?php 
                     $j++;
@@ -377,6 +406,7 @@
                 <tfoot>
                 </tfoot>
               </table>
+              
              </form>
             </div>
             <!-- /.box-body -->
@@ -406,6 +436,25 @@
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Select2 -->
+<script src="../bower_components/select2/dist/js/select2.full.min.js"></script>
+<!-- InputMask -->
+<script src="../plugins/input-mask/jquery.inputmask.js"></script>
+<script src="../plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="../plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<!-- date-range-picker -->
+<script src="../bower_components/moment/min/moment.min.js"></script>
+<script src="../bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- bootstrap datepicker -->
+<script src="../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- bootstrap color picker -->
+<script src="../bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+<!-- bootstrap time picker -->
+<script src="../plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<!-- SlimScroll -->
+<script src="../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- iCheck 1.0.1 -->
+<script src="../plugins/iCheck/icheck.min.js"></script>
 <!-- FastClick -->
 <script src="../bower_components/fastclick/lib/fastclick.js"></script>
 <!-- buildira App -->
@@ -421,10 +470,54 @@
 <script src="../bower_components/chart.js/Chart.js"></script>
 <script src="../dist/js/pages/dashboard2.js"></script>
 <!-- buildira for demo purposes -->
-<script src="../dist/js/demo.js"></script>
+<script>
+ $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' })
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+      {
+        ranges   : {
+          'Today'       : [moment(), moment()],
+          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment()
+      },
+      function (start, end) {
+        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+      }
+    )
+
+    //Date picker
+    $('#datepicker').datepicker({
+      autoclose: true
+    })
+
+
+    })
+
+</script>
 </body>
 </html>
 <?php
+    $message_fail = $message_success = "";
     for($i=0; $i<= $j; $i++){
         if(isset($_POST["izmeni".$i])){
             $projectID = $_POST["id".$i];
@@ -442,13 +535,14 @@
                 $stmt = $connection->prepare($sql_update_project);
                 $stmt->execute();
                 if($stmt->rowCount() > 0){
-                    $message = "Projekat je uspešno promenjen";
-                }
+                    $message_success = "Projekat je uspešno promenjen";
+                } else $message_fail = "Projekat je neuspešno promenjen"; 
                 
             }catch(Exception $e){
                 echo $e->getMessage();
             }finally{
                 $connection = null;
+                echo "<script>window.location.href='project_management_manipulation.php';</script>";
             }
             
         }
@@ -459,13 +553,14 @@
                 $stmt = $connection->prepare($sql_delete_from_project);
                 $stmt->execute();
                 if($stmt->rowCount() > 0){
-                    $message = "Projekat je uspešno promenjen";
-                }
+                    $message_success = "Projekat je uspešno promenjen";
+                } else $message_fail = "Projekat je neuspešno promenjen"; 
                 
             }catch(Exception $e){
                 echo $e->getMessage();
             }finally{
                 $connection = null;
+                echo "<script>window.location.href='project_management_manipulation.php';</script>";
             }
         }
     }

@@ -1,6 +1,7 @@
 <?php
   //session_start();
-  require_once("backend_pages/project_management_backend.php")
+  require_once("backend_pages/project_management_backend.php");
+  require_once("backend_pages/project_management_all_pm.php");
 ?>
 
 
@@ -334,7 +335,7 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1 class="pt_h1">
+      <h1 style="text-align: -webkit-center;">
         Upravljanje projektima
       </h1>
       <ol class="breadcrumb">
@@ -367,13 +368,10 @@
                 <div class="form-group">
                     <label>Odgovorno lice</label>
                     <select name="projectManager" class="form-control select2" style="width: 100%;">
-                      <option>Project Manager 1</option>
-                      <option>Project Manager 2</option>
-                      <option>Project Manager 3</option>
-                      <option>Project Manager 4</option>
-                      <option>Project Manager 5</option>
-                      <option>Project Manager 6</option>
-                      <option>Project Manager 7</option>
+                    <?php foreach($pms as $pm){
+                      echo "<option>".$pm["username"]."</option>";
+                    }?>
+                      
                     </select>
                   </div>
 
