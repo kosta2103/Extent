@@ -343,6 +343,8 @@
     </section>
     <?php
         require_once("backend_pages/project_teams_view_backend.php");
+        $id = 0;
+        $j = 0;
     ?>
   <!-- /.content-wrapper -->
     <div class="container pt_container">
@@ -352,7 +354,7 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form method="POST" action="project_teams_view.php" class="form-horizontal">
+        <form method="POST" action="project_teams_view.php" class="form-horizontal" id='team_form'>
             <div class="box-body">
                 <ul class="sidebar-menu" data-widget="tree">
                     <?php
@@ -376,7 +378,7 @@
                         </a>
                         <ul class="treeview-menu">
                             <li style="display: flex">
-                              <a href="#" class="pt_a"><i class="fa fa-minus"></i>Tim lider - @</a><input class="pt_input" type="text" value="<?php echo $line['team_leader_username'] ?>">
+                              <a href="#" class="pt_a"><i class="fa fa-minus"></i>Tim lider - @</a><input class="pt_input" type="text" name="team_leader_<?php echo $id ?>" value="<?php echo $line['team_leader_username'] ?>">
                             </li>
                             <li class="treeview">
                                 <a href="#">
@@ -387,19 +389,26 @@
                                 </a>
                                 <ul class="treeview-menu">
                                     <li>
-                                      <a htef="#"><i class="glyphicon glyphicon-plus"></i></a>
+                                      <a href="#" onclick="popup()"><i class="glyphicon glyphicon-plus"></i></a>
+                                      <?php
+                                        
+                                      if(isset($_GET['usernameAdd']))
+                                      {
+                                        $_SESSION['username'] = $_GET['usernameAdd'];
+                                      }
+                                      ?>
                                     </li>
                                     <?php foreach($arr_members as $member)
                                       {
                                     ?>
                                     <li style="display: flex">
-                                      <a href="#" class="pt_a"><i class="fa fa-minus"></i>@</a><input class="pt_input" type="text" value="<?php echo $member['username'] ?>"><a href='#'><i class='glyphicon glyphicon-remove'></i></a>
+                                      <a href="#" class="pt_a"><i class="fa fa-minus"></i>@ <?php echo $member['username'] ?></a><a href='?edit=1&username=<?php echo $member['username'] ?>'><i class='glyphicon glyphicon-remove'></i></a>
                                     </li><?php }?>
                                 </ul>
                             </li>
                             <li style="display: flex; margin-top: 10px; margin-bottom: 10px;">
                                 <a href="#" class="pt_a"><i class="fa fa-minus"></i>Zaduzenje - </a>
-                                <select class="form-control select2 select2-hidden-accessible pt_select">
+                                <select name="team_task_<?php echo $id ?>" class="form-control select2 select2-hidden-accessible pt_select">
                                   <option selected hidden disabled><?php echo $line['team_task'] ?> </option>
                                   <option>A</option>
                                   <option>A2</option>
@@ -411,13 +420,15 @@
                                 </select>
                             </li>
                             <li style="display: flex">
-                              <a href="#" class="pt_a"><i class="fa fa-minus"></i>Opis - </a><input class="pt_input" type="text" value="<?php echo $line['team_description'] ?>">
+                              <a href="#" class="pt_a"><i class="fa fa-minus"></i>Opis - </a><input class="pt_input" name="team_description_<?php echo $id ?>" type="text" value="<?php echo $line['team_description'] ?>">
                             </li>
+                            <input type="hidden" name="team_id_<?php echo $id ?>" value="<?php echo $team_id ?>">
                             <li class="pt_li1">
-                              <a href='#' name='submit'><i class='glyphicon glyphicon-ok'></i></a><a href='?edit=0'><i class='glyphicon glyphicon-remove'></i></a>
+                              <a><button class="pt_btn" type="submit" name="submit_<?php echo $id ?>"><i class='glyphicon glyphicon-ok'></i></button></a><a href='?edit=0'><button class="pt_btn"><i class='glyphicon glyphicon-remove'></i></button></a>
                             </li>
                         </ul>
                     </li>
+                    
                     <?php }
 
                     else
@@ -457,11 +468,35 @@
                                 <a href="#"><i class="fa fa-minus"></i> Opis - <?php echo $line['team_description'] ?></a>
                             </li>
                             <li class="pt_li1">
-                                <a href="?edit=1" name="edit">Izmena</a>
+                                <a href="?edit=1" >Izmena</a>
                             </li>
                         </ul>
                     </li>
                     <?php }
+                    $id++;
+                    }
+
+                    for($i = 0; $i < $id; $i++)
+                    {
+                        if(isset($_POST['submit_'.$i]))
+                        {
+                            $team_id = $_POST['team_id_'.$i];
+                            $arr = $connection->query("SELECT * FROM Teams WHERE team_id='$team_id'")->fetchAll();
+                            $usernames = explode(" ", $_SESSION['username']);
+
+                            isset($_POST['team_leader_'.$i]) ? $team_leader = $_POST['team_leader_'.$i] : $team_leader = $arr[0]['team_leader_username'];
+                            isset($_POST['team_task_'.$i]) ? $team_task = $_POST['team_task_'.$i] : $team_task = $arr[0]['team_task'];
+                            isset($_POST['team_description_'.$i]) ? $team_description = $_POST['team_description_'.$i] : $team_description = $arr[0]['team_description'];
+
+                            $connection->query("UPDATE Teams SET team_leader_username='$team_leader', team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");
+                            $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");
+
+                            foreach($usernames as $username)
+                            {
+                              $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");
+                            }
+                            echo "<script> window.location.href='project_teams_view.php'</script>";
+                        }
                     }
                     ?>
                     
@@ -475,6 +510,7 @@
           
           <!-- /.box-footer -->
         </form>
+
       </div>
     </div>
   
@@ -515,8 +551,19 @@
 <script src="../dist/js/pages/dashboard2.js"></script>
 <!-- buildira for demo purposes -->
 <script src="../dist/js/demo.js"></script>
+
+<script>
+  function popup()
+  {
+    var username = prompt("Unesite korisnicka imena (username) clanova odvojena praznim poljem: ", " ");
+
+    window.location.href = 'project_teams_view.php?edit=1&usernameAdd='+username;
+  }
+</script>
 </body>
 </html>
+
 <?php
+
   unset($_SESSION['editable']);
 ?>

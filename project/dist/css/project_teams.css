@@ -32,3 +32,8 @@
 {
     width: 400px;
 }
+.pt_btn
+{
+    background: none !important;
+    border: none !important;
+}
