@@ -1,6 +1,3 @@
-<?php
-  session_start();
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,10 +14,13 @@
   <link rel="stylesheet" href="../bower_components/Ionicons/css/ionicons.min.css">
   <!-- jvectormap -->
   <link rel="stylesheet" href="../bower_components/jvectormap/jquery-jvectormap.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/buildira.min.css">
+
+  
+  <link rel="stylesheet" href="../dist/css/project_teams.css">
+
+
   <!-- buildira Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
@@ -265,8 +265,19 @@
                   <li><a href="project_management_manipulation.php"><i class="fa fa-minus"></i>Prikaza projekata</a></li>
                 </ul>
               </li>
-            <li><a href="teams.html"><i class="fa fa-circle-o"></i> Projektni timovi</a></li>
-            <li><a href="commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-circle-o"></i> <span>Projektni timovi</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="project_teams.php"><i class="fa fa-minus"></i> Dodavanje</a></li>
+                <li><a href="project_teams_view.php"><i class="fa fa-minus"></i> Prikaz</a></li>
+              </ul>
+            </li>
+            <li><a href="pages/commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -279,7 +290,7 @@
       
         </li>
         <li>
-          <a href="calendar.html">
+          <a href="pages/calendar.html">
             <i class="fa fa-calendar"></i> <span>Kalendar</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-red">3</small>
@@ -287,17 +298,11 @@
             </span>
           </a>
         </li>
-        <li class="treeview">
-          <a href="#">
+        <li>
+          <a href="pages/mailbox/mailbox.html">
             <i class="fa fa-envelope"></i> <span>Korisnici</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
+
           </a>
-          <ul class="treeview-menu">
-            <li><a href="users_management_register.php"><i class="fa fa-circle-o"></i> Registrovanje korisnika</a></li>
-            <li><a href="users_management_users_manipulation.php"><i class="fa fa-circle-o"></i> Pregled korisnika</a></li>
-         </ul>
         </li>
         <li class="treeview">
           <a href="#">
@@ -307,8 +312,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="invoice.html"><i class="fa fa-circle-o"></i> Uplate</a></li>
-            <li><a href="payments.html"><i class="fa fa-circle-o"></i> Izvestaji</a></li>
+            <li><a href="pages/invoice.html"><i class="fa fa-circle-o"></i> Uplate</a></li>
+            <li><a href="pages/payments.html"><i class="fa fa-circle-o"></i> Izvestaji</a></li>
 
 
          </ul>
@@ -318,117 +323,87 @@
     <!-- /.sidebar -->
   </aside>
 
+    <?php require_once("backend_pages/project_teams_backend.php");?>
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        Users management
+      <h1 class="pt_h1">
+        Projektni timovi
         <small>Demo</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Users management</li>
+        <li class="active">Blank page</li>
       </ol>
     </section>
 
-    <section class="content">
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">KORISNICI</h3>
-            </div>
-            <!-- /.box-header -->
-            <?php require_once('backend_pages/users_management_all_users.php'); ?>
-            <div class="box-body">
-              <table id="example2" class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Ime</th>
-                  <th>Prezime</th>
-                  <th>Korisničko ime</th>
-                  <th>Šifra</th>
-                  <th>Mejl</th>
-                  <th>Broj telefona</th>
-                  <th>Zanimanje</th>
-                  <th>Profilna slika</th>
-                  <th>Rola</th>
-                  <th>Modifikacija korisnika</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php 
-                foreach($user as $usr){?>
-                <tr>
-                  <td><?php echo $usr["user_id"];?></td>
-                  <td><?php echo $usr["first_name"];?></td>
-                  <td><?php echo $usr["last_name"];?></td>
-                  <td><?php echo $usr["username"];?></td>
-                  <td><?php echo $usr["password"];?></td>
-                  <td><?php echo $usr["email"];?></td>
-                  <td><?php echo $usr["phone_number"];?></td>
-                  <td><?php echo $usr["profession"];?></td>
-                  <td><?php if(!empty($usr["profile_picture"])){
-                        echo $usr["profile_picture"];
-                  }else{
-                        echo "Korisnik nije postavio profilnu sliku!";
-                  }?></td>
-                  <td><?php $role_name = "";
-                      switch ($usr["role_id"]) {
-                            case 1:
-                              $role_name = "Admin";
-                              break;
-                            case 2:
-                              $role_name = "Project Manager";
-                              break;
-                            case 3:
-                              $role_name = "Team Leader";
-                              break;
-                            case 4:
-                              $role_name = "Executor";
-                              break;
-                            
-                            default:
-                              # code...
-                              break;
-                      }echo $role_name;?></td>
-                      <td>
-                        <form action="backend_pages/edit_user_logic.php" method="post">
-                          <input type="hidden" value="<?php echo $usr['user_id']; ?>" name="hidden_field_id">
-                          <input type="hidden" value="<?php echo $usr['first_name']; ?>" name="hidden_field_fname">
-                          <input type="hidden" value="<?php echo $usr['last_name']; ?>" name="hidden_field_lname">
-                          <input type="hidden" value="<?php echo $usr['username']; ?>" name="hidden_field_username">
-                          <input type="hidden" value="<?php echo $usr['password']; ?>" name="hidden_field_password">
-                          <input type="hidden" value="<?php echo $usr['email']; ?>" name="hidden_field_email">
-                          <input type="hidden" value="<?php echo $usr['phone_number']; ?>" name="hidden_field_phone">
-                          <input type="hidden" value="<?php echo $usr['profession']; ?>" name="hidden_field_profession">
-                          <input type="hidden" value="<?php echo $usr['profile_picture']; ?>" name="hidden_field_profile_pic">
-                          <input type="hidden" value="<?php echo $role_name; ?>" name="hidden_field_role_name">
-                          <input type="submit" class="btn btn-secondary" value="Izmeni podatke">
-                        </form>
-                        <form action="backend_pages/delete_user.php" method="post">
-                          <input type="hidden" value="<?php echo $usr['username']; ?>" name="hidden_field">
-                          <input type="submit" class="btn btn-danger" value="Obriši korisnika">
-                        </form>
-                      </td>
-                  <?php } ?>
-                  
-                </tr>
-                </tbody>
-                <tfoot>
-                </tfoot>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-        </div>
-      </div>
-    </section>
-  
-
   <!-- /.content-wrapper -->
+    <div class="container pt_container">
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">Forma za dodavanje projektnog tima</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form method="POST" action="project_teams.php" class="form-horizontal">
+          <div class="box-body">
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">Naziv tima</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputEmail3" name="team_name" placeholder="Naziv tima" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">Clanovi tima</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputPassword3" name="team_members" placeholder="Korisnicka imena clanova tima odvojena jednim praznim poljem" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">Tim lider</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputPassword3" name="team_leader" placeholder="Korisnicko ime tim lidera" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">Zaduzenje</label>
+              <div class="col-sm-10">
+                <select name="team_task" class="form-control select2 select2-hidden-accessible" required>
+                  <option selected hidden disabled>Odaberi opciju </option>
+                  <option>A</option>
+                  <option>A2</option>
+                  <option>A3</option>
+                  <option>A4</option>
+                  <option>A5</option>
+                  <option>A6</option>
+                  <option>A7</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">Opis</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" name="team_description" rows="3" placeholder="Opis ..." required></textarea>
+              </div>  
+            </div>
+       
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button type="submit" name="submit_btn" class="btn btn-info pull-right"><i class="glyphicon glyphicon-plus"></i> Dodaj tim</button>
+          </div>
+          <!-- /.box-footer -->
+        </form>
+      </div>
+    </div>
+  </div>
+    
+
 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">

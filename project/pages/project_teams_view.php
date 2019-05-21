@@ -1,6 +1,8 @@
 <?php
   session_start();
+  $_SESSION["editable"] = false;
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,10 +19,13 @@
   <link rel="stylesheet" href="../bower_components/Ionicons/css/ionicons.min.css">
   <!-- jvectormap -->
   <link rel="stylesheet" href="../bower_components/jvectormap/jquery-jvectormap.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/buildira.min.css">
+
+  
+  <link rel="stylesheet" href="../dist/css/project_teams.css">
+
+
   <!-- buildira Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
@@ -265,8 +270,19 @@
                   <li><a href="project_management_manipulation.php"><i class="fa fa-minus"></i>Prikaza projekata</a></li>
                 </ul>
               </li>
-            <li><a href="teams.html"><i class="fa fa-circle-o"></i> Projektni timovi</a></li>
-            <li><a href="commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-circle-o"></i> <span>Projektni timovi</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="project_teams.php"><i class="fa fa-minus"></i> Dodavanje</a></li>
+                <li><a href="#"><i class="fa fa-minus"></i> Prikaz</a></li>
+              </ul>
+            </li>
+            <li><a href="pages/commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
           </ul>
         </li>
         <li class="treeview">
@@ -279,7 +295,7 @@
       
         </li>
         <li>
-          <a href="calendar.html">
+          <a href="pages/calendar.html">
             <i class="fa fa-calendar"></i> <span>Kalendar</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-red">3</small>
@@ -287,17 +303,11 @@
             </span>
           </a>
         </li>
-        <li class="treeview">
-          <a href="#">
+        <li>
+          <a href="pages/mailbox/mailbox.html">
             <i class="fa fa-envelope"></i> <span>Korisnici</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
+
           </a>
-          <ul class="treeview-menu">
-            <li><a href="users_management_register.php"><i class="fa fa-circle-o"></i> Registrovanje korisnika</a></li>
-            <li><a href="users_management_users_manipulation.php"><i class="fa fa-circle-o"></i> Pregled korisnika</a></li>
-         </ul>
         </li>
         <li class="treeview">
           <a href="#">
@@ -307,8 +317,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="invoice.html"><i class="fa fa-circle-o"></i> Uplate</a></li>
-            <li><a href="payments.html"><i class="fa fa-circle-o"></i> Izvestaji</a></li>
+            <li><a href="pages/invoice.html"><i class="fa fa-circle-o"></i> Uplate</a></li>
+            <li><a href="pages/payments.html"><i class="fa fa-circle-o"></i> Izvestaji</a></li>
 
 
          </ul>
@@ -322,113 +332,190 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        Users management
+      <h1 class="pt_h1">
+        Projektni timovi
         <small>Demo</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Users management</li>
+        <li class="active">Blank page</li>
       </ol>
     </section>
-
-    <section class="content">
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">KORISNICI</h3>
-            </div>
-            <!-- /.box-header -->
-            <?php require_once('backend_pages/users_management_all_users.php'); ?>
-            <div class="box-body">
-              <table id="example2" class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Ime</th>
-                  <th>Prezime</th>
-                  <th>Korisničko ime</th>
-                  <th>Šifra</th>
-                  <th>Mejl</th>
-                  <th>Broj telefona</th>
-                  <th>Zanimanje</th>
-                  <th>Profilna slika</th>
-                  <th>Rola</th>
-                  <th>Modifikacija korisnika</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php 
-                foreach($user as $usr){?>
-                <tr>
-                  <td><?php echo $usr["user_id"];?></td>
-                  <td><?php echo $usr["first_name"];?></td>
-                  <td><?php echo $usr["last_name"];?></td>
-                  <td><?php echo $usr["username"];?></td>
-                  <td><?php echo $usr["password"];?></td>
-                  <td><?php echo $usr["email"];?></td>
-                  <td><?php echo $usr["phone_number"];?></td>
-                  <td><?php echo $usr["profession"];?></td>
-                  <td><?php if(!empty($usr["profile_picture"])){
-                        echo $usr["profile_picture"];
-                  }else{
-                        echo "Korisnik nije postavio profilnu sliku!";
-                  }?></td>
-                  <td><?php $role_name = "";
-                      switch ($usr["role_id"]) {
-                            case 1:
-                              $role_name = "Admin";
-                              break;
-                            case 2:
-                              $role_name = "Project Manager";
-                              break;
-                            case 3:
-                              $role_name = "Team Leader";
-                              break;
-                            case 4:
-                              $role_name = "Executor";
-                              break;
-                            
-                            default:
-                              # code...
-                              break;
-                      }echo $role_name;?></td>
-                      <td>
-                        <form action="backend_pages/edit_user_logic.php" method="post">
-                          <input type="hidden" value="<?php echo $usr['user_id']; ?>" name="hidden_field_id">
-                          <input type="hidden" value="<?php echo $usr['first_name']; ?>" name="hidden_field_fname">
-                          <input type="hidden" value="<?php echo $usr['last_name']; ?>" name="hidden_field_lname">
-                          <input type="hidden" value="<?php echo $usr['username']; ?>" name="hidden_field_username">
-                          <input type="hidden" value="<?php echo $usr['password']; ?>" name="hidden_field_password">
-                          <input type="hidden" value="<?php echo $usr['email']; ?>" name="hidden_field_email">
-                          <input type="hidden" value="<?php echo $usr['phone_number']; ?>" name="hidden_field_phone">
-                          <input type="hidden" value="<?php echo $usr['profession']; ?>" name="hidden_field_profession">
-                          <input type="hidden" value="<?php echo $usr['profile_picture']; ?>" name="hidden_field_profile_pic">
-                          <input type="hidden" value="<?php echo $role_name; ?>" name="hidden_field_role_name">
-                          <input type="submit" class="btn btn-secondary" value="Izmeni podatke">
-                        </form>
-                        <form action="backend_pages/delete_user.php" method="post">
-                          <input type="hidden" value="<?php echo $usr['username']; ?>" name="hidden_field">
-                          <input type="submit" class="btn btn-danger" value="Obriši korisnika">
-                        </form>
-                      </td>
-                  <?php } ?>
-                  
-                </tr>
-                </tbody>
-                <tfoot>
-                </tfoot>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-        </div>
-      </div>
-    </section>
-  
-
+    <?php
+        require_once("backend_pages/project_teams_view_backend.php");
+        $id = 0;
+        $j = 0;
+    ?>
   <!-- /.content-wrapper -->
+    <div class="container pt_container">
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">Prikaz projektnih timova</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form method="POST" action="project_teams_view.php" class="form-horizontal" id='team_form'>
+            <div class="box-body">
+                <ul class="sidebar-menu" data-widget="tree">
+                    <?php
+                    foreach($arr as $line)
+                    {
+                      $team_id = $line['team_id'];
+                      $team_leader = $line['team_leader_username'];
+                      $arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();
+
+                      if($_SESSION['editable'])
+                      {
+                      
+                      
+                    ?>
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-edit"></i> <span><?php echo $line['team_name'] ?></span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li style="display: flex">
+                              <a href="#" class="pt_a"><i class="fa fa-minus"></i>Tim lider - @</a><input class="pt_input" type="text" name="team_leader_<?php echo $id ?>" value="<?php echo $line['team_leader_username'] ?>">
+                            </li>
+                            <li class="treeview">
+                                <a href="#">
+                                <i class="fa fa-minus"></i> <span>Clanovi tima</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li>
+                                      <a href="#" onclick="popup()"><i class="glyphicon glyphicon-plus"></i></a>
+                                      <?php
+                                        
+                                      if(isset($_GET['usernameAdd']))
+                                      {
+                                        $_SESSION['username'] = $_GET['usernameAdd'];
+                                      }
+                                      ?>
+                                    </li>
+                                    <?php foreach($arr_members as $member)
+                                      {
+                                    ?>
+                                    <li style="display: flex">
+                                      <a href="#" class="pt_a"><i class="fa fa-minus"></i>@ <?php echo $member['username'] ?></a><a href='?edit=1&username=<?php echo $member['username'] ?>'><i class='glyphicon glyphicon-remove'></i></a>
+                                    </li><?php }?>
+                                </ul>
+                            </li>
+                            <li style="display: flex; margin-top: 10px; margin-bottom: 10px;">
+                                <a href="#" class="pt_a"><i class="fa fa-minus"></i>Zaduzenje - </a>
+                                <select name="team_task_<?php echo $id ?>" class="form-control select2 select2-hidden-accessible pt_select">
+                                  <option selected hidden disabled><?php echo $line['team_task'] ?> </option>
+                                  <option>A</option>
+                                  <option>A2</option>
+                                  <option>A3</option>
+                                  <option>A4</option>
+                                  <option>A5</option>
+                                  <option>A6</option>
+                                  <option>A7</option>
+                                </select>
+                            </li>
+                            <li style="display: flex">
+                              <a href="#" class="pt_a"><i class="fa fa-minus"></i>Opis - </a><input class="pt_input" name="team_description_<?php echo $id ?>" type="text" value="<?php echo $line['team_description'] ?>">
+                            </li>
+                            <input type="hidden" name="team_id_<?php echo $id ?>" value="<?php echo $team_id ?>">
+                            <li class="pt_li1">
+                              <a><button class="pt_btn" type="submit" name="submit_<?php echo $id ?>"><i class='glyphicon glyphicon-ok'></i></button></a><a href='?edit=0'><button class="pt_btn"><i class='glyphicon glyphicon-remove'></i></button></a>
+                            </li>
+                        </ul>
+                    </li>
+                    
+                    <?php }
+
+                    else
+                    {?>
+                      <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-edit"></i> <span><?php echo $line['team_name'] ?></span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li style="display: flex">
+                              <a href="#"><i class="fa fa-minus"></i> Tim lider - @<?php echo $line['team_leader_username'] ?></a>
+                            </li>
+                            <li class="treeview">
+                                <a href="#">
+                                <i class="fa fa-minus"></i> <span>Clanovi tima</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <?php 
+                                      foreach($arr_members as $member)
+                                      {
+                                    ?>
+                                    <li style="display: flex">
+                                      <a href="#"><i class="fa fa-minus"></i> <?php echo "@".$member["username"] ?></a>
+                                    </li><?php } ?>
+                                </ul>
+                            </li>
+                            <li style="display: flex;">
+                                <a href="#"><i class="fa fa-minus"></i> Zaduzenje - <?php echo $line['team_task'] ?></a>
+                            </li>
+                            <li style="display: flex;">
+                                <a href="#"><i class="fa fa-minus"></i> Opis - <?php echo $line['team_description'] ?></a>
+                            </li>
+                            <li class="pt_li1">
+                                <a href="?edit=1" >Izmena</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <?php }
+                    $id++;
+                    }
+
+                    for($i = 0; $i < $id; $i++)
+                    {
+                        if(isset($_POST['submit_'.$i]))
+                        {
+                            $team_id = $_POST['team_id_'.$i];
+                            $arr = $connection->query("SELECT * FROM Teams WHERE team_id='$team_id'")->fetchAll();
+                            $usernames = explode(" ", $_SESSION['username']);
+
+                            isset($_POST['team_leader_'.$i]) ? $team_leader = $_POST['team_leader_'.$i] : $team_leader = $arr[0]['team_leader_username'];
+                            isset($_POST['team_task_'.$i]) ? $team_task = $_POST['team_task_'.$i] : $team_task = $arr[0]['team_task'];
+                            isset($_POST['team_description_'.$i]) ? $team_description = $_POST['team_description_'.$i] : $team_description = $arr[0]['team_description'];
+
+                            $connection->query("UPDATE Teams SET team_leader_username='$team_leader', team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");
+                            $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");
+
+                            foreach($usernames as $username)
+                            {
+                              $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");
+                            }
+                            echo "<script> window.location.href='project_teams_view.php'</script>";
+                        }
+                    }
+                    ?>
+                    
+
+                    
+                </ul>
+
+                             
+            </div>
+          <!-- /.box-body -->
+          
+          <!-- /.box-footer -->
+        </form>
+
+      </div>
+    </div>
+  
+    
+
 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
@@ -464,5 +551,19 @@
 <script src="../dist/js/pages/dashboard2.js"></script>
 <!-- buildira for demo purposes -->
 <script src="../dist/js/demo.js"></script>
+
+<script>
+  function popup()
+  {
+    var username = prompt("Unesite korisnicka imena (username) clanova odvojena praznim poljem: ", " ");
+
+    window.location.href = 'project_teams_view.php?edit=1&usernameAdd='+username;
+  }
+</script>
 </body>
 </html>
+
+<?php
+
+  unset($_SESSION['editable']);
+?>

@@ -36,7 +36,7 @@
 
     <header class="main-header">
     <!-- Logo -->
-    <a href="../index.html" class="logo">
+    <a href="index.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>B</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -240,19 +240,41 @@
          
        
        
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-edit"></i> <span>Projekti</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="pages/project_management.html"><i class="fa fa-circle-o"></i> Upravljanje</a></li>
-            <li><a href="pages/teams.html"><i class="fa fa-circle-o"></i> Projektni timovi</a></li>
-            <li><a href="pages/commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
-          </ul>
-        </li>
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-edit"></i> <span>Projekti</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i> <span>Upravljanje</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="pages/project_management.php"><i class="fa fa-minus"></i>Kreiranje projekta</a></li>
+                  <li><a href="pages/project_management_manipulation.php"><i class="fa fa-minus"></i>Prikaza projekata</a></li>
+                </ul>
+              </li>
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i> <span>Projektni timovi</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="pages/project_teams.php"><i class="fa fa-minus"></i> Dodavanje</a></li>
+                  <li><a href="pages/project_teams_view.php"><i class="fa fa-minus"></i> Prikaz</a></li>
+                </ul>
+              </li>
+              <li><a href="pages/commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
+            </ul>
+          </li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-table"></i> <span>Tiketi</span>

@@ -1,6 +1,7 @@
 <?php
   //session_start();
-  require_once("backend_pages/project_management_backend.php")
+  require_once("backend_pages/project_management_backend.php");
+  require_once("backend_pages/project_management_all_pm.php");
 ?>
 
 
@@ -268,8 +269,19 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="project_management.html"><i class="fa fa-circle-o"></i> Upravljanje</a></li>
-            <li><a href="teams.html"><i class="fa fa-circle-o"></i> Projektni timovi</a></li>
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i> <span>Upravljanje</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="project_management.php"><i class="fa fa-minus"></i>Kreiranje projekta</a></li>
+                  <li><a href="project_management_manipulation.php"><i class="fa fa-minus"></i>Prikaza projekata</a></li>
+                </ul>
+              </li>
+            <li><a href="project_teams.php"><i class="fa fa-circle-o"></i> Projektni timovi</a></li>
             <li><a href="commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
           </ul>
         </li>
@@ -323,7 +335,7 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
+      <h1 style="text-align: -webkit-center;">
         Upravljanje projektima
       </h1>
       <ol class="breadcrumb">
@@ -337,6 +349,7 @@
     <section class="content">
       <div class="row">
         <!-- left column -->
+        <div class="col-md-3"></div>
         <div class="col-md-6">
           <!-- general form elements -->
           <div class="box box-primary">
@@ -355,13 +368,10 @@
                 <div class="form-group">
                     <label>Odgovorno lice</label>
                     <select name="projectManager" class="form-control select2" style="width: 100%;">
-                      <option>Project Manager 1</option>
-                      <option>Project Manager 2</option>
-                      <option>Project Manager 3</option>
-                      <option>Project Manager 4</option>
-                      <option>Project Manager 5</option>
-                      <option>Project Manager 6</option>
-                      <option>Project Manager 7</option>
+                    <?php foreach($pms as $pm){
+                      echo "<option>".$pm["username"]."</option>";
+                    }?>
+                      
                     </select>
                   </div>
 
@@ -373,29 +383,19 @@
                         <i class="fa fa-calendar"></i>
                       </div>
                       <input type="text" class="form-control pull-right" name="reservation" id="reservation">
-                      <div class="error"><?php echo $projectReservationErr; ?></div>
                     </div>
                     <!-- /.input group -->
                   </div>
-                  </div>
                   <div class="form-group">
                     <label for="projectInvestor">Finansijer</label>
-                        <div class="input-group">
-                            <div class="input-group-addon">
                               <input type="text" class="form-control" name="projectInvestor" id="projectInvestor" placeholder="Finansijer">
                               <div class="error"><?php echo $projectInvestorErr; ?></div>
-                            </div>
-                        </div>
                   </div>
     
                 
                   <div class="form-group">
                     <label>Napomena</label>
-                        <div class="input-group">
-                            <div class="input-group-addon">  
-                                <textarea class="form-control" rows="3" name="notes" id="notes" placeholder="..."></textarea>
-                            </div>
-                        </div>
+                        <textarea class="form-control" rows="3" name="notes" id="notes" placeholder="..." ></textarea>
                   </div>
   
               </div>

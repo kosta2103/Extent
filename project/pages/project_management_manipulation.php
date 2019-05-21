@@ -1,6 +1,3 @@
-<?php
-  session_start();
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +15,7 @@
   <!-- jvectormap -->
   <link rel="stylesheet" href="../bower_components/jvectormap/jquery-jvectormap.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+  <link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/buildira.min.css">
   <!-- buildira Skins. Choose a skin from the css/skins
@@ -322,13 +319,13 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        Users management
-        <small>Demo</small>
+      <h1 style="text-align: -webkit-center;">
+        Prikaz projekata
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Users management</li>
+        <li><a href="#">Projekti</a></li>
+        <li class="active">Prikaz projekata</li>
       </ol>
     </section>
 
@@ -337,89 +334,80 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">KORISNICI</h3>
+              <h3 class="box-title">Projekti</h3>
             </div>
             <!-- /.box-header -->
-            <?php require_once('backend_pages/users_management_all_users.php'); ?>
+            <?php 
+                //require_once('../database_connection.php');
+                require_once('backend_pages/project_management_all_projects.php');
+                require_once('backend_pages/project_management_all_pm.php');
+                
+                $j = 0;
+            ?>
             <div class="box-body">
-              <table id="example2" class="table table-bordered table-hover">
+            <form role="form" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+            <?php if(!empty($message_fail)){?>
+                  <div class="alert alert-error">
+                    <?php echo $message_fail;?>
+                  </div>
+                  <?php } else if(!empty($message_success)){?>
+                  <div class="alert alert-success">
+                    <?php echo $message_success;?>
+                  </div>
+                  <?php } ?>
+                  
+              <table class="table table-bordered table-hover">
                 <thead>
                 <tr>
-                  <th>Id</th>
-                  <th>Ime</th>
-                  <th>Prezime</th>
-                  <th>Korisničko ime</th>
-                  <th>Šifra</th>
-                  <th>Mejl</th>
-                  <th>Broj telefona</th>
-                  <th>Zanimanje</th>
-                  <th>Profilna slika</th>
-                  <th>Rola</th>
-                  <th>Modifikacija korisnika</th>
+                  <th>Šifra projekta</th>
+                  <th>Ime projekta</th>
+                  <th>Menadžer projekta</th>
+                  <th>Rok projekta</th>
+                  <th>Finansijer projekta</th>
+                  <th>Napomena</th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php 
-                foreach($user as $usr){?>
+                <?php foreach($projects as $project){?>
                 <tr>
-                  <td><?php echo $usr["user_id"];?></td>
-                  <td><?php echo $usr["first_name"];?></td>
-                  <td><?php echo $usr["last_name"];?></td>
-                  <td><?php echo $usr["username"];?></td>
-                  <td><?php echo $usr["password"];?></td>
-                  <td><?php echo $usr["email"];?></td>
-                  <td><?php echo $usr["phone_number"];?></td>
-                  <td><?php echo $usr["profession"];?></td>
-                  <td><?php if(!empty($usr["profile_picture"])){
-                        echo $usr["profile_picture"];
-                  }else{
-                        echo "Korisnik nije postavio profilnu sliku!";
-                  }?></td>
-                  <td><?php $role_name = "";
-                      switch ($usr["role_id"]) {
-                            case 1:
-                              $role_name = "Admin";
-                              break;
-                            case 2:
-                              $role_name = "Project Manager";
-                              break;
-                            case 3:
-                              $role_name = "Team Leader";
-                              break;
-                            case 4:
-                              $role_name = "Executor";
-                              break;
-                            
-                            default:
-                              # code...
-                              break;
-                      }echo $role_name;?></td>
+                  <td><input type="text" style="height: 28px" name="id<?php echo $j?>" value="<?php echo $project["project_id"];?>" readonly></td>
+                  <td><input type="text" style="height: 28px" name="name<?php echo $j?>" value="<?php echo $project["project_name"];?>" ></td>
+                  <td>
+                  <select name="pm<?php echo $j?>" style="height: 28px">
+                    <?php foreach($pms as $pm){
+                            if($project["project_manager"]==$pm["username"])
+                                echo "<option selected>".$pm["username"]."</option>";
+                            else echo "<option>".$pm["username"]."</option>";
+                    }?>
+                  </td>
+                  <td>
+    
+                    <div class="input-group">
+                    <div class="input-group">
+                      <div class="input-group-addon" >
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="text" class="form-control pull-right"  style="height: 28px" name="deadline<?php echo $j?>" id="reservation" value="<?php echo $project["project_deadline"];?>">
+                    </div>
+                    <!-- /.input group -->
+                  </td>
+                  <td><input type="text" name="investor<?php echo $j?>" style="height: 28px" value="<?php echo $project["project_investor"];?>"></td>
+                  <td><input type="text" name="notes<?php echo $j?>" style="height: 28px" value="<?php echo $project["project_notes"];?>"></td>
                       <td>
-                        <form action="backend_pages/edit_user_logic.php" method="post">
-                          <input type="hidden" value="<?php echo $usr['user_id']; ?>" name="hidden_field_id">
-                          <input type="hidden" value="<?php echo $usr['first_name']; ?>" name="hidden_field_fname">
-                          <input type="hidden" value="<?php echo $usr['last_name']; ?>" name="hidden_field_lname">
-                          <input type="hidden" value="<?php echo $usr['username']; ?>" name="hidden_field_username">
-                          <input type="hidden" value="<?php echo $usr['password']; ?>" name="hidden_field_password">
-                          <input type="hidden" value="<?php echo $usr['email']; ?>" name="hidden_field_email">
-                          <input type="hidden" value="<?php echo $usr['phone_number']; ?>" name="hidden_field_phone">
-                          <input type="hidden" value="<?php echo $usr['profession']; ?>" name="hidden_field_profession">
-                          <input type="hidden" value="<?php echo $usr['profile_picture']; ?>" name="hidden_field_profile_pic">
-                          <input type="hidden" value="<?php echo $role_name; ?>" name="hidden_field_role_name">
-                          <input type="submit" class="btn btn-secondary" value="Izmeni podatke">
-                        </form>
-                        <form action="backend_pages/delete_user.php" method="post">
-                          <input type="hidden" value="<?php echo $usr['username']; ?>" name="hidden_field">
-                          <input type="submit" class="btn btn-danger" value="Obriši korisnika">
-                        </form>
+                        <button type="submit" name="izmeni<?php echo $j?>" class="btn btn-secondary">Izmeni podatke</button>
+                        <button type="submit" name="obrisi<?php echo $j?>" class="btn btn-danger">Obriši projekat</button>
                       </td>
-                  <?php } ?>
+                  <?php 
+                    $j++;
+                } ?>
                   
                 </tr>
                 </tbody>
                 <tfoot>
                 </tfoot>
               </table>
+              
+             </form>
             </div>
             <!-- /.box-body -->
           </div>
@@ -448,6 +436,25 @@
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Select2 -->
+<script src="../bower_components/select2/dist/js/select2.full.min.js"></script>
+<!-- InputMask -->
+<script src="../plugins/input-mask/jquery.inputmask.js"></script>
+<script src="../plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="../plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<!-- date-range-picker -->
+<script src="../bower_components/moment/min/moment.min.js"></script>
+<script src="../bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- bootstrap datepicker -->
+<script src="../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- bootstrap color picker -->
+<script src="../bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+<!-- bootstrap time picker -->
+<script src="../plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<!-- SlimScroll -->
+<script src="../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- iCheck 1.0.1 -->
+<script src="../plugins/iCheck/icheck.min.js"></script>
 <!-- FastClick -->
 <script src="../bower_components/fastclick/lib/fastclick.js"></script>
 <!-- buildira App -->
@@ -463,6 +470,98 @@
 <script src="../bower_components/chart.js/Chart.js"></script>
 <script src="../dist/js/pages/dashboard2.js"></script>
 <!-- buildira for demo purposes -->
-<script src="../dist/js/demo.js"></script>
+<script>
+ $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' })
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+      {
+        ranges   : {
+          'Today'       : [moment(), moment()],
+          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment()
+      },
+      function (start, end) {
+        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+      }
+    )
+
+    //Date picker
+    $('#datepicker').datepicker({
+      autoclose: true
+    })
+
+
+    })
+
+</script>
 </body>
 </html>
+<?php
+    $message_fail = $message_success = "";
+    for($i=0; $i<= $j; $i++){
+        if(isset($_POST["izmeni".$i])){
+            $projectID = $_POST["id".$i];
+            $projectName = $_POST["name".$i];
+            $PM = $_POST["pm".$i];
+            $projectDeadline = $_POST["deadline".$i];
+            $projectInvestor = $_POST["investor".$i];
+            $projectNotes = $_POST["notes".$i];
+            try{
+                $sql_update_project = "UPDATE Projects
+                                       SET project_name = '$projectName', project_manager = '$PM',
+                                           project_deadline = '$projectDeadline', project_investor= '$projectInvestor',
+                                           project_notes = '$projectNotes'
+                                       WHERE project_id = $projectID";
+                $stmt = $connection->prepare($sql_update_project);
+                $stmt->execute();
+                if($stmt->rowCount() > 0){
+                    $message_success = "Projekat je uspešno promenjen";
+                } else $message_fail = "Projekat je neuspešno promenjen"; 
+                
+            }catch(Exception $e){
+                echo $e->getMessage();
+            }finally{
+                $connection = null;
+                echo "<script>window.location.href='project_management_manipulation.php';</script>";
+            }
+            
+        }
+        else if(isset($_POST["obrisi".$i])){
+            $projectID = $_POST["id".$i];
+            try{
+                $sql_delete_from_project = "DELETE FROM Projects WHERE project_id=$projectID";
+                $stmt = $connection->prepare($sql_delete_from_project);
+                $stmt->execute();
+                if($stmt->rowCount() > 0){
+                    $message_success = "Projekat je uspešno promenjen";
+                } else $message_fail = "Projekat je neuspešno promenjen"; 
+                
+            }catch(Exception $e){
+                echo $e->getMessage();
+            }finally{
+                $connection = null;
+                echo "<script>window.location.href='project_management_manipulation.php';</script>";
+            }
+        }
+    }
+?>

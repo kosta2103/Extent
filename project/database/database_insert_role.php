@@ -1,5 +1,5 @@
 <?php
-	require_once('../database_connection.php');
+	//require_once('../database_connection.php');
 	try{
 		$connection->beginTransaction();
 		$connection->exec("INSERT INTO Role (role_name) VALUES ('admin')");
@@ -12,6 +12,6 @@
 		$connection->rollback();
 		echo $e->getMessage();
 	}finally{
-		$connection = null;
+		//$connection = null;
 	}
 ?>
