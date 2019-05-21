@@ -362,6 +362,7 @@
                   <th>Šifra projekta</th>
                   <th>Ime projekta</th>
                   <th>Menadžer projekta</th>
+                  <th>Timovi</th>
                   <th>Rok projekta</th>
                   <th>Finansijer projekta</th>
                   <th>Napomena</th>
@@ -379,6 +380,56 @@
                                 echo "<option selected>".$pm["username"]."</option>";
                             else echo "<option>".$pm["username"]."</option>";
                     }?>
+                  </td>
+                  <td>
+                    <?php
+                      require_once('../database_connection.php');
+                      try{
+                        $sql_query = "SELECT team_name FROM Teams";
+                        $stmt = $connection->prepare($sql_query);
+                        $stmt->execute();
+                        $teams = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        $teamsArr = array();
+                        foreach($teams as $team){
+                          array_push($teamsArr, $team["team_name"]);
+                        }
+
+                        $flagArr = array();
+                        for($k=0; $k<count($teamsArr); $k++){
+                          array_push($flagArr, 0);
+                        }
+
+                        $project_id_num = $project["project_id"];
+                        $sql_query = "SELECT team_name FROM Teams WHERE project_id=$project_id_num";
+                        $stmt = $connection->prepare($sql_query);
+                        $stmt->execute();
+                        $teamsOnProject = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        $teamsOnProjectArr = array();
+                        foreach($teamsOnProject as $teamOnProject){
+                          array_push($teamsOnProjectArr, $teamOnProject["team_name"]);
+                        }
+
+                        for($k1 = 0; $k1 < count($teamsOnProjectArr);$k1++){
+                          for($k2 = 0; $k2 < count($teamsArr); $k2++){
+                            if($teamsOnProjectArr[$k1] == $teamsArr[$k2]){
+                              $flagArr[$k2] = 1;
+                            }
+                          }
+                        }
+
+                      }catch(Exception $e){
+                        echo $e->getMessage();
+                      }finally{
+                        //$connection = null;
+                      }
+                    ?>
+                    <select name="timovi<?php echo $j?>[]" multiple>
+                    <?php for($n=0; $n<count($flagArr); $n++){
+                            if($flagArr[$n]==1)
+                                echo "<option selected>".$teamsArr[$n]."</option>";
+                            else echo "<option>".$teamsArr[$n]."</option>";
+                    }?>
+
                   </td>
                   <td>
     
@@ -518,7 +569,7 @@
 </html>
 <?php
     $message_fail = $message_success = "";
-    for($i=0; $i<= $j; $i++){
+    for($i=0; $i< $j; $i++){
         if(isset($_POST["izmeni".$i])){
             $projectID = $_POST["id".$i];
             $projectName = $_POST["name".$i];
@@ -526,6 +577,7 @@
             $projectDeadline = $_POST["deadline".$i];
             $projectInvestor = $_POST["investor".$i];
             $projectNotes = $_POST["notes".$i];
+            $timovi = $_POST["timovi".$i];
             try{
                 $sql_update_project = "UPDATE Projects
                                        SET project_name = '$projectName', project_manager = '$PM',
@@ -534,9 +586,20 @@
                                        WHERE project_id = $projectID";
                 $stmt = $connection->prepare($sql_update_project);
                 $stmt->execute();
+
+                for($num=0; $num < count($timovi);$num++){
+                  $tim = $timovi[$num];
+                  $sql_update_teams = "UPDATE Teams
+                                        SET project_id = $projectID
+                                        WHERE team_name = '$tim'";
+                  $stmt = $connection->prepare($sql_update_teams);
+                  $stmt->execute();
+                }
+
                 if($stmt->rowCount() > 0){
                     $message_success = "Projekat je uspešno promenjen";
                 } else $message_fail = "Projekat je neuspešno promenjen"; 
+
                 
             }catch(Exception $e){
                 echo $e->getMessage();
