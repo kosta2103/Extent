@@ -27,7 +27,7 @@
         }
 
         try{
-            $sql_insert_project = "INSERT INTO Projects VALUES(NULL, '$projectName', '$projectManager', '$projectReservation', '$projectInvestor', '$projectNotes')";
+            $sql_insert_project = "INSERT INTO Projects VALUES('$projectName', '$projectManager', '$projectReservation', '$projectInvestor', '$projectNotes')";
             $stmt = $connection->prepare($sql_insert_project);
             $stmt->execute();
             if($stmt->rowCount() > 0){

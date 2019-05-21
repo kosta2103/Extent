@@ -1,6 +1,3 @@
-<?php
-  session_start();
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,20 +7,20 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="../bower_components/Ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="../../bower_components/Ionicons/css/ionicons.min.css">
   <!-- jvectormap -->
-  <link rel="stylesheet" href="../bower_components/jvectormap/jquery-jvectormap.css">
+  <link rel="stylesheet" href="../../bower_components/jvectormap/jquery-jvectormap.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+  <link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../dist/css/buildira.min.css">
+  <link rel="stylesheet" href="../../dist/css/buildira.min.css">
   <!-- buildira Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,6 +32,9 @@
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <style>
+    .error_var {color: #FF0000;}
+  </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -298,8 +298,6 @@
           <ul class="treeview-menu">
             <li><a href="invoice.html"><i class="fa fa-circle-o"></i> Uplate</a></li>
             <li><a href="payments.html"><i class="fa fa-circle-o"></i> Izvestaji</a></li>
-
-
          </ul>
         </li>
       </ul>
@@ -323,94 +321,73 @@
 
     <section class="content">
       <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">KORISNICI</h3>
-            </div>
+        <!-- left column -->
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <!-- general form elements -->
+          <div class="box box-primary">
+
             <!-- /.box-header -->
-            <?php require_once('backend_pages/users_management_all_users.php'); ?>
-            <div class="box-body">
-              <table id="example2" class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Ime</th>
-                  <th>Prezime</th>
-                  <th>Korisničko ime</th>
-                  <th>Šifra</th>
-                  <th>Mejl</th>
-                  <th>Broj telefona</th>
-                  <th>Zanimanje</th>
-                  <th>Profilna slika</th>
-                  <th>Rola</th>
-                  <th>Modifikacija korisnika</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php 
-                foreach($user as $usr){?>
-                <tr>
-                  <td><?php echo $usr["user_id"];?></td>
-                  <td><?php echo $usr["first_name"];?></td>
-                  <td><?php echo $usr["last_name"];?></td>
-                  <td><?php echo $usr["username"];?></td>
-                  <td><?php echo $usr["password"];?></td>
-                  <td><?php echo $usr["email"];?></td>
-                  <td><?php echo $usr["phone_number"];?></td>
-                  <td><?php echo $usr["profession"];?></td>
-                  <td><?php if(!empty($usr["profile_picture"])){
-                        echo $usr["profile_picture"];
-                  }else{
-                        echo "Korisnik nije postavio profilnu sliku!";
-                  }?></td>
-                  <td><?php $role_name = "";
-                      switch ($usr["role_id"]) {
-                            case 1:
-                              $role_name = "Admin";
-                              break;
-                            case 2:
-                              $role_name = "Project Manager";
-                              break;
-                            case 3:
-                              $role_name = "Team Leader";
-                              break;
-                            case 4:
-                              $role_name = "Executor";
-                              break;
-                            
-                            default:
-                              # code...
-                              break;
-                      }echo $role_name;?></td>
-                      <td>
-                        <form action="backend_pages/edit_user_logic.php" method="post">
-                          <input type="hidden" value="<?php echo $usr['user_id']; ?>" name="hidden_field_id">
-                          <input type="hidden" value="<?php echo $usr['first_name']; ?>" name="hidden_field_fname">
-                          <input type="hidden" value="<?php echo $usr['last_name']; ?>" name="hidden_field_lname">
-                          <input type="hidden" value="<?php echo $usr['username']; ?>" name="hidden_field_username">
-                          <input type="hidden" value="<?php echo $usr['password']; ?>" name="hidden_field_password">
-                          <input type="hidden" value="<?php echo $usr['email']; ?>" name="hidden_field_email">
-                          <input type="hidden" value="<?php echo $usr['phone_number']; ?>" name="hidden_field_phone">
-                          <input type="hidden" value="<?php echo $usr['profession']; ?>" name="hidden_field_profession">
-                          <input type="hidden" value="<?php echo $usr['profile_picture']; ?>" name="hidden_field_profile_pic">
-                          <input type="hidden" value="<?php echo $role_name; ?>" name="hidden_field_role_name">
-                          <input type="submit" class="btn btn-secondary" value="Izmeni podatke">
-                        </form>
-                        <form action="backend_pages/delete_user.php" method="post">
-                          <input type="hidden" value="<?php echo $usr['username']; ?>" name="hidden_field">
-                          <input type="submit" class="btn btn-danger" value="Obriši korisnika">
-                        </form>
-                      </td>
-                  <?php } ?>
-                  
-                </tr>
-                </tbody>
-                <tfoot>
-                </tfoot>
-              </table>
-            </div>
-            <!-- /.box-body -->
+            <!-- form start -->
+            <form role="form" method="post" action="edit_user_logic_logic.php">
+
+              <div class="box-body">
+              	<div class="form-group">
+              	<a href="../users_management_users_manipulation.php"><button type="button" class="btn btn-default btn-sm">
+          			<span class="glyphicon glyphicon-arrow-left"></span> Nazad
+        		</button></a>
+        		</div>
+                <div class="form-group">
+                  <input type="hidden" class="form-control" id="exampleInputId" name="id" value="<?php echo $_POST['hidden_field_id'];?>">
+                  <label for="exampleInputEmail1">Ime</label>
+                  <input type="text" class="form-control" id="exampleInputFirstName" placeholder="Unesite ime" name="fname" value="<?php echo $_POST['hidden_field_fname'];?>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Prezime</label>
+                  <input type="text" class="form-control" id="exampleInputLastName" placeholder="Unesite prezime" name="lname" value="<?php echo $_POST['hidden_field_lname'];?>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Korisničko ime</label>
+                  <input type="text" class="form-control" id="exampleInputUsername" placeholder="Unesite korisničko ime" name="username" value="<?php echo $_POST['hidden_field_username'];?>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Mejl</label>
+                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Unesite mejl" name="mail" value="<?php echo $_POST['hidden_field_email'];?>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Šifra</label>
+                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Unesite šifru" name="passwd" value="<?php echo $_POST['hidden_field_password'];?>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Broj telefona</label>
+                  <input type="text" class="form-control" id="exampleInputNumber" placeholder="Unesite broj telefona" name="phonenum" value="<?php echo $_POST['hidden_field_phone'];?>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputFile">Profilna slika</label>
+                  <input type="file" id="exampleInputFile" name="profilepic" value="<?php echo $_POST['hidden_field_profile_pic'];?>">
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select class="form-control select2" style="width: 100%;" name="role">
+                      <option <?php if($_POST['hidden_field_role_name'] == 'Admin'){?>selected <?php }?>>Admin</option>
+                      <option <?php if($_POST['hidden_field_role_name'] == 'Project Manager'){?>selected <?php }?>>Project Manager</option>
+                      <option <?php if($_POST['hidden_field_role_name'] == 'Team Leader'){?>selected <?php }?>>Team Leader</option>
+                      <option <?php if($_POST['hidden_field_role_name'] == 'Executor'){?>selected <?php }?>>Executor</option>
+                    </select>
+                  </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Profesija </label>
+                  <input type="text" class="form-control" id="exampleInputProffession" placeholder="Unesite naziv profesije" name="profession" value="<?php echo $_POST['hidden_field_profession'];?>">
+                </div>
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <input type="submit" name="register" value="Izmeni podatke" class="btn">
+              </div>
+
+            </form>
+
           </div>
         </div>
       </div>
