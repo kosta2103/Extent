@@ -388,20 +388,26 @@
                                 </span>
                                 </a>
                                 <ul class="treeview-menu">
-                                    <li>
-                                      <a href="#" onclick="popup()"><i class="glyphicon glyphicon-plus"></i></a>
-                                      <?php
-                                        
-                                      if(isset($_GET['usernameAdd']))
-                                      {
-                                        $_SESSION['username'] = $_GET['usernameAdd'];
-                                        /*$ses_id = $_SESSION['id'];
-                                        echo $ses_id;
-                                        echo $edit;*/
-                                        echo "<script>document.getElementById('submit_0').click()</script>";
-                                      }
-                                      ?>
-                                    </li>
+                                    <form action="" method="POST" id="form_plus">
+                                      <li>
+                                        <a href="#" onclick="popup()"><i class="glyphicon glyphicon-plus"></i></a>
+                                        <?php 
+                                          if(isset($_GET['usernameAdd']))
+                                          {
+                                            $_SESSION['username'] = $_GET['usernameAdd'];
+                                            $usernames = explode(" ", $_SESSION['username']);
+
+                                            foreach($usernames as $username)
+                                            {
+                                              $ses_id = $_SESSION['id'];
+                                              if(checkUsername($username, $connection)) $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");
+                                              else echo "<script> alert('Korisnicko ime $username ne postoji.') </script>";
+                                              echo "<script> window.location.href='project_teams_view.php?edit=$ses_id'</script>";
+                                            }
+                                          }
+                                        ?>
+                                      </li>
+                                    </form>
                                     <?php foreach($arr_members as $member)
                                       {
                                     ?>
@@ -476,9 +482,10 @@
                             </li>
                         </ul>
                     </li>
-                    <?php }
+                    <?php }               
                     $id++;
                     }
+                    
 
                     for($i = 0; $i < $id; $i++)
                     {
@@ -486,7 +493,6 @@
                         {
                             $team_id = $_POST['team_id_'.$i];
                             $arr = $connection->query("SELECT * FROM Teams WHERE team_id='$team_id'")->fetchAll();
-                            $usernames = explode(" ", $_SESSION['username']);
 
                             isset($_POST['team_leader_'.$i]) ? $team_leader = $_POST['team_leader_'.$i] : $team_leader = $arr[0]['team_leader_username'];
                             isset($_POST['team_task_'.$i]) ? $team_task = $_POST['team_task_'.$i] : $team_task = $arr[0]['team_task'];
@@ -494,13 +500,6 @@
 
                             $connection->query("UPDATE Teams SET team_leader_username='$team_leader', team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");
                             $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");
-
-                            foreach($usernames as $username)
-                            {
-                              if(checkUsername($username, $connection)) $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");
-                              else echo "<script> alert('Korisnicko ime $username ne postoji.') </script>";
-                            }
-                            echo "<script> window.location.href='project_teams_view.php'</script>";
                         }
                     }
                     ?>
