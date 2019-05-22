@@ -364,9 +364,9 @@
                       $team_leader = $line['team_leader_username'];
                       $arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();
 
-                      if($_SESSION['editable'])
+                      if($_SESSION['editable'] && $edit == $id)
                       {
-                      
+                        $_SESSION['id'] = $id;
                       
                     ?>
                     <li class="treeview">
@@ -395,6 +395,10 @@
                                       if(isset($_GET['usernameAdd']))
                                       {
                                         $_SESSION['username'] = $_GET['usernameAdd'];
+                                        /*$ses_id = $_SESSION['id'];
+                                        echo $ses_id;
+                                        echo $edit;*/
+                                        echo "<script>document.getElementById('submit_0').click()</script>";
                                       }
                                       ?>
                                     </li>
@@ -402,7 +406,7 @@
                                       {
                                     ?>
                                     <li style="display: flex">
-                                      <a href="#" class="pt_a"><i class="fa fa-minus"></i>@ <?php echo $member['username'] ?></a><a href='?edit=1&username=<?php echo $member['username'] ?>'><i class='glyphicon glyphicon-remove'></i></a>
+                                      <a href="#" class="pt_a"><i class="fa fa-minus"></i>@ <?php echo $member['username'] ?></a><a href='?edit=<?php echo $id ?>&username=<?php echo $member['username'] ?>'><i class='glyphicon glyphicon-remove'></i></a>
                                     </li><?php }?>
                                 </ul>
                             </li>
@@ -424,7 +428,7 @@
                             </li>
                             <input type="hidden" name="team_id_<?php echo $id ?>" value="<?php echo $team_id ?>">
                             <li class="pt_li1">
-                              <a><button class="pt_btn" type="submit" name="submit_<?php echo $id ?>"><i class='glyphicon glyphicon-ok'></i></button></a><a href='?edit=0'><button class="pt_btn"><i class='glyphicon glyphicon-remove'></i></button></a>
+                              <a><button class="pt_btn" type="submit" id="submit_<?php echo $id ?>" name="submit_<?php echo $id ?>"><i class='glyphicon glyphicon-ok'></i></button></a><a href='?edit=-1'><button class="pt_btn"><i class='glyphicon glyphicon-remove'></i></button></a>
                             </li>
                         </ul>
                     </li>
@@ -468,7 +472,7 @@
                                 <a href="#"><i class="fa fa-minus"></i> Opis - <?php echo $line['team_description'] ?></a>
                             </li>
                             <li class="pt_li1">
-                                <a href="?edit=1" >Izmena</a>
+                                <a href="?edit=<?php echo $id ?>" >Izmena</a>
                             </li>
                         </ul>
                     </li>
@@ -493,7 +497,8 @@
 
                             foreach($usernames as $username)
                             {
-                              $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");
+                              if(checkUsername($username, $connection)) $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");
+                              else echo "<script> alert('Korisnicko ime $username ne postoji.') </script>";
                             }
                             echo "<script> window.location.href='project_teams_view.php'</script>";
                         }
@@ -557,7 +562,7 @@
   {
     var username = prompt("Unesite korisnicka imena (username) clanova odvojena praznim poljem: ", " ");
 
-    window.location.href = 'project_teams_view.php?edit=1&usernameAdd='+username;
+    window.location.href = 'project_teams_view.php?edit=<?php echo $_SESSION['id'] ?>&usernameAdd='+username;
   }
 </script>
 </body>

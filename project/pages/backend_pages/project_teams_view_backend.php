@@ -1,8 +1,21 @@
 <?php
     require_once('../database_connection.php');
 
+    function checkUsername($username, $connection)
+    {
+        $arr = $connection->query("SELECT username FROM User WHERE username = '$username'")->fetchAll();
+        if(empty($arr))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     $edit = @$_GET['edit'];
-    if($edit == '1') 
+    if($edit >= '0') 
     {
         $_SESSION["editable"] = true;
     }
