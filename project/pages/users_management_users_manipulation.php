@@ -205,7 +205,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profil</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Odjava</a>
+                  <a href="backend_pages/logout.php" class="btn btn-default btn-flat">Odjava</a>
                 </div>
               </li>
             </ul>
