@@ -36,7 +36,7 @@
 							setcookie("password_cookie", "", time() - 3600);
 						}
 					}
-					header("Location: ../index.html");
+					header("Location: ../index.php");
 				}else{
 					$credentials_err = "* DOESN'T EXIST USER WITH INPUT CREDENTIALS"; 
 				}
