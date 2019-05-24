@@ -3,16 +3,21 @@
 
     function checkUsername($username, $connection)
     {
-        $arr = $connection->query("SELECT username FROM User WHERE username = '$username'")->fetchAll();
+        $arr = $connection->query("SELECT username,team_id FROM User WHERE username = '$username'")->fetchAll();
         if(empty($arr))
         {
-            return false;
+            return 0;
+        }
+        else if($arr[0]["team_id"] != '0')
+        {
+            return -1;
         }
         else
         {
-            return true;
+            return 1;
         }
     }
+
 
     $edit = @$_GET['edit'];
     if($edit >= '0') 
