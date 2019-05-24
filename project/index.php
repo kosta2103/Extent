@@ -185,13 +185,21 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <?php echo '<img src="data:image;base64,'. $_SESSION["profile_picture"] .'" class="user-image" alt="User Image">'; ?>
+              <?php if(!empty($_SESSION["profile_picture"])){
+                echo '<img src="data:image;base64,'. $_SESSION["profile_picture"] .'" class="user-image" alt="User Image">'; 
+              }else{
+                echo '<img src="pictures/no_profile_picture.png" class="user-image" alt="User Image">';}?>
               <span class="hidden-xs"><?php echo $_SESSION["first_name"];?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <?php echo '<img src="data:image;base64,'. $_SESSION["profile_picture"] .'" class="img-circle" alt="User Image">'; ?>
+                <?php if(!empty($_SESSION["profile_picture"])){
+                 echo '<img src="data:image;base64,'. $_SESSION["profile_picture"] .'" class="img-circle" alt="User Image">'; 
+               }
+                    else{
+                      echo '<img src="pictures/no_profile_picture.png" class="user-image" alt="User Image">';
+                    }?>
 
                 <p>
                   <?php echo $_SESSION["first_name"] . " " . $_SESSION["last_name"] . " - " . $_SESSION["profession"]; ?>
@@ -222,7 +230,12 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <?php echo '<img src="data:image;base64,'. $_SESSION["profile_picture"] .'" class="img-circle" alt="User Image">'; ?>
+          <?php if(!empty($_SESSION["profile_picture"])){
+                 echo '<img src="data:image;base64,'. $_SESSION["profile_picture"] .'" class="img-circle" alt="User Image">'; 
+               }
+                    else{
+                      echo '<img src="pictures/no_profile_picture.png" class="user-image" alt="User Image">';
+                    }?>
         </div>
         <div class="pull-left info">
           <p><?php echo $_SESSION["first_name"];?></p>
