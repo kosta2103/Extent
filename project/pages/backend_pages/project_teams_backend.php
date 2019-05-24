@@ -3,14 +3,18 @@
 
     function checkUsername($username, $connection)
     {
-        $arr = $connection->query("SELECT username FROM User WHERE username = '$username'")->fetchAll();
+        $arr = $connection->query("SELECT username,team_id FROM User WHERE username = '$username'")->fetchAll();
         if(empty($arr))
         {
-            return false;
+            return 0;
+        }
+        else if($arr[0]["team_id"] != '0')
+        {
+            return -1;
         }
         else
         {
-            return true;
+            return 1;
         }
     }
 
@@ -39,12 +43,16 @@
 
         if(!checkTeamname($team_name, $connection))
         {
-            if(checkUsername($team_leader, $connection))
+            if(checkUsername($team_leader, $connection) == 1)
             {
                 $connection->query("INSERT INTO Teams(team_name, team_leader_username, team_task, team_description)
                 VALUES('$team_name', '$team_leader', '$team_task', '$team_description')");
 
                 $connection->query("UPDATE User SET team_id = (SELECT team_id FROM Teams WHERE team_name = '$team_name') WHERE username = '$team_leader'");
+            }
+            else if(checkUsername($team_leader, $connection) == -1)
+            {
+                echo "<script> alert('Korisnik @$team_leader je clan tima.') </script>";
             }
             else
             {
@@ -58,9 +66,14 @@
         
         foreach($team_members as $member)
         {
-            if(!checkUsername($member, $connection))
+            if(checkUsername($member, $connection) == 0)
             {
                 echo "<script> alert('Korisnicko ime $member ne postoji.') </script>";
+                continue;
+            }
+            else if(checkUsername($member, $connection) == -1)
+            {
+                echo "<script> alert('Korisnik @$member je clan tima.') </script>";
                 continue;
             }
             else

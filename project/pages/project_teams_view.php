@@ -369,14 +369,14 @@
                         $_SESSION['id'] = $id;
                       
                     ?>
-                    <li class="treeview">
+                    <li class="treeview pt_li_hover">
                         <a href="#">
                             <i class="fa fa-edit"></i> <span><?php echo $line['team_name'] ?></span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
-                        <ul class="treeview-menu">
+                        <ul class="treeview-menu pt_ul">
                             <li style="display: flex">
                               <a href="#" class="pt_a"><i class="fa fa-minus"></i>Tim lider - @</a><input class="pt_input" type="text" name="team_leader_<?php echo $id ?>" value="<?php echo $line['team_leader_username'] ?>">
                             </li>
@@ -387,7 +387,7 @@
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
                                 </a>
-                                <ul class="treeview-menu">
+                                <ul class="treeview-menu pt_ul">
                                     <form action="" method="POST" id="form_plus">
                                       <li>
                                         <a href="#" onclick="popup()"><i class="glyphicon glyphicon-plus"></i></a>
@@ -400,10 +400,11 @@
                                             foreach($usernames as $username)
                                             {
                                               $ses_id = $_SESSION['id'];
-                                              if(checkUsername($username, $connection)) $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");
-                                              else echo "<script> alert('Korisnicko ime $username ne postoji.') </script>";
-                                              echo "<script> window.location.href='project_teams_view.php?edit=$ses_id'</script>";
+                                              if(checkUsername($username, $connection) == 1) $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");
+                                              else if (checkUsername($username, $connection) == -1) echo "<script> alert('Korisnik @$username je clan tima.') </script>";
+                                              else if (checkUsername($username, $connection) == 0) echo "<script> alert('Korisnik @$username ne postoji.') </script>";
                                             }
+                                            echo "<script> window.location.href='project_teams_view.php?edit=$ses_id'</script>";
                                           }
                                         ?>
                                       </li>
@@ -450,7 +451,7 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
-                        <ul class="treeview-menu">
+                        <ul class="treeview-menu pt_ul">
                             <li style="display: flex">
                               <a href="#"><i class="fa fa-minus"></i> Tim lider - @<?php echo $line['team_leader_username'] ?></a>
                             </li>
@@ -461,7 +462,7 @@
                                     <i class="fa fa-angle-left pull-right"></i>
                                 </span>
                                 </a>
-                                <ul class="treeview-menu">
+                                <ul class="treeview-menu pt_ul">
                                     <?php 
                                       foreach($arr_members as $member)
                                       {
@@ -493,13 +494,29 @@
                         {
                             $team_id = $_POST['team_id_'.$i];
                             $arr = $connection->query("SELECT * FROM Teams WHERE team_id='$team_id'")->fetchAll();
+                            $old_tl = $team_leader = $arr[0]['team_leader_username'];
 
                             isset($_POST['team_leader_'.$i]) ? $team_leader = $_POST['team_leader_'.$i] : $team_leader = $arr[0]['team_leader_username'];
                             isset($_POST['team_task_'.$i]) ? $team_task = $_POST['team_task_'.$i] : $team_task = $arr[0]['team_task'];
                             isset($_POST['team_description_'.$i]) ? $team_description = $_POST['team_description_'.$i] : $team_description = $arr[0]['team_description'];
 
-                            $connection->query("UPDATE Teams SET team_leader_username='$team_leader', team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");
-                            $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");
+                            $connection->query("UPDATE Teams SET team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");
+                            
+                            if(checkUsername($team_leader, $connection) == 0)
+                            {
+                              echo "<script> alert('Korisnik @$team_leader ne postoji.') </script>";
+                            }
+                            else if(checkUsername($team_leader, $connection) == -1)
+                            {
+                              echo "<script> alert('Korisnik @$team_leader je clan tima.') </script>";
+                            }
+                            else
+                            {
+                              $connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'"); 
+                              $connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");
+                              $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");
+                              echo "<script> window.location.href='project_teams_view.php?edit=$ses_id'</script>";
+                            }
                         }
                     }
                     ?>
