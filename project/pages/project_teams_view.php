@@ -443,7 +443,7 @@
 
                     else
                     {?>
-                      <li class="treeview">
+                      <li class="treeview pt_li_hover">
                         <a href="#">
                             <i class="fa fa-edit"></i> <span><?php echo $line['team_name'] ?></span>
                             <span class="pull-right-container">

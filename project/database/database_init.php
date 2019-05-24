@@ -10,6 +10,8 @@
     
     require_once('database_table_user.php');
     require_once('database_insert_user.php');
+
+    require_once('database_table_tasks.php');
     
     $connection = null;
 ?>
