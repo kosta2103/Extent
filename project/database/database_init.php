@@ -12,6 +12,7 @@
     require_once('database_insert_user.php');
 
     require_once('database_table_tasks.php');
+    require_once('database_table_commits.php');
     
     $connection = null;
 ?>
