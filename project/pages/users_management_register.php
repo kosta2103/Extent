@@ -341,7 +341,7 @@
             <!-- /.box-header -->
             <!-- form start -->
             <?php require_once('backend_pages/user_management_register_logic.php');?>
-            <form role="form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+            <form role="form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" enctype="multipart/form-data">
               <div class="box-body">
                   <?php if(!empty($message_fail)){?>
                   <div class="alert alert-error">
@@ -384,7 +384,7 @@
                 </div>
                 <div class="form-group">
                   <label for="exampleInputFile">Profilna slika</label>
-                  <input type="file" id="exampleInputFile" name="profilepic">
+                  <input type="file" id="exampleInputFile" name="profilepic" title="Izaberite sliku" accept="image/*">
                 </div>
                 <div class="form-group">
                     <label>Role</label>

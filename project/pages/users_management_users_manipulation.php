@@ -371,7 +371,7 @@
                   <td><?php echo $usr["phone_number"];?></td>
                   <td><?php echo $usr["profession"];?></td>
                   <td><?php if(!empty($usr["profile_picture"])){
-                        echo $usr["profile_picture"];
+                      echo $usr["profile_picture"];
                   }else{
                         echo "Korisnik nije postavio profilnu sliku!";
                   }?></td>

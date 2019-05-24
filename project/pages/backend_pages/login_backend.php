@@ -8,21 +8,23 @@
 		$password = $_POST["password"];
 
 		if(empty($email) && empty($password)){
-			$email_err = "* EMAIL MUST BE ENTERED";
-			$password_err = "* PASSWORD MUST BE ENTERED";
+			$email_err = "* MEJL SE MORA UNETI";
+			$password_err = "* ŠIFRA SE MORA UNETI";
 		}else if(empty($email)){
-			$email_err = "* EMAIL MUST BE ENTERED";
+			$email_err = "* MEJL SE MORA UNETI";
 		}else if(empty($password)){
-			$password_err = "* PASSWORD MUST BE ENTERED";
+			$password_err = "* ŠIFRA SE MORA UNETI";
 		}else{
 			try{
-				$sql_select_user = "SELECT email, password FROM User WHERE email='$email' AND password='$password'";
+				$sql_select_user = "SELECT email, password, user_id, role_id FROM User WHERE email='$email' AND password='$password'";
 				$stmt = $connection->prepare($sql_select_user);
 				$stmt->execute();
 				if($stmt->rowCount() > 0){
 					$result = $stmt->fetch(PDO::FETCH_ASSOC);
 					$_SESSION["email"] = $result["email"];
 					$_SESSION["password"] = $result["password"];
+					$_SESSION["user_id"] = $result["user_id"];
+					$_SESSION["role_id"] = $result["role_id"];
 					if(isset($_POST["chkbox"])){
 						setcookie("email_cookie", $result["email"], time() + (84000*15));
 						setcookie("password_cookie", $result["password"], time() + (84000*15));
@@ -38,7 +40,7 @@
 					}
 					header("Location: ../index.php");
 				}else{
-					$credentials_err = "* DOESN'T EXIST USER WITH INPUT CREDENTIALS"; 
+					$credentials_err = "* NE POSTOJI KORISNIK SA UNETIM KREDENCIJALIMA"; 
 				}
 			}catch(Exception $e){
 				echo $e->getMessage();
