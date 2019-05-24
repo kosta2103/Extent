@@ -329,7 +329,7 @@
 
             <!-- /.box-header -->
             <!-- form start -->
-            <form role="form" method="post" action="edit_user_logic_logic.php">
+            <form role="form" method="post" action="edit_user_logic_logic.php" enctype="multipart/form-data">
 
               <div class="box-body">
               	<div class="form-group">

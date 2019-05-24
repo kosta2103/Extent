@@ -7,7 +7,5 @@
 		$user = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}catch(Exception $e){
 		echo $e->getMessage();
-	}finally{
-		$connection = null;
 	}
 ?>

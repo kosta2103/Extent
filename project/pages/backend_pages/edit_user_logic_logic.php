@@ -21,7 +21,10 @@
                   }
             			
                   $id = $_POST['id'];
-            	$sql_update = "UPDATE User SET first_name='" . $_POST['fname'] . "', last_name='" . $_POST['lname'] . "', username='". $_POST['username'] . "', password='" . $_POST['passwd'] . "', email='" . $_POST['mail'] . "', phone_number='" . $_POST['phonenum']. "', profession='" . $_POST['profession'] . "', profile_picture='" . $_POST['profilepic'] . "', role_id='$role_id' WHERE user_id='$id'";
+                  $profile_picture = addslashes($_FILES['profilepic']['tmp_name']);
+                  $profile_picture = file_get_contents($profile_picture);
+                  $profile_picture = base64_encode($profile_picture);
+            	$sql_update = "UPDATE User SET first_name='" . $_POST['fname'] . "', last_name='" . $_POST['lname'] . "', username='". $_POST['username'] . "', password='" . $_POST['passwd'] . "', email='" . $_POST['mail'] . "', phone_number='" . $_POST['phonenum']. "', profession='" . $_POST['profession'] . "', profile_picture='" . $profile_picture . "', role_id='$role_id' WHERE user_id='$id'";
             	$stmt = $connection->prepare($sql_update);
             	$stmt->execute();
             	header('Location: ../users_management_users_manipulation.php');

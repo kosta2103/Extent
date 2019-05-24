@@ -11,7 +11,9 @@
 		$email = $_POST["mail"];
 		$password = $_POST["passwd"];
 		$phone_number = $_POST["phonenum"];
-		$profile_picture = $_POST["profilepic"];
+		$profile_picture = addslashes($_FILES['profilepic']['tmp_name']);
+		$profile_picture = file_get_contents($profile_picture);
+		$profile_picture = base64_encode($profile_picture);
 		$role_name = $_POST["role"];
 		$profession = $_POST["profession"];
 		$role_id = 0;
