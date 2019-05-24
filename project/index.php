@@ -291,16 +291,29 @@
                   <li><a href="pages/project_teams_view.php"><i class="fa fa-minus"></i> Prikaz</a></li>
                 </ul>
               </li>
-              <li><a href="pages/commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
             </ul>
           </li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-table"></i> <span>Tiketi</span>
             <span class="pull-right-container">
-             
+              <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
+          <ul class="treeview-menu">
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i> <span>Komitovi</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="pages/commits_add.php"><i class="fa fa-minus"></i>Dodavanje komita</a></li>
+                  <li><a href="pages/commits_view.php"><i class="fa fa-minus"></i>Prikaz komitova</a></li>
+                </ul>
+              </li>
+             </ul> 
       
         </li>
         <li>
