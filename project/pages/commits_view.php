@@ -355,13 +355,15 @@
     </section><br><br>
 
   <!-- /.content-wrapper -->
-  <div class="container pt_container">
+  <div class="container" style="width: 60%;">
       <div class="box box-info">
         <div class="box-header with-border">
           <h3 class="box-title">Prikaz komitova</h3>
         </div>
 
         <form method="POST" enctype="multipart/form-data" action="" class="form-horizontal">
+        <div class="box-body">
+            <ul class="sidebar-menu" data-widget="tree">
         <?php 
             require_once("../database_connection.php");
             if($_SESSION["role_id"] == 1){   
@@ -410,7 +412,7 @@
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                         </a>
-                    </li>
+                    
                     <?php
                     $task_name = $task["task_name"];
                     $sql_query3 = "SELECT commit_id FROM Commits WHERE task_id=(SELECT task_id FROM Tasks WHERE task_name='$task_name')";
@@ -423,22 +425,36 @@
                         echo $e->getMessage();
                     }finally{
                         //$connection = null;
-                    }
+                    } ?>
 
-                    foreach($commits as $commit){
-                    ?>
                     <ul class="treeview-menu">
-                    <li><a href="#"><i class="fa fa-minus"></i><?php echo $commit["commit_id"]; ?></a></li>
+                    <?php foreach($commits as $commit){
+                    ?>
+                      <li class="treeview">
+                        <a href="#">
+                        <i class="fa fa-circle-o"></i> <span><?php echo $commit["commit_id"]; ?></span>
+                        
+                        </a>
+                    </li>
+                    <?php } ?>
+
                     </ul>
-                </ul>
+                    </li>
                     
+                    
+                   
+                    
+                    <?php } ?>
+                </ul>
+                  <?php } ?>  
             </li>
         <?php
-                }}
+                
             }
-            }
+            
         ?>
-                                        
+            </ul>
+        </div>                             
         </form>
   </div>
   </div>
