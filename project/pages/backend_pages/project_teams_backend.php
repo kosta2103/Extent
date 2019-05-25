@@ -48,7 +48,7 @@
                 $connection->query("INSERT INTO Teams(team_name, team_leader_username, team_task, team_description)
                 VALUES('$team_name', '$team_leader', '$team_task', '$team_description')");
 
-                $connection->query("UPDATE User SET team_id = (SELECT team_id FROM Teams WHERE team_name = '$team_name') WHERE username = '$team_leader'");
+                $connection->query("UPDATE User SET team_id = (SELECT team_id FROM Teams WHERE team_name = '$team_name'), role_id='3' WHERE username = '$team_leader'");
             }
             else if(checkUsername($team_leader, $connection) == -1)
             {

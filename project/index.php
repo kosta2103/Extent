@@ -313,7 +313,20 @@
                   <li><a href="pages/commits_view.php"><i class="fa fa-minus"></i>Prikaz komitova</a></li>
                 </ul>
               </li>
-             </ul> 
+
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i> <span>Taskovi</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="pages/tasks_add.php"><i class="fa fa-minus"></i>Dodavanje taska</a></li>
+                  <li><a href="pages/tasks_view.php"><i class="fa fa-minus"></i>Prikaz taskova</a></li>
+                </ul>
+              </li>
+          </ul> 
       
         </li>
         <li>

@@ -367,6 +367,8 @@
                       {
                         $team_id = $line['team_id'];
                         $team_leader = $line['team_leader_username'];
+                        $tls = $connection->query("SELECT username FROM User WHERE role_id = '3' AND team_id='0' OR username='$team_leader'")->fetchAll();
+
                         $arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();
 
                         if($_SESSION['editable'] && $edit == $id)
@@ -385,8 +387,23 @@
                               <li style="display: flex">
                                 <a href="#"><i class="fa fa-minus"></i>Ime tima - </a><input class="pt_input" type="text" name="team_name_<?php echo $id ?>" value="<?php echo $line['team_name'] ?>"><a title="Obrisi tim" class="pt_a" href='?edit=<?php echo $id ?>&team_id=<?php echo $team_id ?>'><i class='glyphicon glyphicon-remove'></i></a>
                               </li>
-                              <li style="display: flex">
-                                <a href="#"><i class="fa fa-minus"></i>Tim lider - @</a><input class="pt_input" type="text" name="team_leader_<?php echo $id ?>" value="<?php echo $line['team_leader_username'] ?>">
+                              <li style="display: flex; margin-top: 10px; margin-bottom: 10px;">
+                                <a href="#"><i class="fa fa-minus"></i>Tim lider - @</a>
+                                <select name="team_leader_<?php echo $id ?>" class="form-control select2 select2-hidden-accessible" style="width: 150px;">
+                                    <?php 
+                                      foreach($tls as $tl)
+                                      {
+                                        if($tl['username'] == $team_leader)
+                                        {
+                                          echo "<option selected>".$tl['username']."</option>";
+                                        }
+                                        else
+                                        {
+                                          echo "<option>".$tl['username']."</option>";
+                                        }
+                                      }
+                                    ?>  
+                                </select>
                               </li>
                               <li class="treeview">
                                   <a href="#">
@@ -572,6 +589,7 @@
                       {
                         $team_id = $line['team_id'];
                         $team_leader = $line['team_leader_username'];
+                        $tls = $connection->query("SELECT username FROM User WHERE role_id = '3' AND team_id='0' OR username='$team_leader'")->fetchAll();
                         $arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();
 
                         if($line['project_id'] == $project_id_arr[0]['project_id'])
@@ -592,8 +610,23 @@
                               <li style="display: flex">
                                 <a href="#"><i class="fa fa-minus"></i>Ime tima - </a><input class="pt_input" type="text" name="team_name_<?php echo $id ?>" value="<?php echo $line['team_name'] ?>"><a title="Obrisi tim" class="pt_a" href='?edit=<?php echo $id ?>&team_id=<?php echo $team_id ?>'><i class='glyphicon glyphicon-remove'></i></a>
                               </li>
-                              <li style="display: flex">
-                                <a href="#"><i class="fa fa-minus"></i>Tim lider - @</a><input class="pt_input" type="text" name="team_leader_<?php echo $id ?>" value="<?php echo $line['team_leader_username'] ?>">
+                              <li style="display: flex; margin-top: 10px; margin-bottom: 10px;">
+                                <a href="#"><i class="fa fa-minus"></i>Tim lider - @</a>
+                                <select name="team_leader_<?php echo $id ?>" class="form-control select2 select2-hidden-accessible" style="width: 150px;">
+                                    <?php 
+                                      foreach($tls as $tl)
+                                      {
+                                        if($tl['username'] == $team_leader)
+                                        {
+                                          echo "<option selected>".$tl['username']."</option>";
+                                        }
+                                        else
+                                        {
+                                          echo "<option>".$tl['username']."</option>";
+                                        }
+                                      }
+                                    ?>  
+                                </select>
                               </li>
                               <li class="treeview">
                                   <a href="#">
