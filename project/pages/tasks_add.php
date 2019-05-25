@@ -12,6 +12,19 @@
   <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="../bower_components/Ionicons/css/ionicons.min.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="../bower_components/bootstrap-daterangepicker/daterangepicker.css">
+  <!-- bootstrap datepicker -->
+  <link rel="stylesheet" href="../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="../plugins/iCheck/all.css">
+  <!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" href="../bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
+  <!-- Bootstrap time Picker -->
+  <link rel="stylesheet" href="../plugins/timepicker/bootstrap-timepicker.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../bower_components/select2/dist/css/select2.min.css">
+  
   <!-- jvectormap -->
   <link rel="stylesheet" href="../bower_components/jvectormap/jquery-jvectormap.css">
   <!-- Theme style -->
@@ -22,12 +35,7 @@
 
   <link rel="stylesheet" href="../dist/css/task.css">
 
-  <link rel="stylesheet" href="../bower_components/bootstrap-daterangepicker/daterangepicker.css">
-  <!-- bootstrap datepicker -->
-  <link rel="stylesheet" href="../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
-    <!-- Bootstrap time Picker -->
-  <link rel="stylesheet" href="../plugins/timepicker/bootstrap-timepicker.min.css">
-
+  
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -304,6 +312,9 @@
     <!-- /.sidebar -->
   </aside>
 
+  <?php require_once("backend_pages/tasks_add_backend.php");?>
+
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -326,60 +337,117 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form method="POST" action="project_teams.php" class="form-horizontal">
-          <div class="box-body">
-            <div class="form-group">
-              <label for="inputEmail3" class="col-sm-2 control-label">Naziv taska</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputEmail3" name="team_name" placeholder="Naziv taska" required>
-              </div>
-            </div>
 
+        <div class="box-body">
+          <form id="form_id" action="tasks_add.php" onchange="funkc()" method="POST" class="form-horizontal">
             <div class="form-group">
-                    <label>Rok projekta</label>
-    
-                    <div class="input-group">
-                      <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                      </div>
-                      <input type="text" class="form-control pull-right" name="reservation" id="reservation">
-                    </div>
-                    <!-- /.input group -->
-                  </div>
-
-            <div class="form-group">
-              <label for="inputPassword3" class="col-sm-2 control-label">Tim lider</label>
+              <label for="inputPassword3" class="col-sm-2 control-label">Projekat</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword3" name="team_leader" placeholder="Korisnicko ime tim lidera" required>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="inputPassword3" class="col-sm-2 control-label">Zaduzenje</label>
-              <div class="col-sm-10">
-                <select name="team_task" class="form-control select2 select2-hidden-accessible" required>
-                  <option selected hidden disabled>Odaberi opciju </option>
-                  <option>A</option>
-                  <option>A2</option>
-                  <option>A3</option>
-                  <option>A4</option>
-                  <option>A5</option>
-                  <option>A6</option>
-                  <option>A7</option>
+                <select name="project_name" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                  <?php 
+                    if(isset($_POST['project_name']))
+                    {
+                      echo "<option selected disabled>".$_POST['project_name']."</option>";
+                    }
+                    else
+                    {
+                      echo "<option selected disabled>Naziv projekata u okviru kog se kreira task</option>";
+                    }
+                  
+                    foreach($project_arr as $project)
+                    {
+                      echo "<option>".$project['project_name']."</option>";
+                    }
+                  ?>
                 </select>
               </div>
             </div>
+          </form>
+        
+          <script type="text/javascript">
+            function funkc()
+            {
+              document.getElementById('form_id').submit();
+            }
+          </script>
 
+        <form method="POST" action="tasks_add.php" class="form-horizontal">
+          
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">Naziv taska</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputEmail3" name="task_name" placeholder="Naziv taska" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">Rok taska</label>
+                <div class="input-group col-sm-10 task_input_group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right" name="task_deadline" id="reservation">
+                </div>
+                <!-- /.input group -->
+            </div>
+
+            
+
+            <?php 
+              if(isset($_POST['project_name']))
+                {
+                  $project_name = $_POST['project_name'];
+                  $assignee_arr_for_proj = $connection->query("SELECT username FROM User INNER JOIN Teams ON User.team_id=Teams.team_id INNER JOIN Projects ON Teams.project_id = Projects.project_id WHERE Projects.project_name='$project_name' ORDER BY User.username ASC")->fetchAll();
+
+                ?>
+                <div class="form-group">
+                  <label for="inputPassword3" class="col-sm-2 control-label">Izvrsitelj</label>
+                  <div class="col-sm-10">
+                    <select name="as_username" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                      <option selected disabled>@Korisnicko ime izvrsitelja taska</option>
+                      <?php 
+                        foreach($assignee_arr_for_proj as $assignee)
+                        {
+                          echo "<option>@".$assignee['username']."</option>";
+                        }
+                      ?>
+                    </select>
+                  </div>
+              </div>
+
+               <?php }
+              else
+              {?>
+
+              <div class="form-group">
+                  <label for="inputPassword3" class="col-sm-2 control-label">Izvrsitelj</label>
+                  <div class="col-sm-10">
+                    <select name="as_username" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                      <option selected disabled>@Korisnicko ime izvrsitelja taska</option>
+                      <?php 
+                        foreach($assignee_arr as $assignee)
+                        {
+                          echo "<option>@".$assignee['username']."</option>";
+                        }
+                      ?>
+                    </select>
+                  </div>
+              </div>
+
+              <?php }
+            ?>
+            <input type='hidden' name='project_name_hidden' value='<?php echo $project_name ?>'>
+            
             <div class="form-group">
               <label for="inputPassword3" class="col-sm-2 control-label">Opis</label>
               <div class="col-sm-10">
-                <textarea class="form-control" name="team_description" rows="3" placeholder="Opis ..." required></textarea>
+                <textarea class="form-control" name="task_description" rows="3" placeholder="Opis ..." required></textarea>
               </div>  
             </div>
        
           <!-- /.box-body -->
           <div class="box-footer">
-            <button type="submit" name="submit_btn" class="btn btn-info pull-right"><i class="glyphicon glyphicon-plus"></i> Dodaj tim</button>
+            <button type="submit" name="task_btn" class="btn btn-info pull-right"><i class="glyphicon glyphicon-plus"></i> Dodaj task</button>
           </div>
           <!-- /.box-footer -->
         </form>
@@ -404,6 +472,27 @@
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Select2 -->
+<script src="../bower_components/select2/dist/js/select2.full.min.js"></script>
+
+<!-- InputMask -->
+<script src="../plugins/input-mask/jquery.inputmask.js"></script>
+<script src="../plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="../plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<!-- date-range-picker -->
+<script src="../bower_components/moment/min/moment.min.js"></script>
+<script src="../bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- bootstrap datepicker -->
+<script src="../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- bootstrap color picker -->
+<script src="../bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+<!-- bootstrap time picker -->
+<script src="../plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<!-- SlimScroll -->
+<script src="../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- iCheck 1.0.1 -->
+<script src="../plugins/iCheck/icheck.min.js"></script>
+
 <!-- FastClick -->
 <script src="../bower_components/fastclick/lib/fastclick.js"></script>
 <!-- buildira App -->
@@ -421,9 +510,6 @@
 <!-- buildira for demo purposes -->
 <script src="../dist/js/demo.js"></script>
 
-<script src="../bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-<!-- bootstrap datepicker -->
-<script src="../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 
 <script>
  $(function () {

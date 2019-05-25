@@ -6,7 +6,9 @@
                                     task_deadline VARCHAR(30) NOT NULL,                                    
                                     task_priority INT(6) NOT NULL DEFAULT 0,
                                     user_id INT(6) NOT NULL DEFAULT 0,
-									FOREIGN KEY (user_id) REFERENCES User(user_id)
+									project_name VARCHAR(30),
+									FOREIGN KEY (user_id) REFERENCES User(user_id),
+									FOREIGN KEY (project_name) REFERENCES Projects(project_name)
 								)";
 		$state = $connection->exec($sql_create_table_projects);
 		echo "Successfully created table!";

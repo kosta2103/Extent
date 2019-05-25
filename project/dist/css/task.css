@@ -3,3 +3,8 @@
     margin-top: 50px;
     width: 55%; 
 }
+.task_input_group
+{
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+}
