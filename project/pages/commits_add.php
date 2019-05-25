@@ -1,5 +1,21 @@
 <?php 
     session_start();
+
+    function reArrayFiles($file)
+    {
+        $file_ary = array();
+        $file_count = count($file['name']);
+        $file_key = array_keys($file);
+        
+        for($i=0;$i<$file_count;$i++)
+        {
+            foreach($file_key as $val)
+            {
+                $file_ary[$i][$val] = $file[$val][$i];
+            }
+        }
+        return $file_ary;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -261,7 +277,7 @@
                 </a>
                 <ul class="treeview-menu">
                   <li><a href="project_management.php"><i class="fa fa-minus"></i>Kreiranje projekta</a></li>
-                  <li><a href="project_management_manipulation.php"><i class="fa fa-minus"></i>Prikaza projekata</a></li>
+                  <li><a href="project_management_manipulation.php"><i class="fa fa-minus"></i>Prikaz projekata</a></li>
                 </ul>
               </li>
               <li class="treeview">
@@ -411,12 +427,9 @@
                         </div>
                         <div class="form-group">
                         <label for="exampleInputFile">Komit fajl</label>
-                        <input type="file" id="exampleInputFile" name="commit_file" title="Izaberite fajl" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/pdf, text/plain, application/msword">
+                        <input type="file" id="exampleInputFile" name="commit_file[]" title="Izaberite fajl" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/pdf, text/plain, application/msword" multiple required>
                         </div>
-                        <div class="form-group">
-                        <label for="exampleInputFile1">Komit slika</label>
-                        <input type="file" id="exampleInputFile1" name="commit_img" title="Izaberite sliku" accept="image/*">
-                        </div>
+                        
                     </div>
                     <!-- /.box-body -->
 
@@ -471,39 +484,65 @@
 
     if(isset($_POST["commit_add"])){
 
+        $flag = true;
         $comment = $_POST["comment"];
         $task_id = $_POST["task"];
         $date = (string) date("m/d/y h:ia");
-        $commit_file = $commit_img = "";
-        //echo $_FILES["commit_file"][0];                        
-        if(!empty($_FILES["commit_file"]["name"])){
-            $uploadfile = $uploaddir . basename($_FILES["commit_file"]["name"]);
-            $commit_file = $uploadfile;
-        } 
+        $uploaddir= $uploaddir ."commit" . date("m-d-y_h-i") . "/";
+        $files = $_FILES["commit_file"];
 
-        if(!empty($_FILES["commit_img"]["name"])){
-            $uploadfile = $uploaddir . basename($_FILES["commit_img"]["name"]);
-            $commit_img = $uploadfile;
-        } 
+        if (!file_exists($uploaddir)) {
+          mkdir($uploaddir, 0777, true);
+        }
 
+                
         try{
-            $sql_insert_commit = "INSERT INTO Commits(commit_comment, commit_document, commit_image, commit_time, task_id)
-                                  VALUES('$comment', '$commit_file', '$commit_img', '$date', (SELECT task_id FROM Tasks WHERE task_name = '$task_id'))";
+            /*$sql_insert_commit = "INSERT INTO Commits(commit_comment, commit_time, task_id)
+                                  VALUES('$comment', '$date', (SELECT task_id FROM Tasks WHERE task_name = '$task_id'))";
             $stmt = $connection->prepare($sql_insert_commit);
             $stmt->execute();
             if($stmt->rowCount() > 0){
-                $_SESSION["message_success"] = "Komit je prošao";
-                if(!empty($_FILES["commit_file"]["tmp_name"]))
-                    move_uploaded_file($_FILES["commit_file"]["tmp_name"], $commit_file);
-                
-                if(!empty($_FILES["commit_img"]["tmp_name"]))
-                    move_uploaded_file($_FILES["commit_img"]["tmp_name"], $commit_img);
+                $_SESSION["message_success"] = "Komit je prošao";*/
 
-                echo "<script>window.location.href='commits_add.php';</script>";
-            } else {
-                $_SESSION["message_fail"] = "Komit nije prošao";
-                echo "<script>window.location.href='commits_add.php';</script>";
-            }
+            if(!empty($files)){
+              $sql_insert_commit = "INSERT INTO Commits(commit_comment, commit_time, task_id)
+                                  VALUES('$comment', '$date', (SELECT task_id FROM Tasks WHERE task_name = '$task_id'))";
+              $stmt = $connection->prepare($sql_insert_commit);
+              $stmt->execute();
+              if($stmt->rowCount()>0) $flag = $flag && true;
+              else $flag = $flag && false;                                 
+                      
+              $file_desc = reArrayFiles($files);
+
+
+              foreach($file_desc as $val){
+                $uploadfile = $uploaddir . basename($val["name"]);
+                //echo $uploadfile;
+                if(move_uploaded_file($val["tmp_name"], $uploadfile)){
+                  $sql_insert_file = "INSERT INTO Files(files_path)
+                                      VALUES('$uploadfile')";
+                  $stmt1 = $connection->prepare($sql_insert_file);
+                  $stmt1->execute();
+                  if($stmt1->rowCount() > 0) $flag = $flag && true;
+                  else $flag = $flag && false;
+
+                  $sql_insert_m2m = "INSERT INTO Commit_Files(commit_id, files_id)
+                                     VALUES((SELECT commit_id FROM Commits WHERE commit_time = '$date'), (SELECT files_id FROM Files WHERE files_path = '$uploadfile'))";
+                  $stmt2 = $connection->prepare($sql_insert_m2m);
+                  $stmt2->execute();
+                  if($stmt2->rowCount()>0) $flag = $flag && true;
+                  else $flag = $flag && false;                                 
+                 }
+                }        
+              } else $flag = false;
+
+             
+          
+          if($flag) $_SESSION["message_success"] = "Komit je prošao";
+          else $_SESSION["message_fail"] = "Komit nije prošao";
+
+          echo "<script>window.location.href='commits_add.php';</script>";
+        
         }catch(PDOException $e){
             echo $e->getMessage(); 
         }finally{
