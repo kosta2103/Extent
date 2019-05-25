@@ -24,6 +24,9 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
 
+
+  <link rel="stylesheet" href="../dist/css/project_teams.css">
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -380,7 +383,7 @@
                     }
                 foreach($projects as $project){
         ?>
-            <li class="treeview">
+            <li class="treeview pt_li_hover">
                     <a href="#">
                     <i class="fa fa-edit"></i> <span><?php echo $project["project_name"]; ?></span>
                     <span class="pull-right-container">
@@ -404,9 +407,9 @@
 
                     foreach($tasks as $task){
                 ?>
-                <ul class="treeview-menu">
+                <ul class="treeview-menu pt_ul">
                     <li class="treeview">
-                        <a href="#">
+                        <a href="#" class="pt_a">
                         <i class="fa fa-circle-o"></i> <span><?php echo $task["task_name"];?></span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
@@ -431,7 +434,7 @@
                     <?php foreach($commits as $commit){
                     ?>
                       <li class="treeview">
-                        <a href="#">
+                        <a href="#" class="pt_a">
                         <i class="fa fa-circle-o"></i> <span><?php echo $commit["commit_id"]; ?></span>
                         
                         </a>
