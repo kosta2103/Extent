@@ -42,3 +42,7 @@ li.pt_li_hover>a:hover,li.pt_li_hover.menu-open>a
     background: #72afd2  !important;
     color: white !important;
 }
+.pt_a:hover
+{
+    color: #1f464f !important;
+}

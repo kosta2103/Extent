@@ -16,12 +16,13 @@
 			$password_err = "* ŠIFRA SE MORA UNETI";
 		}else{
 			try{
-				$sql_select_user = "SELECT email, password, user_id, role_id, profile_picture, first_name, last_name, profession FROM User WHERE email='$email' AND password='$password'";
+				$sql_select_user = "SELECT email, password, username, user_id, role_id, profile_picture, first_name, last_name, profession FROM User WHERE email='$email' AND password='$password'";
 				$stmt = $connection->prepare($sql_select_user);
 				$stmt->execute();
 				if($stmt->rowCount() > 0){
 					$result = $stmt->fetch(PDO::FETCH_ASSOC);
 					$_SESSION["email"] = $result["email"];
+					$_SESSION["username"] = $result["username"];
 					$_SESSION["password"] = $result["password"];
 					$_SESSION["user_id"] = $result["user_id"];
 					$_SESSION["role_id"] = $result["role_id"];

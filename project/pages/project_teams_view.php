@@ -354,183 +354,745 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form method="POST" action="project_teams_view.php" class="form-horizontal" id='team_form'>
-            <div class="box-body">
-                <ul class="sidebar-menu" data-widget="tree">
-                    <?php
-                    foreach($arr as $line)
-                    {
-                      $team_id = $line['team_id'];
-                      $team_leader = $line['team_leader_username'];
-                      $arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();
 
-                      if($_SESSION['editable'] && $edit == $id)
+      <?php 
+        if($_SESSION['role_id'] == 1)
+        {
+      ?>
+          <form method="POST" action="project_teams_view.php" class="form-horizontal" id='team_form'>
+              <div class="box-body">
+                  <ul class="sidebar-menu" data-widget="tree">
+                      <?php
+                      foreach($arr as $line)
                       {
-                        $_SESSION['id'] = $id;
-                      
-                    ?>
-                    <li class="treeview pt_li_hover">
-                        <a href="#">
-                            <i class="fa fa-edit"></i> <span><?php echo $line['team_name'] ?></span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu pt_ul">
-                            <li style="display: flex">
-                              <a href="#" class="pt_a"><i class="fa fa-minus"></i>Tim lider - @</a><input class="pt_input" type="text" name="team_leader_<?php echo $id ?>" value="<?php echo $line['team_leader_username'] ?>">
-                            </li>
-                            <li class="treeview">
-                                <a href="#">
-                                <i class="fa fa-minus"></i> <span>Clanovi tima</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                                </a>
-                                <ul class="treeview-menu pt_ul">
-                                    <form action="" method="POST" id="form_plus">
-                                      <li>
-                                        <a href="#" onclick="popup()"><i class="glyphicon glyphicon-plus"></i></a>
-                                        <?php 
-                                          if(isset($_GET['usernameAdd']))
-                                          {
-                                            $_SESSION['username'] = $_GET['usernameAdd'];
-                                            $usernames = explode(" ", $_SESSION['username']);
+                        $team_id = $line['team_id'];
+                        $team_leader = $line['team_leader_username'];
+                        $arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();
 
-                                            foreach($usernames as $username)
-                                            {
-                                              $ses_id = $_SESSION['id'];
-                                              if(checkUsername($username, $connection) == 1) $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");
-                                              else if (checkUsername($username, $connection) == -1) echo "<script> alert('Korisnik @$username je clan tima.') </script>";
-                                              else if (checkUsername($username, $connection) == 0) echo "<script> alert('Korisnik @$username ne postoji.') </script>";
-                                            }
-                                            echo "<script> window.location.href='project_teams_view.php?edit=$ses_id'</script>";
-                                          }
-                                        ?>
-                                      </li>
-                                    </form>
-                                    <?php foreach($arr_members as $member)
-                                      {
-                                    ?>
-                                    <li style="display: flex">
-                                      <a href="#" class="pt_a"><i class="fa fa-minus"></i>@ <?php echo $member['username'] ?></a><a href='?edit=<?php echo $id ?>&username=<?php echo $member['username'] ?>'><i class='glyphicon glyphicon-remove'></i></a>
-                                    </li><?php }?>
-                                </ul>
-                            </li>
-                            <li style="display: flex; margin-top: 10px; margin-bottom: 10px;">
-                                <a href="#" class="pt_a"><i class="fa fa-minus"></i>Zaduzenje - </a>
-                                <select name="team_task_<?php echo $id ?>" class="form-control select2 select2-hidden-accessible pt_select">
-                                  <option selected hidden disabled><?php echo $line['team_task'] ?> </option>
-                                  <option>A</option>
-                                  <option>A2</option>
-                                  <option>A3</option>
-                                  <option>A4</option>
-                                  <option>A5</option>
-                                  <option>A6</option>
-                                  <option>A7</option>
-                                </select>
-                            </li>
-                            <li style="display: flex">
-                              <a href="#" class="pt_a"><i class="fa fa-minus"></i>Opis - </a><input class="pt_input" name="team_description_<?php echo $id ?>" type="text" value="<?php echo $line['team_description'] ?>">
-                            </li>
-                            <input type="hidden" name="team_id_<?php echo $id ?>" value="<?php echo $team_id ?>">
-                            <li class="pt_li1">
-                              <a><button class="pt_btn" type="submit" id="submit_<?php echo $id ?>" name="submit_<?php echo $id ?>"><i class='glyphicon glyphicon-ok'></i></button></a><a href='?edit=-1'><button class="pt_btn"><i class='glyphicon glyphicon-remove'></i></button></a>
-                            </li>
-                        </ul>
-                    </li>
-                    
-                    <?php }
-
-                    else
-                    {?>
-                      <li class="treeview pt_li_hover">
-                        <a href="#">
-                            <i class="fa fa-edit"></i> <span><?php echo $line['team_name'] ?></span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu pt_ul">
-                            <li style="display: flex">
-                              <a href="#"><i class="fa fa-minus"></i> Tim lider - @<?php echo $line['team_leader_username'] ?></a>
-                            </li>
-                            <li class="treeview">
-                                <a href="#">
-                                <i class="fa fa-minus"></i> <span>Clanovi tima</span>
-                                <span class="pull-right-container">
-                                    <i class="fa fa-angle-left pull-right"></i>
-                                </span>
-                                </a>
-                                <ul class="treeview-menu pt_ul">
-                                    <?php 
-                                      foreach($arr_members as $member)
-                                      {
-                                    ?>
-                                    <li style="display: flex">
-                                      <a href="#"><i class="fa fa-minus"></i> <?php echo "@".$member["username"] ?></a>
-                                    </li><?php } ?>
-                                </ul>
-                            </li>
-                            <li style="display: flex;">
-                                <a href="#"><i class="fa fa-minus"></i> Zaduzenje - <?php echo $line['team_task'] ?></a>
-                            </li>
-                            <li style="display: flex;">
-                                <a href="#"><i class="fa fa-minus"></i> Opis - <?php echo $line['team_description'] ?></a>
-                            </li>
-                            <li class="pt_li1">
-                                <a href="?edit=<?php echo $id ?>" >Izmena</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <?php }               
-                    $id++;
-                    }
-                    
-
-                    for($i = 0; $i < $id; $i++)
-                    {
-                        if(isset($_POST['submit_'.$i]))
+                        if($_SESSION['editable'] && $edit == $id)
                         {
-                            $team_id = $_POST['team_id_'.$i];
-                            $arr = $connection->query("SELECT * FROM Teams WHERE team_id='$team_id'")->fetchAll();
-                            $old_tl = $team_leader = $arr[0]['team_leader_username'];
+                          $_SESSION['id'] = $id;
+                        
+                      ?>
+                      <li class="treeview pt_li_hover">
+                          <a href="#">
+                              <i class="fa fa-edit"></i> <span><?php echo $line['team_name'] ?></span>
+                              <span class="pull-right-container">
+                                  <i class="fa fa-angle-left pull-right"></i>
+                              </span>
+                          </a>
+                          <ul class="treeview-menu pt_ul">
+                              <li style="display: flex">
+                                <a href="#"><i class="fa fa-minus"></i>Ime tima - </a><input class="pt_input" type="text" name="team_name_<?php echo $id ?>" value="<?php echo $line['team_name'] ?>"><a title="Obrisi tim" class="pt_a" href='?edit=<?php echo $id ?>&team_id=<?php echo $team_id ?>'><i class='glyphicon glyphicon-remove'></i></a>
+                              </li>
+                              <li style="display: flex">
+                                <a href="#"><i class="fa fa-minus"></i>Tim lider - @</a><input class="pt_input" type="text" name="team_leader_<?php echo $id ?>" value="<?php echo $line['team_leader_username'] ?>">
+                              </li>
+                              <li class="treeview">
+                                  <a href="#">
+                                  <i class="fa fa-minus"></i> <span>Clanovi tima</span>
+                                  <span class="pull-right-container">
+                                      <i class="fa fa-angle-left pull-right"></i>
+                                  </span>
+                                  </a>
+                                  <ul class="treeview-menu pt_ul">
+                                      <form action="" method="POST" id="form_plus">
+                                        <li style="display: flex">
+                                          <a href="#" class="pt_a" onclick="popup()"><i class="glyphicon glyphicon-plus"></i></a>
+                                          <?php 
+                                            if(isset($_GET['usernameAdd']))
+                                            {
+                                              $_SESSION['username'] = $_GET['usernameAdd'];
+                                              $usernames = explode(" ", $_SESSION['username']);
 
-                            isset($_POST['team_leader_'.$i]) ? $team_leader = $_POST['team_leader_'.$i] : $team_leader = $arr[0]['team_leader_username'];
-                            isset($_POST['team_task_'.$i]) ? $team_task = $_POST['team_task_'.$i] : $team_task = $arr[0]['team_task'];
-                            isset($_POST['team_description_'.$i]) ? $team_description = $_POST['team_description_'.$i] : $team_description = $arr[0]['team_description'];
+                                              foreach($usernames as $username)
+                                              {
+                                                $ses_id = $_SESSION['id'];
+                                                if(checkUsername($username, $connection) == 1) $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");
+                                                else if (checkUsername($username, $connection) == -1) echo "<script> alert('Korisnik @$username je clan tima.') </script>";
+                                                else if (checkUsername($username, $connection) == 0) echo "<script> alert('Korisnik @$username ne postoji.') </script>";
+                                              }
+                                              echo "<script> window.location.href='project_teams_view.php?edit=$ses_id'</script>";
+                                            }
+                                          ?>
+                                        </li>
+                                      </form>
+                                      <?php foreach($arr_members as $member)
+                                        {
+                                      ?>
+                                      <li style="display: flex">
+                                        <a href="#"><i class="fa fa-minus"></i>@ <?php echo $member['username'] ?></a><a class="pt_a" href='?edit=<?php echo $id ?>&username=<?php echo $member['username'] ?>'><i class='glyphicon glyphicon-remove'></i></a>
+                                      </li><?php }?>
+                                  </ul>
+                              </li>
+                              <li style="display: flex; margin-top: 10px; margin-bottom: 10px;">
+                                  <a href="#"><i class="fa fa-minus"></i>Zaduzenje - </a>
+                                  <select name="team_task_<?php echo $id ?>" class="form-control select2 select2-hidden-accessible pt_select">
+                                    <option selected hidden disabled><?php echo $line['team_task'] ?> </option>
+                                    <option>A</option>
+                                    <option>A2</option>
+                                    <option>A3</option>
+                                    <option>A4</option>
+                                    <option>A5</option>
+                                    <option>A6</option>
+                                    <option>A7</option>
+                                  </select>
+                              </li>
+                              <li style="display: flex">
+                                <a href="#"><i class="fa fa-minus"></i>Opis - </a><input class="pt_input" name="team_description_<?php echo $id ?>" type="text" value="<?php echo $line['team_description'] ?>">
+                              </li>
+                              <input type="hidden" name="team_id_<?php echo $id ?>" value="<?php echo $team_id ?>">
+                              <li class="pt_li1">
+                                <a class="pt_a"><button title="Potvrdi izmene" class="pt_btn" type="submit" id="submit_<?php echo $id ?>" name="submit_<?php echo $id ?>"><i class='glyphicon glyphicon-ok'></i></button></a><a title="Ponisti izmene" class="pt_a" href='?edit=-1'><button class="pt_btn"><i class='glyphicon glyphicon-remove'></i></button></a>
+                              </li>
+                          </ul>
+                      </li>
+                      
+                      <?php }
 
-                            $connection->query("UPDATE Teams SET team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");
+                      else
+                      {?>
+                        <li class="treeview pt_li_hover">
+                          <a href="#">
+                              <i class="fa fa-edit"></i> <span><?php echo $line['team_name'] ?></span>
+                              <span class="pull-right-container">
+                                  <i class="fa fa-angle-left pull-right"></i>
+                              </span>
+                          </a>
+                          <ul class="treeview-menu pt_ul">
+                              <li style="display: flex">
+                                <a href="#" class="pt_a"><i class="fa fa-minus"></i> Tim lider - @<?php echo $line['team_leader_username'] ?></a>
+                              </li>
+                              <li class="treeview">
+                                  <a href="#" class="pt_a">
+                                  <i class="fa fa-minus"></i> <span>Clanovi tima</span>
+                                  <span class="pull-right-container">
+                                      <i class="fa fa-angle-left pull-right"></i>
+                                  </span>
+                                  </a>
+                                  <ul class="treeview-menu pt_ul">
+                                      <?php 
+                                        foreach($arr_members as $member)
+                                        {
+                                      ?>
+                                      <li style="display: flex">
+                                        <a href="#" class="pt_a"><i class="fa fa-minus"></i> <?php echo "@".$member["username"] ?></a>
+                                      </li><?php } ?>
+                                  </ul>
+                              </li>
+                              <li style="display: flex;">
+                                  <a href="#" class="pt_a"><i class="fa fa-minus"></i> Zaduzenje - <?php echo $line['team_task'] ?></a>
+                              </li>
+                              <li style="display: flex;">
+                                  <a href="#" class="pt_a"><i class="fa fa-minus"></i> Opis - <?php echo $line['team_description'] ?></a>
+                              </li>
+                              <li class="pt_li1">
+                                  <a class="pt_a" href="?edit=<?php echo $id ?>" >Izmena</a>
+                              </li>
+                          </ul>
+                      </li>
+                      <?php }               
+                      $id++;
+                      }
+                      
+
+                      for($i = 0; $i < $id; $i++)
+                      {
+                          if(isset($_POST['submit_'.$i]))
+                          {
+                              $team_id = $_POST['team_id_'.$i];
+                              $arr = $connection->query("SELECT * FROM Teams WHERE team_id='$team_id'")->fetchAll();
+                              $old_tl = $team_leader = $arr[0]['team_leader_username'];
+                              $ses_id = $_SESSION['id'];
+
+                              isset($_POST['team_name_'.$i]) ? $team_name = $_POST['team_name_'.$i] : $team_name = $arr[0]['team_name'];
+                              isset($_POST['team_leader_'.$i]) ? $team_leader = $_POST['team_leader_'.$i] : $team_leader = $arr[0]['team_leader_username'];
+                              isset($_POST['team_task_'.$i]) ? $team_task = $_POST['team_task_'.$i] : $team_task = $arr[0]['team_task'];
+                              isset($_POST['team_description_'.$i]) ? $team_description = $_POST['team_description_'.$i] : $team_description = $arr[0]['team_description'];
+
+                              $connection->query("UPDATE Teams SET team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");
                             
-                            if(checkUsername($team_leader, $connection) == 0)
-                            {
-                              echo "<script> alert('Korisnik @$team_leader ne postoji.') </script>";
-                            }
-                            else if(checkUsername($team_leader, $connection) == -1)
-                            {
-                              echo "<script> alert('Korisnik @$team_leader je clan tima.') </script>";
-                            }
-                            else
-                            {
-                              $connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'"); 
-                              $connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");
-                              $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");
-                              echo "<script> window.location.href='project_teams_view.php?edit=$ses_id'</script>";
-                            }
-                        }
-                    }
+                              if($team_name != $arr[0]['team_name'])
+                              {
+                                if(!checkTeamname($team_name, $connection))
+                                {
+                                  $connection->query("UPDATE Teams SET team_name='$team_name' WHERE team_id = '$team_id'"); 
+                                }
+                                else
+                                {
+                                  echo "<script> alert('Ime tima $team_name je zauzeto.') </script>";
+                                }
+                              }
+
+                              if($team_leader != $arr[0]['team_leader_username'])
+                              {
+                                if(checkUsername($team_leader, $connection) == 0)
+                                {
+                                  echo "<script> alert('Korisnik @$team_leader ne postoji.') </script>";
+                                }
+                                else if(checkUsername($team_leader, $connection) == -1)
+                                {
+                                  echo "<script> alert('Korisnik @$team_leader je clan tima.') </script>";
+                                }
+                                else
+                                {
+                                  $connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'"); 
+                                  $connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");
+                                  $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");
+                                }
+                              }
+                              echo "<script> window.location.href='project_teams_view.php'</script>";
+                          }
+                      }
+                      ?>
+                      
+
+                      
+                  </ul>
+
+                              
+              </div>
+            <!-- /.box-body -->
+            
+            <!-- /.box-footer -->
+          </form>
+      <?php } ?>
+
+      <?php 
+        if($_SESSION['role_id'] == 2)
+        {
+          $pm_username = $_SESSION['username'];
+          $project_id_arr = $connection->query("SELECT * FROM Projects WHERE project_manager = '$pm_username'")->fetchAll();
+      ?>
+          <form method="POST" action="project_teams_view.php" class="form-horizontal" id='team_form'>
+              <div class="box-body">
+                  <ul class="sidebar-menu" data-widget="tree">
+                      <?php
+                      foreach($arr as $line)
+                      {
+                        $team_id = $line['team_id'];
+                        $team_leader = $line['team_leader_username'];
+                        $arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();
+
+                        if($line['project_id'] == $project_id_arr[0]['project_id'])
+                        {
+                          if($_SESSION['editable'] && $edit == $id)
+                          {
+                            $_SESSION['id'] = $id;
+                        
+                      ?>
+                      <li class="treeview pt_li_hover">
+                          <a href="#">
+                              <i class="fa fa-edit"></i> <span><?php echo $line['team_name'] ?></span>
+                              <span class="pull-right-container">
+                                  <i class="fa fa-angle-left pull-right"></i>
+                              </span>
+                          </a>
+                          <ul class="treeview-menu pt_ul">
+                              <li style="display: flex">
+                                <a href="#"><i class="fa fa-minus"></i>Ime tima - </a><input class="pt_input" type="text" name="team_name_<?php echo $id ?>" value="<?php echo $line['team_name'] ?>"><a title="Obrisi tim" class="pt_a" href='?edit=<?php echo $id ?>&team_id=<?php echo $team_id ?>'><i class='glyphicon glyphicon-remove'></i></a>
+                              </li>
+                              <li style="display: flex">
+                                <a href="#"><i class="fa fa-minus"></i>Tim lider - @</a><input class="pt_input" type="text" name="team_leader_<?php echo $id ?>" value="<?php echo $line['team_leader_username'] ?>">
+                              </li>
+                              <li class="treeview">
+                                  <a href="#">
+                                  <i class="fa fa-minus"></i> <span>Clanovi tima</span>
+                                  <span class="pull-right-container">
+                                      <i class="fa fa-angle-left pull-right"></i>
+                                  </span>
+                                  </a>
+                                  <ul class="treeview-menu pt_ul">
+                                      <form action="" method="POST" id="form_plus">
+                                        <li style="display: flex">
+                                          <a href="#" class="pt_a" onclick="popup()"><i class="glyphicon glyphicon-plus"></i></a>
+                                          <?php 
+                                            if(isset($_GET['usernameAdd']))
+                                            {
+                                              $_SESSION['username'] = $_GET['usernameAdd'];
+                                              $usernames = explode(" ", $_SESSION['username']);
+
+                                              foreach($usernames as $username)
+                                              {
+                                                $ses_id = $_SESSION['id'];
+                                                if(checkUsername($username, $connection) == 1) $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");
+                                                else if (checkUsername($username, $connection) == -1) echo "<script> alert('Korisnik @$username je clan tima.') </script>";
+                                                else if (checkUsername($username, $connection) == 0) echo "<script> alert('Korisnik @$username ne postoji.') </script>";
+                                              }
+                                              echo "<script> window.location.href='project_teams_view.php?edit=$ses_id'</script>";
+                                            }
+                                          ?>
+                                        </li>
+                                      </form>
+                                      <?php foreach($arr_members as $member)
+                                        {
+                                      ?>
+                                      <li style="display: flex">
+                                        <a href="#"><i class="fa fa-minus"></i>@ <?php echo $member['username'] ?></a><a class="pt_a" href='?edit=<?php echo $id ?>&username=<?php echo $member['username'] ?>'><i class='glyphicon glyphicon-remove'></i></a>
+                                      </li><?php }?>
+                                  </ul>
+                              </li>
+                              <li style="display: flex; margin-top: 10px; margin-bottom: 10px;">
+                                  <a href="#"><i class="fa fa-minus"></i>Zaduzenje - </a>
+                                  <select name="team_task_<?php echo $id ?>" class="form-control select2 select2-hidden-accessible pt_select">
+                                    <option selected hidden disabled><?php echo $line['team_task'] ?> </option>
+                                    <option>A</option>
+                                    <option>A2</option>
+                                    <option>A3</option>
+                                    <option>A4</option>
+                                    <option>A5</option>
+                                    <option>A6</option>
+                                    <option>A7</option>
+                                  </select>
+                              </li>
+                              <li style="display: flex">
+                                <a href="#"><i class="fa fa-minus"></i>Opis - </a><input class="pt_input" name="team_description_<?php echo $id ?>" type="text" value="<?php echo $line['team_description'] ?>">
+                              </li>
+                              <input type="hidden" name="team_id_<?php echo $id ?>" value="<?php echo $team_id ?>">
+                              <li class="pt_li1">
+                                <a class="pt_a"><button title="Potvrdi izmene" class="pt_btn" type="submit" id="submit_<?php echo $id ?>" name="submit_<?php echo $id ?>"><i class='glyphicon glyphicon-ok'></i></button></a><a title="Ponisti izmene" class="pt_a" href='?edit=-1'><button class="pt_btn"><i class='glyphicon glyphicon-remove'></i></button></a>
+                              </li>
+                          </ul>
+                      </li>
+                      
+                      <?php }
+                      
+
+                      else
+                      {?>
+                        <li class="treeview pt_li_hover">
+                          <a href="#">
+                              <i class="fa fa-edit"></i> <span><?php echo $line['team_name'] ?></span>
+                              <span class="pull-right-container">
+                                  <i class="fa fa-angle-left pull-right"></i>
+                              </span>
+                          </a>
+                          <ul class="treeview-menu pt_ul">
+                              <li style="display: flex">
+                                <a href="#" class="pt_a"><i class="fa fa-minus"></i> Tim lider - @<?php echo $line['team_leader_username'] ?></a>
+                              </li>
+                              <li class="treeview">
+                                  <a href="#" class="pt_a">
+                                  <i class="fa fa-minus"></i> <span>Clanovi tima</span>
+                                  <span class="pull-right-container">
+                                      <i class="fa fa-angle-left pull-right"></i>
+                                  </span>
+                                  </a>
+                                  <ul class="treeview-menu pt_ul">
+                                      <?php 
+                                        foreach($arr_members as $member)
+                                        {
+                                      ?>
+                                      <li style="display: flex">
+                                        <a href="#" class="pt_a"><i class="fa fa-minus"></i> <?php echo "@".$member["username"] ?></a>
+                                      </li><?php } ?>
+                                  </ul>
+                              </li>
+                              <li style="display: flex;">
+                                  <a href="#" class="pt_a"><i class="fa fa-minus"></i> Zaduzenje - <?php echo $line['team_task'] ?></a>
+                              </li>
+                              <li style="display: flex;">
+                                  <a href="#" class="pt_a"><i class="fa fa-minus"></i> Opis - <?php echo $line['team_description'] ?></a>
+                              </li>
+                              <li class="pt_li1">
+                                  <a class="pt_a" href="?edit=<?php echo $id ?>" >Izmena</a>
+                              </li>
+                          </ul>
+                      </li>
+                      <?php } }              
+                      $id++;
+                      }
+                      
+
+                      for($i = 0; $i < $id; $i++)
+                      {
+                          if(isset($_POST['submit_'.$i]))
+                          {
+                              $team_id = $_POST['team_id_'.$i];
+                              $arr = $connection->query("SELECT * FROM Teams WHERE team_id='$team_id'")->fetchAll();
+                              $old_tl = $team_leader = $arr[0]['team_leader_username'];
+                              $ses_id = $_SESSION['id'];
+
+                              isset($_POST['team_name_'.$i]) ? $team_name = $_POST['team_name_'.$i] : $team_name = $arr[0]['team_name'];
+                              isset($_POST['team_leader_'.$i]) ? $team_leader = $_POST['team_leader_'.$i] : $team_leader = $arr[0]['team_leader_username'];
+                              isset($_POST['team_task_'.$i]) ? $team_task = $_POST['team_task_'.$i] : $team_task = $arr[0]['team_task'];
+                              isset($_POST['team_description_'.$i]) ? $team_description = $_POST['team_description_'.$i] : $team_description = $arr[0]['team_description'];
+
+                              $connection->query("UPDATE Teams SET team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");
+                            
+                              if($team_name != $arr[0]['team_name'])
+                              {
+                                if(!checkTeamname($team_name, $connection))
+                                {
+                                  $connection->query("UPDATE Teams SET team_name='$team_name' WHERE team_id = '$team_id'"); 
+                                }
+                                else
+                                {
+                                  echo "<script> alert('Ime tima $team_name je zauzeto.') </script>";
+                                }
+                              }
+
+                              if($team_leader != $arr[0]['team_leader_username'])
+                              {
+                                if(checkUsername($team_leader, $connection) == 0)
+                                {
+                                  echo "<script> alert('Korisnik @$team_leader ne postoji.') </script>";
+                                }
+                                else if(checkUsername($team_leader, $connection) == -1)
+                                {
+                                  echo "<script> alert('Korisnik @$team_leader je clan tima.') </script>";
+                                }
+                                else
+                                {
+                                  $connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'"); 
+                                  $connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");
+                                  $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");
+                                }
+                              }
+                              echo "<script> window.location.href='project_teams_view.php'</script>";
+                          }
+                      }
+                      ?>
+                      
+
+                      
+                  </ul>
+
+                              
+              </div>
+            <!-- /.box-body -->
+            
+            <!-- /.box-footer -->
+          </form>
+      <?php } ?>
+
+      <?php 
+        if($_SESSION['role_id'] == 3)
+        {
+          $tl_username = $_SESSION['username'];
+          $tl_id_arr = $connection->query("SELECT * FROM Teams WHERE team_leader_username = '$tl_username'")->fetchAll();
+      ?>
+          <form method="POST" action="project_teams_view.php" class="form-horizontal" id='team_form'>
+              <div class="box-body">
+                  <ul class="sidebar-menu" data-widget="tree">
+                      <?php
+                      foreach($arr as $line)
+                      {
+                        $team_id = $line['team_id'];
+                        $team_leader = $line['team_leader_username'];
+                        $arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();
+
+                        if($team_id == $tl_id_arr[0]['team_id'])
+                        {
+                          if($_SESSION['editable'] && $edit == $id)
+                          {
+                            $_SESSION['id'] = $id;
+                        
+                      ?>
+                      <li class="treeview pt_li_hover">
+                          <a href="#">
+                              <i class="fa fa-edit"></i> <span><?php echo $line['team_name'] ?></span>
+                              <span class="pull-right-container">
+                                  <i class="fa fa-angle-left pull-right"></i>
+                              </span>
+                          </a>
+                          <ul class="treeview-menu pt_ul">
+                              <li style="display: flex">
+                                <a href="#"><i class="fa fa-minus"></i> Tim lider - @<?php echo $line['team_leader_username'] ?></a>
+                              </li>
+                              <li class="treeview">
+                                  <a href="#">
+                                  <i class="fa fa-minus"></i> <span>Clanovi tima</span>
+                                  <span class="pull-right-container">
+                                      <i class="fa fa-angle-left pull-right"></i>
+                                  </span>
+                                  </a>
+                                  <ul class="treeview-menu pt_ul">
+                                      <form action="" method="POST" id="form_plus">
+                                        <li style="display: flex">
+                                          <a href="#" class="pt_a" onclick="popup()"><i class="glyphicon glyphicon-plus"></i></a>
+                                          <?php 
+                                            if(isset($_GET['usernameAdd']))
+                                            {
+                                              $_SESSION['username'] = $_GET['usernameAdd'];
+                                              $usernames = explode(" ", $_SESSION['username']);
+
+                                              foreach($usernames as $username)
+                                              {
+                                                $ses_id = $_SESSION['id'];
+                                                if(checkUsername($username, $connection) == 1) $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");
+                                                else if (checkUsername($username, $connection) == -1) echo "<script> alert('Korisnik @$username je clan tima.') </script>";
+                                                else if (checkUsername($username, $connection) == 0) echo "<script> alert('Korisnik @$username ne postoji.') </script>";
+                                              }
+                                              echo "<script> window.location.href='project_teams_view.php?edit=$ses_id'</script>";
+                                            }
+                                          ?>
+                                        </li>
+                                      </form>
+                                      <?php foreach($arr_members as $member)
+                                        {
+                                      ?>
+                                      <li style="display: flex">
+                                        <a href="#"><i class="fa fa-minus"></i>@ <?php echo $member['username'] ?></a><a class="pt_a" href='?edit=<?php echo $id ?>&username=<?php echo $member['username'] ?>'><i class='glyphicon glyphicon-remove'></i></a>
+                                      </li><?php }?>
+                                  </ul>
+                              </li>
+                              <li style="display: flex; margin-top: 10px; margin-bottom: 10px;">
+                                  <a href="#"><i class="fa fa-minus"></i>Zaduzenje - </a>
+                                  <select name="team_task_<?php echo $id ?>" class="form-control select2 select2-hidden-accessible pt_select">
+                                    <option selected hidden disabled><?php echo $line['team_task'] ?> </option>
+                                    <option>A</option>
+                                    <option>A2</option>
+                                    <option>A3</option>
+                                    <option>A4</option>
+                                    <option>A5</option>
+                                    <option>A6</option>
+                                    <option>A7</option>
+                                  </select>
+                              </li>
+                              <li style="display: flex">
+                                <a href="#"><i class="fa fa-minus"></i>Opis - </a><input class="pt_input" name="team_description_<?php echo $id ?>" type="text" value="<?php echo $line['team_description'] ?>">
+                              </li>
+                              <input type="hidden" name="team_id_<?php echo $id ?>" value="<?php echo $team_id ?>">
+                              <li class="pt_li1">
+                                <a class="pt_a"><button title="Potvrdi izmene" class="pt_btn" type="submit" id="submit_<?php echo $id ?>" name="submit_<?php echo $id ?>"><i class='glyphicon glyphicon-ok'></i></button></a><a title="Ponisti izmene" class="pt_a" href='?edit=-1'><button class="pt_btn"><i class='glyphicon glyphicon-remove'></i></button></a>
+                              </li>
+                          </ul>
+                      </li>
+                      
+                      <?php }
+
+                      else
+                      {?>
+                        <li class="treeview pt_li_hover">
+                          <a href="#">
+                              <i class="fa fa-edit"></i> <span><?php echo $line['team_name'] ?></span>
+                              <span class="pull-right-container">
+                                  <i class="fa fa-angle-left pull-right"></i>
+                              </span>
+                          </a>
+                          <ul class="treeview-menu pt_ul">
+                              <li style="display: flex">
+                                <a href="#" class="pt_a"><i class="fa fa-minus"></i> Tim lider - @<?php echo $line['team_leader_username'] ?></a>
+                              </li>
+                              <li class="treeview">
+                                  <a href="#" class="pt_a">
+                                  <i class="fa fa-minus"></i> <span>Clanovi tima</span>
+                                  <span class="pull-right-container">
+                                      <i class="fa fa-angle-left pull-right"></i>
+                                  </span>
+                                  </a>
+                                  <ul class="treeview-menu pt_ul">
+                                      <?php 
+                                        foreach($arr_members as $member)
+                                        {
+                                      ?>
+                                      <li style="display: flex">
+                                        <a href="#" class="pt_a"><i class="fa fa-minus"></i> <?php echo "@".$member["username"] ?></a>
+                                      </li><?php } ?>
+                                  </ul>
+                              </li>
+                              <li style="display: flex;">
+                                  <a href="#" class="pt_a"><i class="fa fa-minus"></i> Zaduzenje - <?php echo $line['team_task'] ?></a>
+                              </li>
+                              <li style="display: flex;">
+                                  <a href="#" class="pt_a"><i class="fa fa-minus"></i> Opis - <?php echo $line['team_description'] ?></a>
+                              </li>
+                              <li class="pt_li1">
+                                  <a class="pt_a" href="?edit=<?php echo $id ?>" >Izmena</a>
+                              </li>
+                          </ul>
+                      </li>
+                      <?php }  }             
+                      $id++;
+                      }
+                      
+
+                      for($i = 0; $i < $id; $i++)
+                      {
+                          if(isset($_POST['submit_'.$i]))
+                          {
+                              $team_id = $_POST['team_id_'.$i];
+                              $arr = $connection->query("SELECT * FROM Teams WHERE team_id='$team_id'")->fetchAll();
+                              $old_tl = $team_leader = $arr[0]['team_leader_username'];
+                              $ses_id = $_SESSION['id'];
+
+                              isset($_POST['team_name_'.$i]) ? $team_name = $_POST['team_name_'.$i] : $team_name = $arr[0]['team_name'];
+                              isset($_POST['team_leader_'.$i]) ? $team_leader = $_POST['team_leader_'.$i] : $team_leader = $arr[0]['team_leader_username'];
+                              isset($_POST['team_task_'.$i]) ? $team_task = $_POST['team_task_'.$i] : $team_task = $arr[0]['team_task'];
+                              isset($_POST['team_description_'.$i]) ? $team_description = $_POST['team_description_'.$i] : $team_description = $arr[0]['team_description'];
+
+                              $connection->query("UPDATE Teams SET team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");
+                            
+                              if($team_name != $arr[0]['team_name'])
+                              {
+                                if(!checkTeamname($team_name, $connection))
+                                {
+                                  $connection->query("UPDATE Teams SET team_name='$team_name' WHERE team_id = '$team_id'"); 
+                                }
+                                else
+                                {
+                                  echo "<script> alert('Ime tima $team_name je zauzeto.') </script>";
+                                }
+                              }
+
+                              if($team_leader != $arr[0]['team_leader_username'])
+                              {
+                                if(checkUsername($team_leader, $connection) == 0)
+                                {
+                                  echo "<script> alert('Korisnik @$team_leader ne postoji.') </script>";
+                                }
+                                else if(checkUsername($team_leader, $connection) == -1)
+                                {
+                                  echo "<script> alert('Korisnik @$team_leader je clan tima.') </script>";
+                                }
+                                else
+                                {
+                                  $connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'"); 
+                                  $connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");
+                                  $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");
+                                }
+                              }
+                              echo "<script> window.location.href='project_teams_view.php'</script>";
+                          }
+                      }
+                      ?>
+                      
+
+                      
+                  </ul>
+
+                              
+              </div>
+            <!-- /.box-body -->
+            
+            <!-- /.box-footer -->
+          </form>
+      <?php } ?>
+
+
+      <?php 
+        if($_SESSION['role_id'] == 4)
+        {
+          $exec_username = $_SESSION['username'];
+          $exec_team_id = $connection->query("SELECT team_id FROM User WHERE username = '$exec_username'")->fetchAll();
+      ?>
+          <form method="POST" action="project_teams_view.php" class="form-horizontal" id='team_form'>
+              <div class="box-body">
+                  <ul class="sidebar-menu" data-widget="tree">
+                      <?php
+                      foreach($arr as $line)
+                      {
+                        $team_id = $line['team_id'];
+                        $team_leader = $line['team_leader_username'];
+                        $arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();
+
+                        if($team_id == $exec_team_id[0]['team_id'])
+                        {
+                          
                     ?>
-                    
+                        <li class="treeview pt_li_hover">
+                          <a href="#">
+                              <i class="fa fa-edit"></i> <span><?php echo $line['team_name'] ?></span>
+                              <span class="pull-right-container">
+                                  <i class="fa fa-angle-left pull-right"></i>
+                              </span>
+                          </a>
+                          <ul class="treeview-menu pt_ul">
+                              <li style="display: flex">
+                                <a href="#" class="pt_a"><i class="fa fa-minus"></i> Tim lider - @<?php echo $line['team_leader_username'] ?></a>
+                              </li>
+                              <li class="treeview">
+                                  <a href="#" class="pt_a">
+                                  <i class="fa fa-minus"></i> <span>Clanovi tima</span>
+                                  <span class="pull-right-container">
+                                      <i class="fa fa-angle-left pull-right"></i>
+                                  </span>
+                                  </a>
+                                  <ul class="treeview-menu pt_ul">
+                                      <?php 
+                                        foreach($arr_members as $member)
+                                        {
+                                      ?>
+                                      <li style="display: flex">
+                                        <a href="#" class="pt_a"><i class="fa fa-minus"></i> <?php echo "@".$member["username"] ?></a>
+                                      </li><?php } ?>
+                                  </ul>
+                              </li>
+                              <li style="display: flex;">
+                                  <a href="#" class="pt_a"><i class="fa fa-minus"></i> Zaduzenje - <?php echo $line['team_task'] ?></a>
+                              </li>
+                              <li style="display: flex;">
+                                  <a href="#" class="pt_a"><i class="fa fa-minus"></i> Opis - <?php echo $line['team_description'] ?></a>
+                              </li>
+                          </ul>
+                      </li>
+                      <?php }               
+                      $id++;
+                      }
+                      
 
-                    
-                </ul>
+                      for($i = 0; $i < $id; $i++)
+                      {
+                          if(isset($_POST['submit_'.$i]))
+                          {
+                              $team_id = $_POST['team_id_'.$i];
+                              $arr = $connection->query("SELECT * FROM Teams WHERE team_id='$team_id'")->fetchAll();
+                              $old_tl = $team_leader = $arr[0]['team_leader_username'];
+                              $ses_id = $_SESSION['id'];
 
-                             
-            </div>
-          <!-- /.box-body -->
-          
-          <!-- /.box-footer -->
-        </form>
+                              isset($_POST['team_name_'.$i]) ? $team_name = $_POST['team_name_'.$i] : $team_name = $arr[0]['team_name'];
+                              isset($_POST['team_leader_'.$i]) ? $team_leader = $_POST['team_leader_'.$i] : $team_leader = $arr[0]['team_leader_username'];
+                              isset($_POST['team_task_'.$i]) ? $team_task = $_POST['team_task_'.$i] : $team_task = $arr[0]['team_task'];
+                              isset($_POST['team_description_'.$i]) ? $team_description = $_POST['team_description_'.$i] : $team_description = $arr[0]['team_description'];
+
+                              $connection->query("UPDATE Teams SET team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");
+                            
+                              if($team_name != $arr[0]['team_name'])
+                              {
+                                if(!checkTeamname($team_name, $connection))
+                                {
+                                  $connection->query("UPDATE Teams SET team_name='$team_name' WHERE team_id = '$team_id'"); 
+                                }
+                                else
+                                {
+                                  echo "<script> alert('Ime tima $team_name je zauzeto.') </script>";
+                                }
+                              }
+
+                              if($team_leader != $arr[0]['team_leader_username'])
+                              {
+                                if(checkUsername($team_leader, $connection) == 0)
+                                {
+                                  echo "<script> alert('Korisnik @$team_leader ne postoji.') </script>";
+                                }
+                                else if(checkUsername($team_leader, $connection) == -1)
+                                {
+                                  echo "<script> alert('Korisnik @$team_leader je clan tima.') </script>";
+                                }
+                                else
+                                {
+                                  $connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'"); 
+                                  $connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");
+                                  $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");
+                                }
+                              }
+                              echo "<script> window.location.href='project_teams_view.php'</script>";
+                          }
+                      }
+                      ?>
+                      
+
+                      
+                  </ul>
+
+                              
+              </div>
+            <!-- /.box-body -->
+            
+            <!-- /.box-footer -->
+          </form>
+      <?php } ?>
 
       </div>
     </div>

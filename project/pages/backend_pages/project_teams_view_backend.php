@@ -18,6 +18,18 @@
         }
     }
 
+    function checkTeamname($team_name, $connection)
+    {
+        $arr = $connection->query("SELECT team_name FROM Teams WHERE team_name = '$team_name'")->fetchAll();
+        if(empty($arr))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 
     $edit = @$_GET['edit'];
     if($edit >= '0') 
@@ -35,5 +47,12 @@
     {
         $username = $_GET['username'];
         $connection->query("UPDATE User SET team_id = 0 WHERE username='$username'");
+    }
+    if(isset($_GET['team_id']))
+    {
+        $team_id = $_GET['team_id'];
+        $connection->query("UPDATE User SET team_id='0' WHERE team_id='$team_id'");
+        $connection->query("DELETE FROM Teams WHERE team_id='$team_id'");
+        echo "<script> window.location.href='project_teams_view.php'</script>";
     }
 ?>
