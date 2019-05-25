@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -341,16 +345,103 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1 style="text-align: -webkit-center;">
-        Prikaz komitova
+        Komitovi
         <small>Demo</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Blank page</li>
       </ol>
-    </section>
+    </section><br><br>
 
   <!-- /.content-wrapper -->
+  <div class="container pt_container">
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">Prikaz komitova</h3>
+        </div>
+
+        <form method="POST" enctype="multipart/form-data" action="" class="form-horizontal">
+        <?php 
+            require_once("../database_connection.php");
+            if($_SESSION["role_id"] == 1){   
+                $sql_query = "SELECT project_name FROM Projects";
+                
+                try{
+                    $stmt = $connection->prepare($sql_query);
+                    $stmt->execute();
+                    $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    }catch(Exception $e){
+                        echo $e->getMessage();
+                    }finally{
+                        //$connection = null;
+                    }
+                foreach($projects as $project){
+        ?>
+            <li class="treeview">
+                    <a href="#">
+                    <i class="fa fa-edit"></i> <span><?php echo $project["project_name"]; ?></span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                    </a>
+            
+                <?php 
+                    $proj = $project["project_name"];
+                    $sql_query2 = "SELECT task_name FROM Tasks WHERE project_name='$proj'";
+                    
+                    try{
+                        $stmt2 = $connection->prepare($sql_query2);
+                        $stmt2->execute();
+                        $tasks = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+                    }catch(Exception $e){
+                        echo $e->getMessage();
+                    }finally{
+                        //$connection = null;
+                    }
+
+                    foreach($tasks as $task){
+                ?>
+                <ul class="treeview-menu">
+                    <li class="treeview">
+                        <a href="#">
+                        <i class="fa fa-circle-o"></i> <span><?php echo $task["task_name"];?></span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                        </a>
+                    </li>
+                    <?php
+                    $task_name = $task["task_name"];
+                    $sql_query3 = "SELECT commit_id FROM Commits WHERE task_id=(SELECT task_id FROM Tasks WHERE task_name='$task_name')";
+                    
+                    try{
+                        $stmt3 = $connection->prepare($sql_query3);
+                        $stmt3->execute();
+                        $commits = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+                    }catch(Exception $e){
+                        echo $e->getMessage();
+                    }finally{
+                        //$connection = null;
+                    }
+
+                    foreach($commits as $commit){
+                    ?>
+                    <ul class="treeview-menu">
+                    <li><a href="#"><i class="fa fa-minus"></i><?php echo $commit["commit_id"]; ?></a></li>
+                    </ul>
+                </ul>
+                    
+            </li>
+        <?php
+                }}
+            }
+            }
+        ?>
+                                        
+        </form>
+  </div>
+  </div>
 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">

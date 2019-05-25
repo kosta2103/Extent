@@ -3,7 +3,7 @@
 	try{
 		$sql_create_table_projects = "CREATE TABLE IF NOT EXISTS Projects (
 									project_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-									project_name VARCHAR(30) NOT NULL,
+									project_name VARCHAR(30) NOT NULL UNIQUE,
                                     project_manager VARCHAR(30) NOT NULL,
                                     project_deadline VARCHAR(30) NOT NULL,
                                     project_investor VARCHAR(30) NOT NULL,
