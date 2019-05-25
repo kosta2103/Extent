@@ -1,6 +1,5 @@
 <?php 
     session_start();
-    //$_SESSION["message_fail"] = $_SESSION["messsage_success"] = "";
 ?>
 
 <!DOCTYPE html>
@@ -364,8 +363,7 @@
         <div class="col-md-6">
           <!-- general form elements -->
           <div class="box box-primary">
-
-        <form role="form" enctype="multipart/form-data" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
+        <form role="form" enctype="multipart/form-data" action="commits_add.php" method="POST">
         <div class="box-body">
                         <?php if(!empty($_SESSION["message_fail"])){?>
                         <div class="alert alert-error">
@@ -376,7 +374,7 @@
                         <?php } else if(!empty($_SESSION["message_success"])){?>
                         <div class="alert alert-success">
                             <?php echo $_SESSION["message_success"];
-                                $_SESSION["message_success"] = "";
+                                $_SESSION["message_success"]="";
                             ?>
                         </div>
                         <?php }?>
@@ -413,7 +411,7 @@
                         </div>
                         <div class="form-group">
                         <label for="exampleInputFile">Komit fajl</label>
-                        <input type="file" id="exampleInputFile" name="commit_file" title="Izaberite fajl" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .pdf, text/plain, application/msword">
+                        <input type="file" id="exampleInputFile" name="commit_file" title="Izaberite fajl" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/pdf, text/plain, application/msword">
                         </div>
                         <div class="form-group">
                         <label for="exampleInputFile1">Komit slika</label>
@@ -477,13 +475,13 @@
         $task_id = $_POST["task"];
         $date = (string) date("m/d/y h:ia");
         $commit_file = $commit_img = "";
-                                
-        if(!empty($_FILES["commit_file"])){
+        //echo $_FILES["commit_file"][0];                        
+        if(!empty($_FILES["commit_file"]["name"])){
             $uploadfile = $uploaddir . basename($_FILES["commit_file"]["name"]);
             $commit_file = $uploadfile;
         } 
 
-        if(!empty($_FILES["commit_img"])){
+        if(!empty($_FILES["commit_img"]["name"])){
             $uploadfile = $uploaddir . basename($_FILES["commit_img"]["name"]);
             $commit_img = $uploadfile;
         } 
@@ -495,13 +493,21 @@
             $stmt->execute();
             if($stmt->rowCount() > 0){
                 $_SESSION["message_success"] = "Komit je prošao";
-                move_uploaded_file($_FILES["commit_file"]["tmp_name"], $uploadfile);
-                move_uploaded_file($_FILES["commit_img"]["tmp_name"], $uploadfile);
+                if(!empty($_FILES["commit_file"]["tmp_name"]))
+                    move_uploaded_file($_FILES["commit_file"]["tmp_name"], $commit_file);
+                
+                if(!empty($_FILES["commit_img"]["tmp_name"]))
+                    move_uploaded_file($_FILES["commit_img"]["tmp_name"], $commit_img);
+
+                echo "<script>window.location.href='commits_add.php';</script>";
             } else {
                 $_SESSION["message_fail"] = "Komit nije prošao";
+                echo "<script>window.location.href='commits_add.php';</script>";
             }
         }catch(PDOException $e){
             echo $e->getMessage(); 
+        }finally{
+            $connection = null;
         }
 
     }
