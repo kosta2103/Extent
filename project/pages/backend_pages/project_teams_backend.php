@@ -31,6 +31,8 @@
         }
     }
 
+    $tls = $connection->query("SELECT username FROM User WHERE role_id = '3' AND team_id='0'")->fetchAll();
+
     if(isset($_POST['submit_btn']))
     {
         $team_name = $_POST['team_name'];
