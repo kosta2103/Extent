@@ -462,15 +462,17 @@
                         <i class="fa fa-circle-o"></i> <span><?php echo $commit["commit_id"]; ?></span>
                         
                         </a>
-                    </li>
+                    
                     <?php } ?>
-
+                      </li>
                     </ul>
-                    </li>                    
-                    <?php } ?>
+                      
+                    
+                    </li>   
                 </ul>
-                  <?php } ?>  
-            </li>
+                
+                  <?php }} ?>  
+                  </li>
         <?php
                 
             }

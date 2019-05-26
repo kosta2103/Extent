@@ -5,7 +5,7 @@
 									user_id INT(6) UNSIGNED AUTO_INCREMENT,
 									first_name VARCHAR(30) NOT NULL,
 									last_name VARCHAR(30) NOT NULL,
-									username VARCHAR(30) NOT NULL,
+									username VARCHAR(30) NOT NULL UNIQUE,
 									password VARCHAR(30) NOT NULL,
 									email VARCHAR(60) NOT NULL,
 									phone_number VARCHAR(30) NOT NULL,
