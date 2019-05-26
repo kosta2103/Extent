@@ -26,6 +26,13 @@
 
 
   <link rel="stylesheet" href="../dist/css/project_teams.css">
+  <style type="text/css">
+    .img-box{
+        display: inline-block;
+        text-align: center;
+        margin: 0 15px;
+    }
+</style>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -460,18 +467,35 @@
                     ?>
                       <li class="treeview">
                         <a href="#" class="pt_a">
-                        <i class="fa fa-minus"></i> <span><?php echo $commit["commit_id"]; ?></span>
+                        <i class="fa fa-minus"></i> <span><?php
+                          $commitID = $commit["commit_id"];
+                          $sql_query4 = "SELECT username FROM User WHERE user_id=(SELECT user_id FROM Tasks WHERE task_name='$task_name')";
+                          $sql_query5 = "SELECT commit_comment FROM Commits WHERE commit_id=$commitID";
+
+                          try{
+                              $stmt4 = $connection->prepare($sql_query4);
+                              $stmt4->execute();
+                              $users = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+                              $stmt5 = $connection->prepare($sql_query5);
+                              $stmt5->execute();
+                              $comments = $stmt5->fetchAll(PDO::FETCH_ASSOC);
+                          }catch(Exception $e){
+                              echo $e->getMessage();
+                          }finally{
+                              //$connection = null;
+                          } 
+                          echo $commit["commit_id"] . " | " . $users[0]["username"] . " | " . $comments[0]["commit_comment"]; ?></span>
                         
                         </a>
                     
                     <?php 
-                      $commitID = $commit["commit_id"];
-                      $sql_query4 = "SELECT files_path FROM Files WHERE files_id IN (SELECT files_id FROM Commit_Files WHERE commit_id=$commitID)";
+                      
+                      $sql_query6 = "SELECT files_path FROM Files WHERE files_id IN (SELECT files_id FROM Commit_Files WHERE commit_id=$commitID)";
                     
                       try{
-                          $stmt4 = $connection->prepare($sql_query4);
-                          $stmt4->execute();
-                          $files = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+                          $stmt6 = $connection->prepare($sql_query6);
+                          $stmt6->execute();
+                          $files = $stmt6->fetchAll(PDO::FETCH_ASSOC);
                       }catch(Exception $e){
                           echo $e->getMessage();
                       }finally{
@@ -479,16 +503,19 @@
                       }
                     ?>
                     <ul class="treeview-menu pt_ul">
-                    <?php foreach($files as $file){ echo $file["files_path"]; ?>
+                    
+                    <?php foreach($files as $file){ ?>
+                      <div class="img-box">
                       <li class="treeview">
                         <a href="#" class="pt_a">
-                        <i class=""></i> <span><a href="<?php echo $file["files_path"]; ?>" download>
+                        <span><a href="<?php echo $file["files_path"]; ?>">
                             <img src="../img/datoteka.png" width="20" height="20">
                         </span>
                         
                         </a>
-                        
+                        </div>
                     <?php }?>
+                    
                     </li>
                     </ul>
                   
