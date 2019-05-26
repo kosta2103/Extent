@@ -363,13 +363,13 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        Users management
+      <h1 style="text-align: -webkit-center;">
+        Dodavanje korisnika
         <small>Demo</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Users management</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Početna strana</a></li>
+        <li class="active">Registrovanje korisnika</li>
       </ol>
     </section>
 

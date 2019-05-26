@@ -361,12 +361,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Users management
+        Pregled korisnika
         <small>Demo</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Users management</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Početna strana</a></li>
+        <li class="active">Pregled korisnika</li>
       </ol>
     </section>
 
