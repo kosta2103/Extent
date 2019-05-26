@@ -465,7 +465,7 @@
                     
                     <?php 
                       $commitID = $commit["commit_id"];
-                      $sql_query4 = "SELECT files_path FROM Files WHERE files_id =(SELECT files_id FROM Commit_Files WHERE commit_id=$commitID)";
+                      $sql_query4 = "SELECT files_path FROM Files WHERE files_id IN (SELECT files_id FROM Commit_Files WHERE commit_id=$commitID)";
                     
                       try{
                           $stmt4 = $connection->prepare($sql_query4);
@@ -478,7 +478,7 @@
                       }
                     ?>
                     <ul class="treeview-menu pt_ul">
-                    <?php foreach($files as $file){ /*echo $file["files_path"];*/ ?>
+                    <?php foreach($files as $file){ echo $file["files_path"]; ?>
                       <li class="treeview">
                         <a href="#" class="pt_a">
                         <i class=""></i> <span><a href="<?php echo $file["files_path"]; ?>" download>
