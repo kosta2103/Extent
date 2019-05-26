@@ -386,7 +386,7 @@
                       foreach($arr as $line)
                       {
                         $user_id = $line['user_id'];
-                        $username_arr = $connection->query("SELECT username FROM User WHERE user_id='$user_id'")->fetchAll();
+                        try{$username_arr = $connection->query("SELECT username FROM User WHERE user_id='$user_id'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
                         $username = $username_arr[0]['username'];
                     ?>
 

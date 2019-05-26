@@ -3,7 +3,7 @@
 
     function checkUsername($username, $connection)
     {
-        $arr = $connection->query("SELECT username,team_id FROM User WHERE username = '$username'")->fetchAll();
+        try{$arr = $connection->query("SELECT username,team_id FROM User WHERE username = '$username'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
         if(empty($arr))
         {
             return 0;
@@ -20,7 +20,7 @@
 
     function checkTeamname($team_name, $connection)
     {
-        $arr = $connection->query("SELECT team_name FROM Teams WHERE team_name = '$team_name'")->fetchAll();
+        try{$arr = $connection->query("SELECT team_name FROM Teams WHERE team_name = '$team_name'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
         if(empty($arr))
         {
             return false;
@@ -41,18 +41,18 @@
         $_SESSION["editable"] = false;
     }
 
-    $arr = $connection->query("SELECT * FROM Teams ORDER BY team_name ASC")->fetchAll();
+    try{$arr = $connection->query("SELECT * FROM Teams ORDER BY team_name ASC")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
 
     if(isset($_GET['username']))
     {
         $username = $_GET['username'];
-        $connection->query("UPDATE User SET team_id = 0 WHERE username='$username'");
+        try{$connection->query("UPDATE User SET team_id = 0 WHERE username='$username'");}catch(Exception $e){echo $e->getMessage();}
     }
     if(isset($_GET['team_id']))
     {
         $team_id = $_GET['team_id'];
-        $connection->query("UPDATE User SET team_id='0' WHERE team_id='$team_id'");
-        $connection->query("DELETE FROM Teams WHERE team_id='$team_id'");
+        try{$connection->query("UPDATE User SET team_id='0' WHERE team_id='$team_id'");}catch(Exception $e){echo $e->getMessage();}
+        try{$connection->query("DELETE FROM Teams WHERE team_id='$team_id'");}catch(Exception $e){echo $e->getMessage();}
         echo "<script> window.location.href='project_teams_view.php'</script>";
     }
 ?>

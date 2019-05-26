@@ -31,7 +31,7 @@
         }
     }
 
-    $tls = $connection->query("SELECT username FROM User WHERE role_id = '3' AND team_id='0'")->fetchAll();
+    try{$tls = $connection->query("SELECT username FROM User WHERE role_id = '3' AND team_id='0'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
 
     if(isset($_POST['submit_btn']))
     {
@@ -47,10 +47,10 @@
         {
             if(checkUsername($team_leader, $connection) == 1)
             {
-                $connection->query("INSERT INTO Teams(team_name, team_leader_username, team_task, team_description)
-                VALUES('$team_name', '$team_leader', '$team_task', '$team_description')");
+                try{$connection->query("INSERT INTO Teams(team_name, team_leader_username, team_task, team_description)
+                VALUES('$team_name', '$team_leader', '$team_task', '$team_description')");}catch(Exception $e){echo $e->getMessage();}
 
-                $connection->query("UPDATE User SET team_id = (SELECT team_id FROM Teams WHERE team_name = '$team_name'), role_id='3' WHERE username = '$team_leader'");
+                try{$connection->query("UPDATE User SET team_id = (SELECT team_id FROM Teams WHERE team_name = '$team_name'), role_id='3' WHERE username = '$team_leader'");}catch(Exception $e){echo $e->getMessage();}
             }
             else if(checkUsername($team_leader, $connection) == -1)
             {
@@ -80,7 +80,7 @@
             }
             else
             {
-                $connection->query("UPDATE User SET team_id = (SELECT team_id FROM Teams WHERE team_name = '$team_name') WHERE username = '$member'");
+                try{$connection->query("UPDATE User SET team_id = (SELECT team_id FROM Teams WHERE team_name = '$team_name') WHERE username = '$member'");}catch(Exception $e){echo $e->getMessage();}
             }
         }
     }

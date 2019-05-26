@@ -2,8 +2,8 @@
     require_once('../database_connection.php');
 
 
-    $assignee_arr = $connection->query("SELECT * FROM User")->fetchAll();
-    $project_arr = $connection->query("SELECT * FROM Projects")->fetchAll();
+    try{$assignee_arr = $connection->query("SELECT * FROM User")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
+    try{$project_arr = $connection->query("SELECT * FROM Projects")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
 
 
     if(isset($_POST['task_btn']))
@@ -18,11 +18,11 @@
 
 
         $as_username = trim($as_username, '@');
-        $user_id_arr = $connection->query("SELECT user_id FROM User WHERE username = '$as_username'")->fetchAll();
+        try{$user_id_arr = $connection->query("SELECT user_id FROM User WHERE username = '$as_username'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
         $user_id = $user_id_arr[0]['user_id'];
 
-        $connection->query("INSERT INTO Tasks(task_name, task_deadline, task_priority, user_id, project_name, task_description) 
+        try{$connection->query("INSERT INTO Tasks(task_name, task_deadline, task_priority, user_id, project_name, task_description) 
             VALUES('$task_name', '$task_deadline','$task_priority', '$user_id', '$project_name', '$task_description')
-        ");
+        ");}catch(Exception $e){echo $e->getMessage();}
     }
 ?>

@@ -457,7 +457,7 @@
               if(isset($_POST['project_name']))
                 {
                   $project_name = $_POST['project_name'];
-                  $assignee_arr_for_proj = $connection->query("SELECT username FROM User INNER JOIN Teams ON User.team_id=Teams.team_id INNER JOIN Projects ON Teams.project_id = Projects.project_id WHERE Projects.project_name='$project_name' ORDER BY User.username ASC")->fetchAll();
+                  try{$assignee_arr_for_proj = $connection->query("SELECT username FROM User INNER JOIN Teams ON User.team_id=Teams.team_id INNER JOIN Projects ON Teams.project_id = Projects.project_id WHERE Projects.project_name='$project_name' ORDER BY User.username ASC")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
 
                 ?>
                 <div class="form-group">

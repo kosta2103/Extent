@@ -398,9 +398,9 @@
                       {
                         $team_id = $line['team_id'];
                         $team_leader = $line['team_leader_username'];
-                        $tls = $connection->query("SELECT username FROM User WHERE role_id = '3' AND team_id='0' OR username='$team_leader'")->fetchAll();
+                        try{$tls = $connection->query("SELECT username FROM User WHERE role_id = '3' AND team_id='0' OR username='$team_leader'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
 
-                        $arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();
+                        try{$arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
 
                         if($_SESSION['editable'] && $edit == $id)
                         {
@@ -456,7 +456,7 @@
                                               foreach($usernames as $username)
                                               {
                                                 $ses_id = $_SESSION['id'];
-                                                if(checkUsername($username, $connection) == 1) $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");
+                                                if(checkUsername($username, $connection) == 1) try{$connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");}catch(Exception $e){echo $e->getMessage();}
                                                 else if (checkUsername($username, $connection) == -1) echo "<script> alert('Korisnik @$username je clan tima.') </script>";
                                                 else if (checkUsername($username, $connection) == 0) echo "<script> alert('Korisnik @$username ne postoji.') </script>";
                                               }
@@ -549,7 +549,7 @@
                           if(isset($_POST['submit_'.$i]))
                           {
                               $team_id = $_POST['team_id_'.$i];
-                              $arr = $connection->query("SELECT * FROM Teams WHERE team_id='$team_id'")->fetchAll();
+                              try{$arr = $connection->query("SELECT * FROM Teams WHERE team_id='$team_id'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
                               $old_tl = $team_leader = $arr[0]['team_leader_username'];
                               $ses_id = $_SESSION['id'];
 
@@ -558,13 +558,13 @@
                               isset($_POST['team_task_'.$i]) ? $team_task = $_POST['team_task_'.$i] : $team_task = $arr[0]['team_task'];
                               isset($_POST['team_description_'.$i]) ? $team_description = $_POST['team_description_'.$i] : $team_description = $arr[0]['team_description'];
 
-                              $connection->query("UPDATE Teams SET team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");
+                              try{$connection->query("UPDATE Teams SET team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");}catch(Exception $e){echo $e->getMessage();}
                             
                               if($team_name != $arr[0]['team_name'])
                               {
                                 if(!checkTeamname($team_name, $connection))
                                 {
-                                  $connection->query("UPDATE Teams SET team_name='$team_name' WHERE team_id = '$team_id'"); 
+                                  try{$connection->query("UPDATE Teams SET team_name='$team_name' WHERE team_id = '$team_id'");}catch(Exception $e){echo $e->getMessage();} 
                                 }
                                 else
                                 {
@@ -584,9 +584,9 @@
                                 }
                                 else
                                 {
-                                  $connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'"); 
-                                  $connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");
-                                  $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");
+                                  try{$connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'");}catch(Exception $e){echo $e->getMessage();} 
+                                  try{$connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");}catch(Exception $e){echo $e->getMessage();}
+                                  try{$connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");}catch(Exception $e){echo $e->getMessage();}
                                 }
                               }
                               echo "<script> window.location.href='project_teams_view.php'</script>";
@@ -610,7 +610,7 @@
         if($_SESSION['role_id'] == 2)
         {
           $pm_username = $_SESSION['username'];
-          $project_id_arr = $connection->query("SELECT * FROM Projects WHERE project_manager = '$pm_username'")->fetchAll();
+          try{$project_id_arr = $connection->query("SELECT * FROM Projects WHERE project_manager = '$pm_username'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
       ?>
           <form method="POST" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" class="form-horizontal" id='team_form'>
               <div class="box-body">
@@ -620,8 +620,8 @@
                       {
                         $team_id = $line['team_id'];
                         $team_leader = $line['team_leader_username'];
-                        $tls = $connection->query("SELECT username FROM User WHERE role_id = '3' AND team_id='0' OR username='$team_leader'")->fetchAll();
-                        $arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();
+                        try{$tls = $connection->query("SELECT username FROM User WHERE role_id = '3' AND team_id='0' OR username='$team_leader'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
+                        try{$arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
 
                         if($line['project_id'] == $project_id_arr[0]['project_id'])
                         {
@@ -679,7 +679,7 @@
                                               foreach($usernames as $username)
                                               {
                                                 $ses_id = $_SESSION['id'];
-                                                if(checkUsername($username, $connection) == 1) $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");
+                                                if(checkUsername($username, $connection) == 1) try{$connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");}catch(Exception $e){echo $e->getMessage();}
                                                 else if (checkUsername($username, $connection) == -1) echo "<script> alert('Korisnik @$username je clan tima.') </script>";
                                                 else if (checkUsername($username, $connection) == 0) echo "<script> alert('Korisnik @$username ne postoji.') </script>";
                                               }
@@ -773,7 +773,7 @@
                           if(isset($_POST['submit_'.$i]))
                           {
                               $team_id = $_POST['team_id_'.$i];
-                              $arr = $connection->query("SELECT * FROM Teams WHERE team_id='$team_id'")->fetchAll();
+                              try{$arr = $connection->query("SELECT * FROM Teams WHERE team_id='$team_id'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
                               $old_tl = $team_leader = $arr[0]['team_leader_username'];
                               $ses_id = $_SESSION['id'];
 
@@ -782,13 +782,13 @@
                               isset($_POST['team_task_'.$i]) ? $team_task = $_POST['team_task_'.$i] : $team_task = $arr[0]['team_task'];
                               isset($_POST['team_description_'.$i]) ? $team_description = $_POST['team_description_'.$i] : $team_description = $arr[0]['team_description'];
 
-                              $connection->query("UPDATE Teams SET team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");
+                              try{$connection->query("UPDATE Teams SET team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");}catch(Exception $e){echo $e->getMessage();}
                             
                               if($team_name != $arr[0]['team_name'])
                               {
                                 if(!checkTeamname($team_name, $connection))
                                 {
-                                  $connection->query("UPDATE Teams SET team_name='$team_name' WHERE team_id = '$team_id'"); 
+                                  try{$connection->query("UPDATE Teams SET team_name='$team_name' WHERE team_id = '$team_id'");}catch(Exception $e){echo $e->getMessage();}
                                 }
                                 else
                                 {
@@ -808,9 +808,9 @@
                                 }
                                 else
                                 {
-                                  $connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'"); 
-                                  $connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");
-                                  $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");
+                                  try{$connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'");}catch(Exception $e){echo $e->getMessage();} 
+                                  try{$connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");}catch(Exception $e){echo $e->getMessage();}
+                                  try{$connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");}catch(Exception $e){echo $e->getMessage();}
                                 }
                               }
                               echo "<script> window.location.href='project_teams_view.php'</script>";
@@ -844,7 +844,7 @@
                       {
                         $team_id = $line['team_id'];
                         $team_leader = $line['team_leader_username'];
-                        $arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();
+                        try{$arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
 
                         if($team_id == $tl_id_arr[0]['team_id'])
                         {
@@ -884,7 +884,7 @@
                                               foreach($usernames as $username)
                                               {
                                                 $ses_id = $_SESSION['id'];
-                                                if(checkUsername($username, $connection) == 1) $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");
+                                                if(checkUsername($username, $connection) == 1) try{$connection->query("UPDATE User SET team_id='$team_id' WHERE username='$username'");}catch(Exception $e){echo $e->getMessage();}
                                                 else if (checkUsername($username, $connection) == -1) echo "<script> alert('Korisnik @$username je clan tima.') </script>";
                                                 else if (checkUsername($username, $connection) == 0) echo "<script> alert('Korisnik @$username ne postoji.') </script>";
                                               }
@@ -977,7 +977,7 @@
                           if(isset($_POST['submit_'.$i]))
                           {
                               $team_id = $_POST['team_id_'.$i];
-                              $arr = $connection->query("SELECT * FROM Teams WHERE team_id='$team_id'")->fetchAll();
+                              try{$arr = $connection->query("SELECT * FROM Teams WHERE team_id='$team_id'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
                               $old_tl = $team_leader = $arr[0]['team_leader_username'];
                               $ses_id = $_SESSION['id'];
 
@@ -986,13 +986,13 @@
                               isset($_POST['team_task_'.$i]) ? $team_task = $_POST['team_task_'.$i] : $team_task = $arr[0]['team_task'];
                               isset($_POST['team_description_'.$i]) ? $team_description = $_POST['team_description_'.$i] : $team_description = $arr[0]['team_description'];
 
-                              $connection->query("UPDATE Teams SET team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");
+                              try{$connection->query("UPDATE Teams SET team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");}catch(Exception $e){echo $e->getMessage();}
                             
                               if($team_name != $arr[0]['team_name'])
                               {
                                 if(!checkTeamname($team_name, $connection))
                                 {
-                                  $connection->query("UPDATE Teams SET team_name='$team_name' WHERE team_id = '$team_id'"); 
+                                  try{$connection->query("UPDATE Teams SET team_name='$team_name' WHERE team_id = '$team_id'");}catch(Exception $e){echo $e->getMessage();} 
                                 }
                                 else
                                 {
@@ -1012,9 +1012,9 @@
                                 }
                                 else
                                 {
-                                  $connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'"); 
-                                  $connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");
-                                  $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");
+                                  try{$connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'");}catch(Exception $e){echo $e->getMessage();} 
+                                  try{$connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");}catch(Exception $e){echo $e->getMessage();}
+                                  try{$connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");}catch(Exception $e){echo $e->getMessage();}
                                 }
                               }
                               echo "<script> window.location.href='project_teams_view.php'</script>";
@@ -1039,7 +1039,7 @@
         if($_SESSION['role_id'] == 4)
         {
           $exec_username = $_SESSION['username'];
-          $exec_team_id = $connection->query("SELECT team_id FROM User WHERE username = '$exec_username'")->fetchAll();
+          try{$exec_team_id = $connection->query("SELECT team_id FROM User WHERE username = '$exec_username'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
       ?>
           <form method="POST" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" class="form-horizontal" id='team_form'>
               <div class="box-body">
@@ -1049,7 +1049,7 @@
                       {
                         $team_id = $line['team_id'];
                         $team_leader = $line['team_leader_username'];
-                        $arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();
+                        try{$arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
 
                         if($team_id == $exec_team_id[0]['team_id'])
                         {
@@ -1101,7 +1101,7 @@
                           if(isset($_POST['submit_'.$i]))
                           {
                               $team_id = $_POST['team_id_'.$i];
-                              $arr = $connection->query("SELECT * FROM Teams WHERE team_id='$team_id'")->fetchAll();
+                              try{$arr = $connection->query("SELECT * FROM Teams WHERE team_id='$team_id'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
                               $old_tl = $team_leader = $arr[0]['team_leader_username'];
                               $ses_id = $_SESSION['id'];
 
@@ -1110,13 +1110,13 @@
                               isset($_POST['team_task_'.$i]) ? $team_task = $_POST['team_task_'.$i] : $team_task = $arr[0]['team_task'];
                               isset($_POST['team_description_'.$i]) ? $team_description = $_POST['team_description_'.$i] : $team_description = $arr[0]['team_description'];
 
-                              $connection->query("UPDATE Teams SET team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");
+                              try{$connection->query("UPDATE Teams SET team_task='$team_task', team_description='$team_description' WHERE team_id='$team_id'");}catch(Exception $e){echo $e->getMessage();}
                             
                               if($team_name != $arr[0]['team_name'])
                               {
                                 if(!checkTeamname($team_name, $connection))
                                 {
-                                  $connection->query("UPDATE Teams SET team_name='$team_name' WHERE team_id = '$team_id'"); 
+                                  try{$connection->query("UPDATE Teams SET team_name='$team_name' WHERE team_id = '$team_id'");}catch(Exception $e){echo $e->getMessage();} 
                                 }
                                 else
                                 {
@@ -1136,9 +1136,9 @@
                                 }
                                 else
                                 {
-                                  $connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'"); 
-                                  $connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");
-                                  $connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");
+                                  try{$connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'");}catch(Exception $e){echo $e->getMessage();} 
+                                  try{$connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");}catch(Exception $e){echo $e->getMessage();}
+                                  try{$connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");}catch(Exception $e){echo $e->getMessage();}
                                 }
                               }
                               echo "<script> window.location.href='project_teams_view.php'</script>";
