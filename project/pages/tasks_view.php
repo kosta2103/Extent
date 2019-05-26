@@ -383,21 +383,36 @@
               <div class="box-body">
                   <ul class="sidebar-menu" data-widget="tree">
                       <?php
-                      foreach($arr as $line)
+                      foreach($projects as $project)
                       {
-                        $user_id = $line['user_id'];
-                        try{$username_arr = $connection->query("SELECT username FROM User WHERE user_id='$user_id'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
-                        $username = $username_arr[0]['username'];
+                        $project_name = $project['project_name'];
                     ?>
 
                         <li class="treeview pt_li_hover">
                           <a href="#">
-                              <i class="fa fa-edit"></i> <span><?php echo $line['task_name'] ?></span>
+                              <i class="fa fa-edit"></i> <span><?php echo $project_name ?></span>
                               <span class="pull-right-container">
                                   <i class="fa fa-angle-left pull-right"></i>
                               </span>
                           </a>
                           <ul class="treeview-menu pt_ul">
+                            <?php 
+                              try{$arr = $connection->query("SELECT * FROM Tasks WHERE project_name = '$project_name' ORDER BY task_id ASC")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
+
+                              foreach($arr as $line)
+                              {
+                                $user_id = $line['user_id'];
+                                try{$username_arr = $connection->query("SELECT username FROM User WHERE user_id='$user_id'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
+                                $username = $username_arr[0]['username'];
+                            ?>
+                              <li class="treeview pt_li_hover">
+                                <a href="#">
+                                    <i class="fa fa-edit"></i> <span><?php echo $line['task_name'] ?></span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                            <ul class="treeview-menu pt_ul">
 
                                 <li style="display: flex">
                                     <a href="#" class="pt_a"><i class="fa fa-minus"></i> Naziv projekta - <?php echo $line['project_name'] ?></a>
@@ -418,6 +433,9 @@
                                 <li class="pt_li1">
                                     <a class="pt_a" href="tasks_view_edit.php?task_id=<?php echo $line['task_id'] ?>" >Prikaz</a>
                                 </li>
+                          </ul>
+                              </li>
+                              <?php } ?>
                           </ul>
                       </li>
                       <?php                
