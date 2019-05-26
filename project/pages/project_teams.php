@@ -253,18 +253,18 @@
             </span>
           </a>
           <ul class="treeview-menu">
-              <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-circle-o"></i> <span>Upravljanje</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li><a href="project_management.php"><i class="fa fa-minus"></i>Kreiranje projekta</a></li>
-                  <li><a href="project_management_manipulation.php"><i class="fa fa-minus"></i>Prikaza projekata</a></li>
-                </ul>
-              </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-circle-o"></i> <span>Upravljanje</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="project_management.php"><i class="fa fa-minus"></i>Kreiranje projekta</a></li>
+                <li><a href="project_management_manipulation.php"><i class="fa fa-minus"></i>Prikaz projekata</a></li>
+              </ul>
+            </li>
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-circle-o"></i> <span>Projektni timovi</span>
@@ -277,48 +277,80 @@
                 <li><a href="project_teams_view.php"><i class="fa fa-minus"></i> Prikaz</a></li>
               </ul>
             </li>
-            <li><a href="pages/commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
           </ul>
         </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-table"></i> <span>Tiketi</span>
-            <span class="pull-right-container">
-             
-            </span>
-          </a>
-      
-        </li>
-        <li>
-          <a href="pages/calendar.html">
-            <i class="fa fa-calendar"></i> <span>Kalendar</span>
-            <span class="pull-right-container">
-              <small class="label pull-right bg-red">3</small>
-              <small class="label pull-right bg-blue">17</small>
-            </span>
-          </a>
-        </li>
-        <li>
-          <a href="pages/mailbox/mailbox.html">
-            <i class="fa fa-envelope"></i> <span>Korisnici</span>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-table"></i> <span>Tiketi</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-circle-o"></i> <span>Komitovi</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="commits_add.php"><i class="fa fa-minus"></i>Dodavanje komita</a></li>
+                <li><a href="commits_view.php"><i class="fa fa-minus"></i>Prikaz komitova</a></li>
+              </ul>
+            </li>
 
-          </a>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-folder"></i> <span>Finansije</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="pages/invoice.html"><i class="fa fa-circle-o"></i> Uplate</a></li>
-            <li><a href="pages/payments.html"><i class="fa fa-circle-o"></i> Izvestaji</a></li>
+            <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i> <span>Taskovi</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="pages/tasks_add.php"><i class="fa fa-minus"></i>Dodavanje taska</a></li>
+                  <li><a href="pages/tasks_view.php"><i class="fa fa-minus"></i>Prikaz taskova</a></li>
+                </ul>
+              </li>
+           </ul> 
+    
+      </li>
+      <li>
+        <a href="pages/calendar.html">
+          <i class="fa fa-calendar"></i> <span>Kalendar</span>
+          <span class="pull-right-container">
+            <small class="label pull-right bg-red">3</small>
+            <small class="label pull-right bg-blue">17</small>
+          </span>
+        </a>
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-envelope"></i> <span>Korisnici</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="users_management_register.php"><i class="fa fa-circle-o"></i> Registrovanje korisnika</a></li>
+          <li><a href="users_management_users_manipulation.php"><i class="fa fa-circle-o"></i> Pregled korisnika</a></li>
+       </ul>
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-folder"></i> <span>Finansije</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="invoice.html"><i class="fa fa-circle-o"></i> Uplate</a></li>
+          <li><a href="payments.html"><i class="fa fa-circle-o"></i> Izvestaji</a></li>
+       </ul>
+      </li>
+      </li>
+    </ul>
 
-
-         </ul>
-        </li>
-      </ul>
     </section>
     <!-- /.sidebar -->
   </aside>
