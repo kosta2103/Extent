@@ -1,7 +1,7 @@
 <?php
   session_start();
   if(!isset($_SESSION["email"]) || !isset($_SESSION["password"])){
-    header("Location: login.php");
+    header("Location: ../login.php");
   }
 ?>
 <!DOCTYPE html>
@@ -13,20 +13,20 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
-  <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
-  <link rel="stylesheet" href="../bower_components/Ionicons/css/ionicons.min.css">
+  <link rel="stylesheet" href="../../bower_components/Ionicons/css/ionicons.min.css">
   <!-- jvectormap -->
-  <link rel="stylesheet" href="../bower_components/jvectormap/jquery-jvectormap.css">
+  <link rel="stylesheet" href="../../bower_components/jvectormap/jquery-jvectormap.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+  <link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../dist/css/buildira.min.css">
+  <link rel="stylesheet" href="../../dist/css/buildira.min.css">
   <!-- buildira Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -38,13 +38,16 @@
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <style>
+    .error_var {color: #FF0000;}
+  </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
     <header class="main-header">
     <!-- Logo -->
-    <a href="../index.php" class="logo">
+    <a href="../../index.php" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>B</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -190,7 +193,7 @@
               <?php if(!empty($_SESSION["profile_picture"])){
                 echo '<img src="data:image;base64,'. $_SESSION["profile_picture"] .'" class="user-image" alt="User Image">'; 
               }else{
-                echo '<img src="../pictures/no_profile_picture.png" class="user-image" alt="User Image">';}?>
+                echo '<img src="../../pictures/no_profile_picture.png" class="user-image" alt="User Image">';}?>
               <span class="hidden-xs"><?php echo $_SESSION["first_name"];?></span>
             </a>
             <ul class="dropdown-menu">
@@ -200,7 +203,7 @@
                  echo '<img src="data:image;base64,'. $_SESSION["profile_picture"] .'" class="img-circle" alt="User Image">'; 
                }
                     else{
-                      echo '<img src="../pictures/no_profile_picture.png" class="user-image" alt="User Image">';
+                      echo '<img src="../../pictures/no_profile_picture.png" class="user-image" alt="User Image">';
                     }?>
 
                 <p>
@@ -216,7 +219,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profil</a>
                 </div>
                 <div class="pull-right">
-                  <a href="backend_pages/logout.php" class="btn btn-default btn-flat">Odjava</a>
+                  <a href="logout.php" class="btn btn-default btn-flat">Odjava</a>
                 </div>
               </li>
             </ul>
@@ -236,7 +239,7 @@
                  echo '<img src="data:image;base64,'. $_SESSION["profile_picture"] .'" class="img-circle" alt="User Image">'; 
                }
                     else{
-                      echo '<img src="../pictures/no_profile_picture.png" class="user-image" alt="User Image">';
+                      echo '<img src="../../pictures/no_profile_picture.png" class="user-image" alt="User Image">';
                     }?>
         </div>
         <div class="pull-left info">
@@ -269,18 +272,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-              <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-circle-o"></i> <span>Upravljanje</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li><a href="project_management.php"><i class="fa fa-minus"></i>Kreiranje projekta</a></li>
-                  <li><a href="project_management_manipulation.php"><i class="fa fa-minus"></i>Prikaza projekata</a></li>
-                </ul>
-              </li>
+            <li><a href="project_management.html"><i class="fa fa-circle-o"></i> Upravljanje</a></li>
             <li><a href="teams.html"><i class="fa fa-circle-o"></i> Projektni timovi</a></li>
             <li><a href="commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
           </ul>
@@ -317,39 +309,15 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-table"></i> <span>Finansije</span>
+            <i class="fa fa-folder"></i> <span>Finansije</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-              <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-circle-o"></i> <span>Uplate</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li><a href="invoice_create.php"><i class="fa fa-minus"></i>Dodavanje uplate</a></li>
-                  <li><a href="invoice.php"><i class="fa fa-minus"></i>Prikaz uplata</a></li>
-                </ul>
-              </li>
-
-              <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-circle-o"></i> <span>Izveštaji</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li><a href="#"><i class="fa fa-minus"></i>Pravljenje izveštaja</a></li>
-                  <li><a href="pages/payments.php"><i class="fa fa-minus"></i>Prikaz izveštaja</a></li>
-                </ul>
-              </li>
-          </ul> 
-      
+            <li><a href="invoice.html"><i class="fa fa-circle-o"></i> Uplate</a></li>
+            <li><a href="payments.html"><i class="fa fa-circle-o"></i> Izvestaji</a></li>
+         </ul>
         </li>
       </ul>
     </section>
@@ -361,76 +329,71 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Pregled kretanja sredstava
+        Izmena podataka o uplatama
         <small>Demo</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Početna strana</a></li>
-        <li class="active">Pregled kretanja sredstava</li>
+        <li class="active">Izmena podataka o uplatama</li>
       </ol>
     </section>
 
     <section class="content">
       <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">KRETANJE SREDSTAVA</h3>
-            </div>
+        <!-- left column -->
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <!-- general form elements -->
+          <div class="box box-primary">
+
             <!-- /.box-header -->
-            <?php require_once('backend_pages/invoice_management_all_invoices.php'); ?>
-            <div class="box-body">
-              <table id="example2" class="table table-bordered table-hover">
-                <thead>
-                <tr>
-                  <th>Id</th>
-				  <th>Id projekta</th>
-                  <th>Uplatilac</th>
-                  <th>Primalac</th>
-                  <th>Iznos</th>
-                  <th>Vreme</th>
-                  <th>Svrha uplate</th>
-                  <th>Komentar</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php 
-                foreach($invoice as $invc){?>
-                <tr>
-                  <td><?php echo $invc["invoice_id"];?></td>
-				  <td><?php echo $invc["project_id"];?></td>
-                  <td><?php echo $invc["sender"];?></td>
-                  <td><?php echo $invc["reciever"];?></td>
-                  <td><font size="12"><?php echo $invc["amount"];?></font></td>
-                  <td><?php echo $invc["time"];?></td>
-                  <td><?php echo $invc["purpose"];?></td>
-                  <td><?php echo $invc["comment"];?></td>
-                      <td>
-                        <form action="backend_pages/edit_invoice_logic.php" method="post">
-                          <input type="hidden" value="<?php echo $invc['invoice_id']; ?>" name="hidden_field_id">
-						  <input type="hidden" value="<?php echo $invc['project_id']; ?>" name="hidden_field_project_id">
-                          <input type="hidden" value="<?php echo $invc['sender']; ?>" name="hidden_field_sender">
-                          <input type="hidden" value="<?php echo $invc['reciever']; ?>" name="hidden_field_reciever">
-                          <input type="hidden" value="<?php echo $invc['amount']; ?>" name="hidden_field_amount">
-                          <input type="hidden" value="<?php echo $invc['time']; ?>" name="hidden_field_time">
-                          <input type="hidden" value="<?php echo $invc['purpose']; ?>" name="hidden_field_purpose">
-                          <input type="hidden" value="<?php echo $invc['comment']; ?>" name="hidden_field_comment">
-                          <input type="submit" class="btn btn-secondary" value="Izmeni zapis">
-                        </form>
-                        <form action="backend_pages/delete_invoice.php" method="post">
-                          <input type="hidden" value="<?php echo $invc['invoice_id']; ?>" name="hidden_field_invoice">
-                          <input type="submit" class="btn btn-danger" value="Obriši zapis">
-                        </form>
-                      </td>
-                  <?php } ?>
-                  
-                </tr>
-                </tbody>
-                <tfoot>
-                </tfoot>
-              </table>
-            </div>
-            <!-- /.box-body -->
+            <!-- form start -->
+            <form role="form" method="post" action="edit_invoice_logic_logic.php" enctype="multipart/form-data">
+
+              <div class="box-body">
+              	<div class="form-group">
+              	<a href="../invoice.php"><button type="button" class="btn btn-default btn-sm">
+          			<span class="glyphicon glyphicon-arrow-left"></span> Nazad
+        		</button></a>
+        		</div>
+                <div class="form-group">
+                  <input type="hidden" class="form-control" id="exampleInputId" name="id" value="<?php echo $_POST['hidden_field_id'];?>">
+                  <label for="exampleInputId1">ID projekta</label>
+                  <input type="number" class="form-control" id="exampleInputFirstName" placeholder="Unesite ID projekta" name="idproj" value="<?php echo $_POST['hidden_field_project_id'];?>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputSender1">Uplatilac</label>
+                  <input type="text" class="form-control" id="exampleInputLastName" placeholder="Unesite naziv uplatioca" name="uplatilac" value="<?php echo $_POST['hidden_field_sender'];?>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputReciever1">Primalac</label>
+                  <input type="text" class="form-control" id="exampleInputUsername" placeholder="Unesite naziv primaoca" name="primalac" value="<?php echo $_POST['hidden_field_reciever'];?>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputAmount1">Količina</label>
+                  <input type="number" class="form-control" id="exampleInputEmail1" placeholder="Unesite količinu novca" name="novac" value="<?php echo $_POST['hidden_field_amount'];?>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputTime1">Vreme</label>
+                  <input type="datetime" class="form-control" id="exampleInputPassword1" placeholder="Unesite vreme" name="vreme" value="<?php echo $_POST['hidden_field_time'];?>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPurpose1">Svrha</label>
+                  <input type="text" class="form-control" id="exampleInputNumber" placeholder="Unesite svrhu" name="svrha" value="<?php echo $_POST['hidden_field_purpose'];?>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputComment1">Komentar</label>
+                  <input type="text" class="form-control" id="exampleInputLastName" placeholder="Unesite komentar" name="komentar" value="<?php echo $_POST['hidden_field_comment'];?>">
+                </div>
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <input type="submit" name="edit" value="Izmeni podatke" class="btn">
+              </div>
+
+            </form>
+
           </div>
         </div>
       </div>

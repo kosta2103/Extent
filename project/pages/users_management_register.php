@@ -334,8 +334,8 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="pages/invoice_create.php"><i class="fa fa-minus"></i>Dodavanje uplate</a></li>
-                  <li><a href="pages/invoice.php"><i class="fa fa-minus"></i>Prikaz uplata</a></li>
+                  <li><a href="invoice_create.php"><i class="fa fa-minus"></i>Dodavanje uplate</a></li>
+                  <li><a href="invoice.php"><i class="fa fa-minus"></i>Prikaz uplata</a></li>
                 </ul>
               </li>
 
