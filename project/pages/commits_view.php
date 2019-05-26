@@ -24,6 +24,9 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
 
+
+  <link rel="stylesheet" href="../dist/css/project_teams.css">
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -40,7 +43,7 @@
 
     <header class="main-header">
     <!-- Logo -->
-    <a href="../index.html" class="logo">
+    <a href="../index.php" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>B</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -324,15 +327,39 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-folder"></i> <span>Finansije</span>
+            <i class="fa fa-table"></i> <span>Finansije</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="invoice.html"><i class="fa fa-circle-o"></i> Uplate</a></li>
-            <li><a href="payments.html"><i class="fa fa-circle-o"></i> Izvestaji</a></li>
-         </ul>
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i> <span>Uplate</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="pages/invoice_create.php"><i class="fa fa-minus"></i>Dodavanje uplate</a></li>
+                  <li><a href="pages/invoice.php"><i class="fa fa-minus"></i>Prikaz uplata</a></li>
+                </ul>
+              </li>
+
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i> <span>Izveštaji</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="#"><i class="fa fa-minus"></i>Pravljenje izveštaja</a></li>
+                  <li><a href="pages/payments.php"><i class="fa fa-minus"></i>Prikaz izveštaja</a></li>
+                </ul>
+              </li>
+          </ul> 
+      
         </li>
         </li>
       </ul>
@@ -355,13 +382,15 @@
     </section><br><br>
 
   <!-- /.content-wrapper -->
-  <div class="container pt_container">
+  <div class="container" style="width: 60%;">
       <div class="box box-info">
         <div class="box-header with-border">
           <h3 class="box-title">Prikaz komitova</h3>
         </div>
 
         <form method="POST" enctype="multipart/form-data" action="" class="form-horizontal">
+        <div class="box-body">
+            <ul class="sidebar-menu" data-widget="tree">
         <?php 
             require_once("../database_connection.php");
             if($_SESSION["role_id"] == 1){   
@@ -378,7 +407,7 @@
                     }
                 foreach($projects as $project){
         ?>
-            <li class="treeview">
+            <li class="treeview pt_li_hover">
                     <a href="#">
                     <i class="fa fa-edit"></i> <span><?php echo $project["project_name"]; ?></span>
                     <span class="pull-right-container">
@@ -402,15 +431,15 @@
 
                     foreach($tasks as $task){
                 ?>
-                <ul class="treeview-menu">
+                <ul class="treeview-menu pt_ul">
                     <li class="treeview">
-                        <a href="#">
+                        <a href="#" class="pt_a">
                         <i class="fa fa-circle-o"></i> <span><?php echo $task["task_name"];?></span>
                         <span class="pull-right-container">
                             <i class="fa fa-angle-left pull-right"></i>
                         </span>
                         </a>
-                    </li>
+                    
                     <?php
                     $task_name = $task["task_name"];
                     $sql_query3 = "SELECT commit_id FROM Commits WHERE task_id=(SELECT task_id FROM Tasks WHERE task_name='$task_name')";
@@ -423,22 +452,62 @@
                         echo $e->getMessage();
                     }finally{
                         //$connection = null;
-                    }
+                    } ?>
 
-                    foreach($commits as $commit){
+                    <ul class="treeview-menu pt_ul">
+                    <?php foreach($commits as $commit){
                     ?>
-                    <ul class="treeview-menu">
-                    <li><a href="#"><i class="fa fa-minus"></i><?php echo $commit["commit_id"]; ?></a></li>
-                    </ul>
-                </ul>
+                      <li class="treeview">
+                        <a href="#" class="pt_a">
+                        <i class="fa fa-minus"></i> <span><?php echo $commit["commit_id"]; ?></span>
+                        
+                        </a>
                     
-            </li>
+                    <?php 
+                      $commitID = $commit["commit_id"];
+                      $sql_query4 = "SELECT files_path FROM Files WHERE files_id =(SELECT files_id FROM Commit_Files WHERE commit_id=$commitID)";
+                    
+                      try{
+                          $stmt4 = $connection->prepare($sql_query4);
+                          $stmt4->execute();
+                          $files = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+                      }catch(Exception $e){
+                          echo $e->getMessage();
+                      }finally{
+                          //$connection = null;
+                      }
+                    ?>
+                    <ul class="treeview-menu pt_ul">
+                    <?php foreach($files as $file){ /*echo $file["files_path"];*/ ?>
+                      <li class="treeview">
+                        <a href="#" class="pt_a">
+                        <i class=""></i> <span><a href="<?php echo $file["files_path"]; ?>" download>
+                            <img src="../img/datoteka.png" width="20" height="20">
+                        </span>
+                        
+                        </a>
+                        
+                    <?php }?>
+                    </li>
+                    </ul>
+                  
+                  <?php } ?>
+                      </li>
+                    </ul>
+                      
+                    
+                    </li>   
+                </ul>
+                
+                  <?php }} ?>  
+                  </li>
         <?php
-                }}
+                
             }
-            }
+            
         ?>
-                                        
+            </ul>
+        </div>                             
         </form>
   </div>
   </div>

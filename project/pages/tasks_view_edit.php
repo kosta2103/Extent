@@ -1,10 +1,7 @@
-<?php
-  //session_start();
-  require_once("backend_pages/project_management_backend.php");
-  require_once("backend_pages/project_management_all_pm.php");
+<?php 
+  session_start();
+  $_SESSION['editable'] = false;
 ?>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,12 +28,15 @@
   <link rel="stylesheet" href="../plugins/timepicker/bootstrap-timepicker.min.css">
   <!-- Select2 -->
   <link rel="stylesheet" href="../bower_components/select2/dist/css/select2.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../dist/css/buildira.min.css">
-  <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
+  
   <!-- jvectormap -->
   <link rel="stylesheet" href="../bower_components/jvectormap/jquery-jvectormap.css">
-  
+  <!-- Theme style -->
+  <link rel="stylesheet" href="../dist/css/buildira.min.css">
+  <!-- buildira Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
+
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -50,9 +50,6 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
-<style>
-    .error {color: #FF0000;}
-  </style>
 <div class="wrapper">
 
     <header class="main-header">
@@ -269,168 +266,296 @@
             </span>
           </a>
           <ul class="treeview-menu">
-              <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-circle-o"></i> <span>Upravljanje</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li><a href="project_management.php"><i class="fa fa-minus"></i>Kreiranje projekta</a></li>
-                  <li><a href="project_management_manipulation.php"><i class="fa fa-minus"></i>Prikaza projekata</a></li>
-                </ul>
-              </li>
-            <li><a href="project_teams.php"><i class="fa fa-circle-o"></i> Projektni timovi</a></li>
-            <li><a href="commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-circle-o"></i> <span>Upravljanje</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="project_management.php"><i class="fa fa-minus"></i>Kreiranje projekta</a></li>
+                <li><a href="project_management_manipulation.php"><i class="fa fa-minus"></i>Prikaz projekata</a></li>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-circle-o"></i> <span>Projektni timovi</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="project_teams.php"><i class="fa fa-minus"></i> Dodavanje</a></li>
+                <li><a href="project_teams_view.php"><i class="fa fa-minus"></i> Prikaz</a></li>
+              </ul>
+            </li>
           </ul>
         </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-table"></i> <span>Tiketi</span>
-            <span class="pull-right-container">
-             
-            </span>
-          </a>
-      
-        </li>
-        <li>
-          <a href="calendar.html">
-            <i class="fa fa-calendar"></i> <span>Kalendar</span>
-            <span class="pull-right-container">
-              <small class="label pull-right bg-red">3</small>
-              <small class="label pull-right bg-blue">17</small>
-            </span>
-          </a>
-        </li>
-        <li>
-          <a href="mailbox/mailbox.html">
-            <i class="fa fa-envelope"></i> <span>Korisnici</span>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-table"></i> <span>Tiketi</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-circle-o"></i> <span>Komitovi</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="commits_add.php"><i class="fa fa-minus"></i>Dodavanje komita</a></li>
+                <li><a href="commits_view.php"><i class="fa fa-minus"></i>Prikaz komitova</a></li>
+              </ul>
+            </li>
 
-          </a>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-table"></i> <span>Finansije</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-              <li class="treeview">
+            <li class="treeview">
                 <a href="#">
-                  <i class="fa fa-circle-o"></i> <span>Uplate</span>
+                  <i class="fa fa-circle-o"></i> <span>Taskovi</span>
                   <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="invoice_create.php"><i class="fa fa-minus"></i>Dodavanje uplate</a></li>
-                  <li><a href="invoice.php"><i class="fa fa-minus"></i>Prikaz uplata</a></li>
+                  <li><a href="tasks_add.php"><i class="fa fa-minus"></i>Dodavanje taska</a></li>
+                  <li><a href="tasks_view.php"><i class="fa fa-minus"></i>Prikaz taskova</a></li>
                 </ul>
               </li>
-
-              <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-circle-o"></i> <span>Izveštaji</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li><a href="#"><i class="fa fa-minus"></i>Pravljenje izveštaja</a></li>
-                  <li><a href="pages/payments.php"><i class="fa fa-minus"></i>Prikaz izveštaja</a></li>
-                </ul>
-              </li>
-          </ul> 
-      
-        </li>
-      </ul>
+           </ul> 
+    
+      </li>
+      <li>
+        <a href="pages/calendar.html">
+          <i class="fa fa-calendar"></i> <span>Kalendar</span>
+          <span class="pull-right-container">
+            <small class="label pull-right bg-red">3</small>
+            <small class="label pull-right bg-blue">17</small>
+          </span>
+        </a>
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-envelope"></i> <span>Korisnici</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="users_management_register.php"><i class="fa fa-circle-o"></i> Registrovanje korisnika</a></li>
+          <li><a href="users_management_users_manipulation.php"><i class="fa fa-circle-o"></i> Pregled korisnika</a></li>
+       </ul>
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-folder"></i> <span>Finansije</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="invoice.html"><i class="fa fa-circle-o"></i> Uplate</a></li>
+          <li><a href="payments.html"><i class="fa fa-circle-o"></i> Izvestaji</a></li>
+       </ul>
+      </li>
+      </li>
+    </ul>
     </section>
     <!-- /.sidebar -->
   </aside>
 
+    <?php
+        require_once("backend_pages/tasks_view_edit_backend.php");
+    ?>
+  
   <!-- Content Wrapper. Contains page content -->
- 
-
-  <!-- /.content-wrapper -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1 style="text-align: -webkit-center;">
-        Upravljanje projektima
+      <h1>
+        <small>Demo</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Projekti</a></li>
-        <li class="active">Upravljanje</li>
+        <li class="active">Blank page</li>
       </ol>
     </section>
 
-    <!-- Main content -->
-    <section class="content">
-      <div class="row">
-        <!-- left column -->
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-          <!-- general form elements -->
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">Unesi projekat</h3>
-            </div>
-            <!-- /.box-header -->
-            <!-- form start -->
-            <form role="form" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
-              <div class="box-body">
-                <div class="form-group">
-                  <label for="projectName">Ime Projekta</label>
-                  <input type="text" class="form-control" id="projectName" name="projectName" placeholder="Unesi ime projekta">
-                  <div class="error"><?php echo $projectNameErr; ?></div>
-                </div>
-                <div class="form-group">
-                    <label>Odgovorno lice</label>
-                    <select name="projectManager" class="form-control select2" style="width: 100%;">
-                    <?php foreach($pms as $pm){
-                      echo "<option>".$pm["username"]."</option>";
-                    }?>
-                      
-                    </select>
-                  </div>
+  <!-- /.content-wrapper -->
 
-                  <div class="form-group">
-                    <label>Rok projekta</label>
-    
-                    <div class="input-group">
+    <?php 
+    if($_SESSION['editable'] == 1)
+    {
+    ?>
+
+      <div class="container" style="margin-top: 30px;">
+          <div class="box box-info">
+            <form action="" method="POST">
+              <div class="container" style="width: 95%;">
+                <div class="box-header with-border">
+                  <div class="row">
+                    <textarea type='text' rows=1 name="task_name" style="font-size: 30px;padding-top: 20px; padding-bottom:20px;border: none; width:100%;padding-left:15px;padding-right:15px;" value=""><?php echo $arr[0]['task_name'] ?></textarea>
+                  </div>
+                </div>
+
+                <div class="box-header with-border" style="padding-top: 35px; padding-bottom:35px;">
+                  <textarea type='text' rows=2 name="task_description" style="font-size: 18px;padding-top: 20px; padding-bottom:20px;border: none; width:100%;" value=""><?php echo $arr[0]['task_description'] ?></textarea>
+                </div>
+
+                <div class="box-header with-border" style="padding-top: 15px; padding-bottom:15px;width: 600px;">
+                    <label for="inputEmail3" class="control-label">Rok taska</label>
+                    <div class="input-group col-sm-10 task_input_group">
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
-                      <input type="text" class="form-control pull-right" name="reservation" id="reservation">
-                    </div>
-                    <!-- /.input group -->
+                      <input type="text" class="form-control pull-right" name="task_deadline" id="reservation" value="<?php echo $arr[0]['task_deadline'] ?>">
                   </div>
+                </div>
+
+
+                <div class="box-header with-border" style="font-size: 15px;padding-top: 15px; padding-bottom:15px;">
                   <div class="form-group">
-                    <label for="projectInvestor">Finansijer</label>
-                              <input type="text" class="form-control" name="projectInvestor" id="projectInvestor" placeholder="Finansijer">
-                              <div class="error"><?php echo $projectInvestorErr; ?></div>
+                      <label for="inputPassword3" class="col-sm-2 control-label">Izvrsitelj - @</label>
+                      <select name="as_username" class="form-control select2 select2-hidden-accessible" style="width: 50% !important;" tabindex="-1" aria-hidden="true">
+                        <option selected disabled>@Korisnicko ime izvrsitelja taska</option>
+                        <?php 
+                          foreach($assignee_arr_for_proj as $assignee1)
+                          {
+                            if($assignee1['username'] == $assignee)
+                            {
+                              echo "<option selected>@".$assignee1['username']."</option>";
+                            }
+                            else
+                            {
+                              echo "<option>@".$assignee1['username']."</option>";
+                            }
+                          }
+                        ?>
+                      </select>
                   </div>
-    
-                
-                  <div class="form-group">
-                    <label>Napomena</label>
-                        <textarea class="form-control" rows="3" name="notes" id="notes" placeholder="..." ></textarea>
+                </div>
+
+                <div class="box-header with-border" style="font-size: 7px;padding-top: 15px; padding-bottom:15px;">
+                  <h3 class="box-title" style="font-size:15px !important;">Projekat - <b><?php echo $arr[0]['project_name'] ?></h3>
+                </div>
+
+                <div class="box-header with-border" style="padding-top: 15px; padding-bottom:15px;">
+                    <h3 class="box-title" style="font-size:15px !important;">Prioritet taska - <b><?php echo $arr[0]['task_priority'] ?></h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+
+
+                <div class="box-footer" style="border-bottom: 1px solid #f4f4f4;">
+                    <button type="submit" class="btn btn-default">Zatvori task</button>
+                    <button type="submit" name="submit_btn" class="btn btn-info pull-right"><i class="glyphicon glyphicon-save"></i> Sacuvaj promene</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="box box-info">
+              <form method="POST" action="project_teams.php" class="form-horizontal">
+                <div class="box-body">
+                  <div class="container" style="width: 95%;">
+                      <div class="form-group">
+                          <label for="inputPassword3" class="col-sm-1 control-label" style="text-align:center;">Komentari</label>
+                          <div class="col-sm-11">
+                              <textarea class="form-control" name="team_description" rows="5" placeholder="Komentar ..." ></textarea>
+                          </div>
+                      </div>
+                      <div class="form-group" style="margin-right: 4px;">  
+                          <button type="submit" name="submit_btn" class="btn btn-info pull-right"><i class="glyphicon glyphicon-plus"></i> Dodaj komentar</button>
+                      </div>
                   </div>
-  
-              </div>
+                  
+      
               <!-- /.box-body -->
+              
+              <!-- /.box-footer -->
+              
+                </div>
+              </form>
+          </div>
 
-              <div class="box-footer">
-                <button name="submitProject" type="submit" class="btn btn-primary">Pošalji</button>
+      </div>
+
+<?php } 
+      
+      else
+      {
+      ?>
+          <div class="container" style="margin-top: 30px;">
+            <div class="box box-info">
+              <form action="" method="POST">
+                <div class="container" style="width: 95%;">
+                  <div class="box-header with-border">
+                    <div class="row">
+                      <h1 class="box-title col-sm-10" style="font-size: 30px;padding-top: 20px; padding-bottom:20px;"><?php echo $arr[0]['task_name'] ?></h1>
+                      <a href='?task_id=<?php echo $_SESSION['task_id'] ?>&edit=1'><i class="glyphicon glyphicon-edit col-sm-2" style="font-size: 30px;padding-top: 20px; padding-bottom:20px; text-align:right;"></i></a>
+                    </div>
+                  </div>
+
+                  <div class="box-header with-border" style="padding-top: 35px; padding-bottom:35px;">
+                    <h3 class="box-title" style="font-size:18px !important;"><?php echo $arr[0]['task_description'] ?></h3>
+                  </div>
+
+                  <div class="box-header with-border" style="padding-top: 15px; padding-bottom:15px;">
+                      <h3 class="box-title" style="font-size:15px !important;">Rok taska - <?php echo $arr[0]['task_deadline'] ?></h3>
+                  </div>
+
+                  <div class="box-header with-border" style="font-size: 7px;padding-top: 15px; padding-bottom:15px;">
+                    <h3 class="box-title" style="font-size:15px !important;">Izvrsitelj - @<?php echo $assignee ?></h3>
+                  </div>
+
+                  <div class="box-header with-border" style="font-size: 7px;padding-top: 15px; padding-bottom:15px;">
+                    <h3 class="box-title" style="font-size:15px !important;">Projekat - <?php echo $arr[0]['project_name'] ?></h3>
+                  </div>
+
+                  <div class="box-header with-border" style="padding-top: 15px; padding-bottom:15px;">
+                      <h3 class="box-title" style="font-size:15px !important;">Prioritet taska - <?php echo $arr[0]['task_priority'] ?></h3>
+                  </div>
+                  <!-- /.box-header -->
+                  <!-- form start -->
+
+
+                  <div class="box-footer" style="border-bottom: 1px solid #f4f4f4;">
+                      <button type="submit" class="btn btn-default">Zatvori task</button>
+                  </div>
+                </form>
               </div>
-            </form>
-          </div>
-          </div>
-        </section>
+            </div>
 
+            <div class="box box-info">
+                <form method="POST" action="project_teams.php" class="form-horizontal">
+                  <div class="box-body">
+                    <div class="container" style="width: 95%;">
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-1 control-label" style="text-align:center;">Komentari</label>
+                            <div class="col-sm-11">
+                                <textarea class="form-control" name="team_description" rows="5" placeholder="Komentar ..." ></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-right: 4px;">  
+                            <button type="submit" name="submit_btn" class="btn btn-info pull-right"><i class="glyphicon glyphicon-plus"></i> Dodaj komentar</button>
+                        </div>
+                    </div>
+                    
+        
+                <!-- /.box-body -->
+                
+                <!-- /.box-footer -->
+                
+                  </div>
+                </form>
+            </div>
+
+        </div>
+
+<?php } ?>
 
 
   <footer class="main-footer">
@@ -444,16 +569,14 @@
   
       <!-- /.tab-pane -->
 
-
      
-<!-- ./wrapper -->
-
 <!-- jQuery 3 -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- Select2 -->
 <script src="../bower_components/select2/dist/js/select2.full.min.js"></script>
+
 <!-- InputMask -->
 <script src="../plugins/input-mask/jquery.inputmask.js"></script>
 <script src="../plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
@@ -471,6 +594,7 @@
 <script src="../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- iCheck 1.0.1 -->
 <script src="../plugins/iCheck/icheck.min.js"></script>
+
 <!-- FastClick -->
 <script src="../bower_components/fastclick/lib/fastclick.js"></script>
 <!-- buildira App -->
@@ -486,7 +610,8 @@
 <script src="../bower_components/chart.js/Chart.js"></script>
 <script src="../dist/js/pages/dashboard2.js"></script>
 <!-- buildira for demo purposes -->
-<!-- Page script -->
+<script src="../dist/js/demo.js"></script>
+
 
 <script>
  $(function () {
@@ -532,5 +657,6 @@
     })
 
 </script>
+
 </body>
 </html>
