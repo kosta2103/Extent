@@ -396,7 +396,7 @@
                           <input type="submit" class="btn btn-secondary" value="Izmeni zapis">
                         </form>
                         <form action="backend_pages/delete_invoice.php" method="post">
-                          <input type="hidden" value="<?php echo $invc['sender']; ?>" name="hidden_field">
+                          <input type="hidden" value="<?php echo $invc['invoice_id']; ?>" name="hidden_field_invoice">
                           <input type="submit" class="btn btn-danger" value="Obriši zapis">
                         </form>
                       </td>
