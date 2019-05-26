@@ -396,7 +396,7 @@
             <div class="form-group">
               <label for="inputPassword3" class="col-sm-2 control-label">Projekat</label>
               <div class="col-sm-10">
-                <select name="project_name" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                <select name="project_name" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                   <?php 
                     if(isset($_POST['project_name']))
                     {

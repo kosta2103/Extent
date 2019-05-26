@@ -429,9 +429,10 @@
                         //$connection = null;
                     }
 
-                    foreach($tasks as $task){
+                    
                 ?>
                 <ul class="treeview-menu pt_ul">
+                  <?php foreach($tasks as $task){ ?>
                     <li class="treeview">
                         <a href="#" class="pt_a">
                         <i class="fa fa-circle-o"></i> <span><?php echo $task["task_name"];?></span>
@@ -496,10 +497,11 @@
                     </ul>
                       
                     
-                    </li>   
+                    </li>  
+                    <?php } ?> 
                 </ul>
                 
-                  <?php }} ?>  
+                  <?php } ?>  
                   </li>
         <?php
                 
