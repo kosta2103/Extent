@@ -464,7 +464,7 @@
                         </div>
                         <div class="form-group">
                         <label for="exampleInputFile">Komit fajl</label>
-                        <input type="file" id="exampleInputFile" name="commit_file[]" title="Izaberite fajl" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/pdf, text/plain, application/msword" multiple required>
+                        <input type="file" id="exampleInputFile" name="commit_file[]" title="Izaberite fajl" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/pdf, text/plain, application/msword, image/*" multiple required>
                         </div>
                         
                     </div>
@@ -533,7 +533,7 @@
         }
     
         try{
-          
+
             if(!empty($files)){
               $sql_insert_commit = "INSERT INTO Commits(commit_comment, commit_time, task_id)
                                   VALUES('$comment', '$date', (SELECT task_id FROM Tasks WHERE task_name = '$task_id'))";
