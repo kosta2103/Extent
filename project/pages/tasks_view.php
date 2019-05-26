@@ -379,7 +379,7 @@
         <!-- form start -->
 
       
-          <form method="POST" action="project_teams_view.php" class="form-horizontal" id='team_form'>
+          <form method="POST" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" class="form-horizontal" id='team_form'>
               <div class="box-body">
                   <ul class="sidebar-menu" data-widget="tree">
                       <?php

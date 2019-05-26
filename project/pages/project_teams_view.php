@@ -390,7 +390,7 @@
         if($_SESSION['role_id'] == 1)
         {
       ?>
-          <form method="POST" action="project_teams_view.php" class="form-horizontal" id='team_form'>
+          <form method="POST" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" class="form-horizontal" id='team_form'>
               <div class="box-body">
                   <ul class="sidebar-menu" data-widget="tree">
                       <?php
@@ -444,7 +444,7 @@
                                   </span>
                                   </a>
                                   <ul class="treeview-menu pt_ul">
-                                      <form action="" method="POST" id="form_plus">
+                                      <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" id="form_plus">
                                         <li style="display: flex">
                                           <a href="#" class="pt_a" onclick="popup()"><i class="glyphicon glyphicon-plus"></i></a>
                                           <?php 
@@ -612,7 +612,7 @@
           $pm_username = $_SESSION['username'];
           $project_id_arr = $connection->query("SELECT * FROM Projects WHERE project_manager = '$pm_username'")->fetchAll();
       ?>
-          <form method="POST" action="project_teams_view.php" class="form-horizontal" id='team_form'>
+          <form method="POST" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" class="form-horizontal" id='team_form'>
               <div class="box-body">
                   <ul class="sidebar-menu" data-widget="tree">
                       <?php
@@ -667,7 +667,7 @@
                                   </span>
                                   </a>
                                   <ul class="treeview-menu pt_ul">
-                                      <form action="" method="POST" id="form_plus">
+                                      <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" id="form_plus">
                                         <li style="display: flex">
                                           <a href="#" class="pt_a" onclick="popup()"><i class="glyphicon glyphicon-plus"></i></a>
                                           <?php 
@@ -836,7 +836,7 @@
           $tl_username = $_SESSION['username'];
           $tl_id_arr = $connection->query("SELECT * FROM Teams WHERE team_leader_username = '$tl_username'")->fetchAll();
       ?>
-          <form method="POST" action="project_teams_view.php" class="form-horizontal" id='team_form'>
+          <form method="POST" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" class="form-horizontal" id='team_form'>
               <div class="box-body">
                   <ul class="sidebar-menu" data-widget="tree">
                       <?php
@@ -872,7 +872,7 @@
                                   </span>
                                   </a>
                                   <ul class="treeview-menu pt_ul">
-                                      <form action="" method="POST" id="form_plus">
+                                      <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST" id="form_plus">
                                         <li style="display: flex">
                                           <a href="#" class="pt_a" onclick="popup()"><i class="glyphicon glyphicon-plus"></i></a>
                                           <?php 
@@ -1041,7 +1041,7 @@
           $exec_username = $_SESSION['username'];
           $exec_team_id = $connection->query("SELECT team_id FROM User WHERE username = '$exec_username'")->fetchAll();
       ?>
-          <form method="POST" action="project_teams_view.php" class="form-horizontal" id='team_form'>
+          <form method="POST" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" class="form-horizontal" id='team_form'>
               <div class="box-body">
                   <ul class="sidebar-menu" data-widget="tree">
                       <?php

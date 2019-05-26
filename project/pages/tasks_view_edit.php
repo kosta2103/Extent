@@ -393,7 +393,7 @@
 
       <div class="container" style="margin-top: 30px;">
           <div class="box box-info">
-            <form action="" method="POST">
+            <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
               <div class="container" style="width: 95%;">
                 <div class="box-header with-border">
                   <div class="row">
@@ -458,7 +458,7 @@
           </div>
 
           <div class="box box-info">
-              <form method="POST" action="project_teams.php" class="form-horizontal">
+              <form method="POST" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" class="form-horizontal">
                 <div class="box-body">
                   <div class="container" style="width: 95%;">
                       <div class="form-group">
@@ -490,7 +490,7 @@
       ?>
           <div class="container" style="margin-top: 30px;">
             <div class="box box-info">
-              <form action="" method="POST">
+              <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" method="POST">
                 <div class="container" style="width: 95%;">
                   <div class="box-header with-border">
                     <div class="row">
@@ -530,7 +530,7 @@
             </div>
 
             <div class="box box-info">
-                <form method="POST" action="project_teams.php" class="form-horizontal">
+                <form method="POST" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" class="form-horizontal">
                   <div class="box-body">
                     <div class="container" style="width: 95%;">
                         <div class="form-group">

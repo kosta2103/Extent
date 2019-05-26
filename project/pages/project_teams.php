@@ -379,7 +379,7 @@
         </div>
         <!-- /.box-header -->
         <!-- form start -->
-        <form method="POST" action="project_teams.php" class="form-horizontal">
+        <form method="POST" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" class="form-horizontal">
           <div class="box-body">
             <div class="form-group">
               <label for="inputEmail3" class="col-sm-2 control-label">Naziv tima</label>

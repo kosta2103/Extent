@@ -392,7 +392,7 @@
         <!-- form start -->
 
         <div class="box-body">
-          <form id="form_id" action="tasks_add.php" onchange="funkc()" method="POST" class="form-horizontal">
+          <form id="form_id" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" onchange="funkc()" method="POST" class="form-horizontal">
             <div class="form-group">
               <label for="inputPassword3" class="col-sm-2 control-label">Projekat</label>
               <div class="col-sm-10">
@@ -424,7 +424,7 @@
             }
           </script>
 
-        <form method="POST" action="tasks_add.php" class="form-horizontal">
+        <form method="POST" action="<?php htmlspecialchars($_SERVER['PHP_SELF']);?>" class="form-horizontal">
           
             <div class="form-group">
               <label for="inputEmail3" class="col-sm-2 control-label">Naziv taska</label>
