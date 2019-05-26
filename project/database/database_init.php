@@ -13,6 +13,9 @@
 
     require_once('database_table_tasks.php');
     require_once('database_table_commits.php');
+	
+	require_once('database_table_invoice.php');
+	require_once('database_insert_invoice.php');
     
     $connection = null;
 ?>
