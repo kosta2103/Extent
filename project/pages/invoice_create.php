@@ -1,7 +1,9 @@
 <?php
-    session_start();
+  session_start();
+  if(!isset($_SESSION["email"]) || !isset($_SESSION["password"])){
+    header("Location: login.php");
+  }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,21 +20,13 @@
   <link rel="stylesheet" href="../bower_components/Ionicons/css/ionicons.min.css">
   <!-- jvectormap -->
   <link rel="stylesheet" href="../bower_components/jvectormap/jquery-jvectormap.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/buildira.min.css">
   <!-- buildira Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
-
-
-  <link rel="stylesheet" href="../dist/css/project_teams.css">
-  <style type="text/css">
-    .img-box{
-        display: inline-block;
-        text-align: center;
-        margin: 0 15px;
-    }
-</style>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -44,6 +38,9 @@
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <style>
+    .error_var {color: #FF0000;}
+  </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -267,14 +264,14 @@
          
        
        
-      <li class="treeview">
-            <a href="#">
-              <i class="fa fa-edit"></i> <span>Projekti</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu">
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-edit"></i> <span>Projekti</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
               <li class="treeview">
                 <a href="#">
                   <i class="fa fa-circle-o"></i> <span>Upravljanje</span>
@@ -284,48 +281,24 @@
                 </a>
                 <ul class="treeview-menu">
                   <li><a href="project_management.php"><i class="fa fa-minus"></i>Kreiranje projekta</a></li>
-                  <li><a href="project_management_manipulation.php"><i class="fa fa-minus"></i>Prikaz projekata</a></li>
+                  <li><a href="project_management_manipulation.php"><i class="fa fa-minus"></i>Prikaza projekata</a></li>
                 </ul>
               </li>
-              <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-circle-o"></i> <span>Projektni timovi</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li><a href="project_teams.php"><i class="fa fa-minus"></i> Dodavanje</a></li>
-                  <li><a href="project_teams_view.php"><i class="fa fa-minus"></i> Prikaz</a></li>
-                </ul>
-              </li>
-            </ul>
-          </li>
+            <li><a href="teams.html"><i class="fa fa-circle-o"></i> Projektni timovi</a></li>
+            <li><a href="commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
+          </ul>
+        </li>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-table"></i> <span>Tiketi</span>
             <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
+             
             </span>
           </a>
-          <ul class="treeview-menu">
-              <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-circle-o"></i> <span>Komitovi</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li><a href="commits_add.php"><i class="fa fa-minus"></i>Dodavanje komita</a></li>
-                  <li><a href="commits_view.php"><i class="fa fa-minus"></i>Prikaz komitova</a></li>
-                </ul>
-              </li>
-             </ul> 
       
         </li>
         <li>
-          <a href="pages/calendar.html">
+          <a href="calendar.html">
             <i class="fa fa-calendar"></i> <span>Kalendar</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-red">3</small>
@@ -361,8 +334,8 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="pages/invoice_create.php"><i class="fa fa-minus"></i>Dodavanje uplate</a></li>
-                  <li><a href="pages/invoice.php"><i class="fa fa-minus"></i>Prikaz uplata</a></li>
+                  <li><a href="invoice_create.php"><i class="fa fa-minus"></i>Dodavanje uplate</a></li>
+                  <li><a href="invoice.php"><i class="fa fa-minus"></i>Prikaz uplata</a></li>
                 </ul>
               </li>
 
@@ -381,7 +354,6 @@
           </ul> 
       
         </li>
-        </li>
       </ul>
     </section>
     <!-- /.sidebar -->
@@ -391,168 +363,87 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1 style="text-align: -webkit-center;">
-        Komitovi
+      <h1>
+        Pravljenje nove uplate
         <small>Demo</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Blank page</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Početna strana</a></li>
+        <li class="active">Pravljenje nove uplate</li>
       </ol>
-    </section><br><br>
+    </section>
+
+    <section class="content">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            
+            <!-- /.box-header -->
+            <!-- form start -->
+            <?php require_once('backend_pages/invoice_create_logic.php');?>
+            <form role="form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" enctype="multipart/form-data">
+              <div class="box-body">
+                  <?php if(!empty($message_fail)){?>
+                  <div class="alert alert-error">
+                    <?php echo $message_fail;?>
+                  </div>
+                  <?php } else if(!empty($message_success)){?>
+                  <div class="alert alert-success">
+                    <?php echo $message_success;?>
+                  </div>
+                  <?php }?>
+                <div class="form-group">
+                  <label for="exampleInputIDProject1">ID projekta</label>
+                  <input type="number" class="form-control" id="exampleInputIdProject" placeholder="Unesite ID projekta" name="idproj">
+                  <div class="error_var"><?php echo $idproj_err;?></div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputSender1">Uplatilac</label>
+                  <input type="text" class="form-control" id="exampleInputSender" placeholder="Unesite naziv uplatioca" name="sender">
+                  <div class="error_var"><?php echo $sender_err;?></div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Primalac</label>
+                  <input type="text" class="form-control" id="exampleInputReciever" placeholder="Unesite naziv primaoca" name="reciever">
+                  <div class="error_var"><?php echo $reciever_err;?></div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputAmount1">Iznos novca</label>
+                  <input type="number" step="0.01" class="form-control" id="exampleInputAmount1" placeholder="Unesite iznos za transfer" name="amount">
+                  <div class="error_var"><?php echo $amount_err;?></div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputTime1">Vreme</label>
+                  <input type="datetime" class="form-control" id="exampleInputTime1" placeholder="Unesite vreme" value="<?php echo date('Y/m/d H:i:s');?>" name="time">
+                  <div class="error_var"><?php echo $time_err;?></div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPurpose1">Svrha uplate</label>
+                  <input type="text" class="form-control" id="exampleInputPurpose" placeholder="Unesite svrhu uplate" name="purpose">
+                  <div class="error_var"><?php echo $purpose_err;?></div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputComment1">Komentar</label>
+                  <input type="text" class="form-control" id="exampleInputComment1" placeholder="Unesite komentar" name="comment">
+                  <div class="error_var"><?php echo $comment_err;?></div>
+                </div>
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <input type="submit" name="create" value="Napravi uplatu" class="btn btn-primary">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  
 
   <!-- /.content-wrapper -->
-  <div class="container" style="width: 60%;">
-      <div class="box box-info">
-        <div class="box-header with-border">
-          <h3 class="box-title">Prikaz komitova</h3>
-        </div>
-
-        <form method="POST" enctype="multipart/form-data" action="" class="form-horizontal">
-        <div class="box-body">
-            <ul class="sidebar-menu" data-widget="tree">
-        <?php 
-            require_once("../database_connection.php");
-            if($_SESSION["role_id"] == 1){   
-                $sql_query = "SELECT project_name FROM Projects";
-                
-                try{
-                    $stmt = $connection->prepare($sql_query);
-                    $stmt->execute();
-                    $projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    }catch(Exception $e){
-                        echo $e->getMessage();
-                    }finally{
-                        //$connection = null;
-                    }
-                foreach($projects as $project){
-        ?>
-            <li class="treeview pt_li_hover">
-                    <a href="#">
-                    <i class="fa fa-edit"></i> <span><?php echo $project["project_name"]; ?></span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                    </a>
-            
-                <?php 
-                    $proj = $project["project_name"];
-                    $sql_query2 = "SELECT task_name FROM Tasks WHERE project_name='$proj'";
-                    
-                    try{
-                        $stmt2 = $connection->prepare($sql_query2);
-                        $stmt2->execute();
-                        $tasks = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-                    }catch(Exception $e){
-                        echo $e->getMessage();
-                    }finally{
-                        //$connection = null;
-                    }
-
-                    
-                ?>
-                <ul class="treeview-menu pt_ul">
-                  <?php foreach($tasks as $task){ ?>
-                    <li class="treeview">
-                        <a href="#" class="pt_a">
-                        <i class="fa fa-circle-o"></i> <span><?php echo $task["task_name"];?></span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                        </a>
-                    
-                    <?php
-                    $task_name = $task["task_name"];
-                    $sql_query3 = "SELECT commit_id FROM Commits WHERE task_id=(SELECT task_id FROM Tasks WHERE task_name='$task_name')";
-                    
-                    try{
-                        $stmt3 = $connection->prepare($sql_query3);
-                        $stmt3->execute();
-                        $commits = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-                    }catch(Exception $e){
-                        echo $e->getMessage();
-                    }finally{
-                        //$connection = null;
-                    } ?>
-
-                    <ul class="treeview-menu pt_ul">
-                    <?php foreach($commits as $commit){
-                    ?>
-                      <li class="treeview">
-                        <a href="#" class="pt_a">
-                        <i class="fa fa-minus"></i> <span><?php
-                          $commitID = $commit["commit_id"];
-                          $sql_query4 = "SELECT username FROM User WHERE user_id=(SELECT user_id FROM Tasks WHERE task_name='$task_name')";
-                          $sql_query5 = "SELECT commit_comment FROM Commits WHERE commit_id=$commitID";
-
-                          try{
-                              $stmt4 = $connection->prepare($sql_query4);
-                              $stmt4->execute();
-                              $users = $stmt4->fetchAll(PDO::FETCH_ASSOC);
-                              $stmt5 = $connection->prepare($sql_query5);
-                              $stmt5->execute();
-                              $comments = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-                          }catch(Exception $e){
-                              echo $e->getMessage();
-                          }finally{
-                              //$connection = null;
-                          } 
-                          echo $commit["commit_id"] . " | " . $users[0]["username"] . " | " . $comments[0]["commit_comment"]; ?></span>
-                        
-                        </a>
-                    
-                    <?php 
-                      
-                      $sql_query6 = "SELECT files_path FROM Files WHERE files_id IN (SELECT files_id FROM Commit_Files WHERE commit_id=$commitID)";
-                    
-                      try{
-                          $stmt6 = $connection->prepare($sql_query6);
-                          $stmt6->execute();
-                          $files = $stmt6->fetchAll(PDO::FETCH_ASSOC);
-                      }catch(Exception $e){
-                          echo $e->getMessage();
-                      }finally{
-                          //$connection = null;
-                      }
-                    ?>
-                    <ul class="treeview-menu pt_ul">
-                    
-                    <?php foreach($files as $file){ ?>
-                      <div class="img-box">
-                      <li class="treeview">
-                        <a href="#" class="pt_a">
-                        <span><a href="<?php echo $file["files_path"]; ?>">
-                            <img src="../img/datoteka.png" width="20" height="20">
-                        </span>
-                        
-                        </a>
-                        </div>
-                    <?php }?>
-                    
-                    </li>
-                    </ul>
-                  
-                  <?php } ?>
-                      </li>
-                    </ul>
-                      
-                    
-                    </li>  
-                    <?php } ?> 
-                </ul>
-                
-                  <?php } ?>  
-                  </li>
-        <?php
-                
-            }
-            
-        ?>
-            </ul>
-        </div>                             
-        </form>
-  </div>
-  </div>
 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">

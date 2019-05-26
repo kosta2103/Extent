@@ -524,23 +524,16 @@
         $flag = true;
         $comment = $_POST["comment"];
         $task_id = $_POST["task"];
-        $date = (string) date("m/d/y h:ia");
-        $uploaddir= $uploaddir ."commit" . date("m-d-y_h-i") . "/";
+        $date = (string) date("m/d/y h:i:sa");
+        $uploaddir= $uploaddir ."commit" . date("m-d-y_h-i-s") . "/";
         $files = $_FILES["commit_file"];
 
         if (!file_exists($uploaddir)) {
           mkdir($uploaddir, 0777, true);
         }
-
-                
+    
         try{
-            /*$sql_insert_commit = "INSERT INTO Commits(commit_comment, commit_time, task_id)
-                                  VALUES('$comment', '$date', (SELECT task_id FROM Tasks WHERE task_name = '$task_id'))";
-            $stmt = $connection->prepare($sql_insert_commit);
-            $stmt->execute();
-            if($stmt->rowCount() > 0){
-                $_SESSION["message_success"] = "Komit je prošao";*/
-
+          
             if(!empty($files)){
               $sql_insert_commit = "INSERT INTO Commits(commit_comment, commit_time, task_id)
                                   VALUES('$comment', '$date', (SELECT task_id FROM Tasks WHERE task_name = '$task_id'))";
