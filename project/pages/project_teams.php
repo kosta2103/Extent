@@ -324,15 +324,15 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="pages/tasks_add.php"><i class="fa fa-minus"></i>Dodavanje taska</a></li>
-                  <li><a href="pages/tasks_view.php"><i class="fa fa-minus"></i>Prikaz taskova</a></li>
+                  <li><a href="tasks_add.php"><i class="fa fa-minus"></i>Dodavanje taska</a></li>
+                  <li><a href="tasks_view.php"><i class="fa fa-minus"></i>Prikaz taskova</a></li>
                 </ul>
               </li>
            </ul> 
     
       </li>
       <li>
-        <a href="pages/calendar.html">
+        <a href="pages/calendar.php">
           <i class="fa fa-calendar"></i> <span>Kalendar</span>
           <span class="pull-right-container">
             <small class="label pull-right bg-red">3</small>

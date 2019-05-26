@@ -281,21 +281,59 @@
                   <li><a href="project_management_manipulation.php"><i class="fa fa-minus"></i>Prikaza projekata</a></li>
                 </ul>
               </li>
-            <li><a href="teams.html"><i class="fa fa-circle-o"></i> Projektni timovi</a></li>
-            <li><a href="commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-circle-o"></i> <span>Projektni timovi</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="project_teams.php"><i class="fa fa-minus"></i> Dodavanje</a></li>
+                <li><a href="project_teams_view.php"><i class="fa fa-minus"></i> Prikaz</a></li>
+              </ul>
+            </li>
+            <!--<li><a href="commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>-->
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-table"></i> <span>Tiketi</span>
-            <span class="pull-right-container">
-             
-            </span>
-          </a>
+          <i class="fa fa-table"></i> <span>Tiketi</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-circle-o"></i> <span>Komitovi</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="commits_add.php"><i class="fa fa-minus"></i>Dodavanje komita</a></li>
+                <li><a href="commits_view.php"><i class="fa fa-minus"></i>Prikaz komitova</a></li>
+              </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i> <span>Taskovi</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="tasks_add.php"><i class="fa fa-minus"></i>Dodavanje taska</a></li>
+                  <li><a href="tasks_view.php"><i class="fa fa-minus"></i>Prikaz taskova</a></li>
+                </ul>
+              </li>
+           </ul> 
       
         </li>
         <li>
-          <a href="calendar.html">
+          <a href="calendar.php">
             <i class="fa fa-calendar"></i> <span>Kalendar</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-red">3</small>
