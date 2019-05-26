@@ -8,7 +8,7 @@
         {
             return 0;
         }
-        else if($arr[0]["team_id"] != '0')
+        else if($arr[0]["team_id"] != NULL)
         {
             return -1;
         }
@@ -31,7 +31,7 @@
         }
     }
 
-    try{$tls = $connection->query("SELECT username FROM User WHERE role_id = '3' AND team_id='0'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
+    try{$tls = $connection->query("SELECT username FROM User WHERE role_id = '3' AND team_id IS NULL")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
 
     if(isset($_POST['submit_btn']))
     {

@@ -395,7 +395,7 @@
                                   <i class="fa fa-angle-left pull-right"></i>
                               </span>
                           </a>
-                          <ul class="treeview-menu pt_ul">
+                          <ul class="treeview-menu pt_ul" style="padding: 0px;">
                             <?php 
                               try{$arr = $connection->query("SELECT * FROM Tasks WHERE project_name = '$project_name' ORDER BY task_id ASC")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
 
@@ -406,7 +406,7 @@
                                 $username = $username_arr[0]['username'];
                             ?>
                               <li class="treeview pt_li_hover">
-                                <a href="#">
+                                <a href="#" style="padding-left:30px;">
                                     <i class="fa fa-edit"></i> <span><?php echo $line['task_name'] ?></span>
                                     <span class="pull-right-container">
                                         <i class="fa fa-angle-left pull-right"></i>

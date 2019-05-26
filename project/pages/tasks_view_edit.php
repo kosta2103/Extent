@@ -405,9 +405,9 @@
                   <textarea type='text' rows=2 name="task_description" style="font-size: 18px;padding-top: 20px; padding-bottom:20px;border: none; width:100%;" value=""><?php echo $arr[0]['task_description'] ?></textarea>
                 </div>
 
-                <div class="box-header with-border" style="padding-top: 15px; padding-bottom:15px;width: 600px;">
-                    <label for="inputEmail3" class="control-label">Rok taska</label>
-                    <div class="input-group col-sm-10 task_input_group">
+                <div class="box-header with-border" style="padding-top: 15px; padding-bottom:15px;display:flex;">
+                    <label for="inputEmail3" style="width: 10.3%;" class="control-label">Rok taska</label>
+                    <div class="input-group task_input_group" style="width: 25%;">
                       <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                       </div>
@@ -416,10 +416,9 @@
                 </div>
 
 
-                <div class="box-header with-border" style="font-size: 15px;padding-top: 15px; padding-bottom:15px;">
-                  <div class="form-group">
-                      <label for="inputPassword3" class="col-sm-2 control-label">Izvrsitelj - @</label>
-                      <select name="as_username" class="form-control select2 select2-hidden-accessible" style="width: 50% !important;" tabindex="-1" aria-hidden="true">
+                <div class="box-header with-border" style="padding-top: 15px; padding-bottom:15px;display:flex;">
+                      <label for="inputPassword3" style="width: 10.3%;" class="control-label">Izvrsitelj</label>
+                      <select name="as_username" style="width: 25%;" class="form-control select2 select2-hidden-accessible" style="width: 50% !important;" tabindex="-1" aria-hidden="true">
                         <option selected disabled>@Korisnicko ime izvrsitelja taska</option>
                         <?php 
                           foreach($assignee_arr_for_proj as $assignee1)
@@ -435,15 +434,15 @@
                           }
                         ?>
                       </select>
-                  </div>
-                </div>
-
-                <div class="box-header with-border" style="font-size: 7px;padding-top: 15px; padding-bottom:15px;">
-                  <h3 class="box-title" style="font-size:15px !important;">Projekat - <b><?php echo $arr[0]['project_name'] ?></h3>
                 </div>
 
                 <div class="box-header with-border" style="padding-top: 15px; padding-bottom:15px;">
-                    <h3 class="box-title" style="font-size:15px !important;">Prioritet taska - <b><?php echo $arr[0]['task_priority'] ?></h3>
+                  <h3 class="box-title" style="font-size:15px !important;"><b>Projekat - </b><?php echo $arr[0]['project_name'] ?></h3>
+                </div>
+
+                <div class="box-header with-border" style="padding-top: 15px; padding-bottom:15px;display:flex;">
+                    <label for="inputPassword3" style="width: 10.3%;" class="control-label"><b>Prioritet taska - </b></label>
+                    <input type="number" style="width: 25%;" class="form-control" id="inputEmail3" name="task_priority" placeholder="<?php echo $arr[0]['task_priority'] ?>">
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
@@ -494,7 +493,7 @@
                 <div class="container" style="width: 95%;">
                   <div class="box-header with-border">
                     <div class="row">
-                      <h1 class="box-title col-sm-10" style="font-size: 30px;padding-top: 20px; padding-bottom:20px;"><?php echo $arr[0]['task_name'] ?></h1>
+                      <h1 class="box-title col-sm-10" style="font-size: 30px;padding-top: 20px; padding-bottom:20px;"><b><?php echo $arr[0]['task_name'] ?></b></h1>
                       <a href='?task_id=<?php echo $_SESSION['task_id'] ?>&edit=1'><i class="glyphicon glyphicon-edit col-sm-2" style="font-size: 30px;padding-top: 20px; padding-bottom:20px; text-align:right;"></i></a>
                     </div>
                   </div>
@@ -504,19 +503,19 @@
                   </div>
 
                   <div class="box-header with-border" style="padding-top: 15px; padding-bottom:15px;">
-                      <h3 class="box-title" style="font-size:15px !important;">Rok taska - <?php echo $arr[0]['task_deadline'] ?></h3>
+                      <h3 class="box-title" style="font-size:15px !important;">Rok taska - <b><?php echo $arr[0]['task_deadline'] ?></b></h3>
                   </div>
 
                   <div class="box-header with-border" style="font-size: 7px;padding-top: 15px; padding-bottom:15px;">
-                    <h3 class="box-title" style="font-size:15px !important;">Izvrsitelj - @<?php echo $assignee ?></h3>
+                    <h3 class="box-title" style="font-size:15px !important;">Izvrsitelj - <b>@<?php echo $assignee ?></b></h3>
                   </div>
 
                   <div class="box-header with-border" style="font-size: 7px;padding-top: 15px; padding-bottom:15px;">
-                    <h3 class="box-title" style="font-size:15px !important;">Projekat - <?php echo $arr[0]['project_name'] ?></h3>
+                    <h3 class="box-title" style="font-size:15px !important;">Projekat - <b><?php echo $arr[0]['project_name'] ?></b></h3>
                   </div>
 
                   <div class="box-header with-border" style="padding-top: 15px; padding-bottom:15px;">
-                      <h3 class="box-title" style="font-size:15px !important;">Prioritet taska - <?php echo $arr[0]['task_priority'] ?></h3>
+                      <h3 class="box-title" style="font-size:15px !important;">Prioritet taska - <b><?php echo $arr[0]['task_priority'] ?></b></h3>
                   </div>
                   <!-- /.box-header -->
                   <!-- form start -->
