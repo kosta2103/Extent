@@ -483,7 +483,7 @@
                         <i class="fa fa-minus"></i> <span><?php
                           $commitID = $commit["commit_id"];
                           $sql_query4 = "SELECT username FROM User WHERE user_id=(SELECT user_id FROM Tasks WHERE task_name='$task_name')";
-                          $sql_query5 = "SELECT commit_comment FROM Commits WHERE commit_id=$commitID";
+                          $sql_query5 = "SELECT commit_comment, commit_time FROM Commits WHERE commit_id=$commitID";
 
                           try{
                               $stmt4 = $connection->prepare($sql_query4);
@@ -497,7 +497,7 @@
                           }finally{
                               //$connection = null;
                           } 
-                          echo $commit["commit_id"] . " | " . $users[0]["username"] . " | " . $comments[0]["commit_comment"]; ?></span>
+                          echo $commit["commit_id"] . " | " . $users[0]["username"] . " | " . $comments[0]["commit_comment"] . " | Vreme: " . $comments[0]["commit_time"]; ?></span>
                         
                         </a>
                     
