@@ -1,3 +1,7 @@
+<?php 
+  session_start();
+  $_SESSION['editable'] = false;
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,18 +16,27 @@
   <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="../bower_components/Ionicons/css/ionicons.min.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" href="../bower_components/bootstrap-daterangepicker/daterangepicker.css">
+  <!-- bootstrap datepicker -->
+  <link rel="stylesheet" href="../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="../plugins/iCheck/all.css">
+  <!-- Bootstrap Color Picker -->
+  <link rel="stylesheet" href="../bower_components/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css">
+  <!-- Bootstrap time Picker -->
+  <link rel="stylesheet" href="../plugins/timepicker/bootstrap-timepicker.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="../bower_components/select2/dist/css/select2.min.css">
+  
   <!-- jvectormap -->
   <link rel="stylesheet" href="../bower_components/jvectormap/jquery-jvectormap.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/buildira.min.css">
-
-  
-  <link rel="stylesheet" href="../dist/css/project_teams.css">
-
-
   <!-- buildira Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
+
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -308,8 +321,8 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="pages/tasks_add.php"><i class="fa fa-minus"></i>Dodavanje taska</a></li>
-                  <li><a href="pages/tasks_view.php"><i class="fa fa-minus"></i>Prikaz taskova</a></li>
+                  <li><a href="tasks_add.php"><i class="fa fa-minus"></i>Dodavanje taska</a></li>
+                  <li><a href="tasks_view.php"><i class="fa fa-minus"></i>Prikaz taskova</a></li>
                 </ul>
               </li>
            </ul> 
@@ -350,19 +363,19 @@
       </li>
       </li>
     </ul>
-
     </section>
     <!-- /.sidebar -->
   </aside>
 
-    <?php require_once("backend_pages/project_teams_backend.php");?>
-
+    <?php
+        require_once("backend_pages/tasks_view_edit_backend.php");
+    ?>
+  
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1 class="pt_h1">
-        Projektni timovi
+      <h1>
         <small>Demo</small>
       </h1>
       <ol class="breadcrumb">
@@ -372,76 +385,177 @@
     </section>
 
   <!-- /.content-wrapper -->
-    <div class="container pt_container">
-      <div class="box box-info">
-        <div class="box-header with-border">
-          <h3 class="box-title">Forma za dodavanje projektnog tima</h3>
-        </div>
-        <!-- /.box-header -->
-        <!-- form start -->
-        <form method="POST" action="project_teams.php" class="form-horizontal">
-          <div class="box-body">
-            <div class="form-group">
-              <label for="inputEmail3" class="col-sm-2 control-label">Naziv tima</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputEmail3" name="team_name" placeholder="Naziv tima" required>
-              </div>
-            </div>
 
-            <div class="form-group">
-              <label for="inputPassword3" class="col-sm-2 control-label">Clanovi tima</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputPassword3" name="team_members" placeholder="Korisnicka imena clanova tima odvojena jednim praznim poljem" required>
-              </div>
-            </div>
+    <?php 
+    if($_SESSION['editable'] == 1)
+    {
+    ?>
 
-            <div class="form-group">
-              <label for="inputPassword3" class="col-sm-2 control-label">Tim lider</label>
-              <div class="col-sm-10">
-                <select name="team_leader" class="form-control select2 select2-hidden-accessible">
-                  <?php 
-                    foreach($tls as $tl)
-                    {
-                        echo "<option>".$tl['username']."</option>";
-                    }
-                  ?>  
-                </select>
-              </div>
-            </div>
+      <div class="container" style="margin-top: 30px;">
+          <div class="box box-info">
+            <form action="" method="POST">
+              <div class="container" style="width: 95%;">
+                <div class="box-header with-border">
+                  <div class="row">
+                    <textarea type='text' rows=1 name="task_name" style="font-size: 30px;padding-top: 20px; padding-bottom:20px;border: none; width:100%;padding-left:15px;padding-right:15px;" value=""><?php echo $arr[0]['task_name'] ?></textarea>
+                  </div>
+                </div>
 
-            <div class="form-group">
-              <label for="inputPassword3" class="col-sm-2 control-label">Zaduzenje</label>
-              <div class="col-sm-10">
-                <select name="team_task" class="form-control select2 select2-hidden-accessible" required>
-                  <option selected hidden disabled>Odaberi opciju </option>
-                  <option>A</option>
-                  <option>A2</option>
-                  <option>A3</option>
-                  <option>A4</option>
-                  <option>A5</option>
-                  <option>A6</option>
-                  <option>A7</option>
-                </select>
-              </div>
-            </div>
+                <div class="box-header with-border" style="padding-top: 35px; padding-bottom:35px;">
+                  <textarea type='text' rows=2 name="task_description" style="font-size: 18px;padding-top: 20px; padding-bottom:20px;border: none; width:100%;" value=""><?php echo $arr[0]['task_description'] ?></textarea>
+                </div>
 
-            <div class="form-group">
-              <label for="inputPassword3" class="col-sm-2 control-label">Opis</label>
-              <div class="col-sm-10">
-                <textarea class="form-control" name="team_description" rows="3" placeholder="Opis ..." required></textarea>
-              </div>  
+                <div class="box-header with-border" style="padding-top: 15px; padding-bottom:15px;width: 600px;">
+                    <label for="inputEmail3" class="control-label">Rok taska</label>
+                    <div class="input-group col-sm-10 task_input_group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="text" class="form-control pull-right" name="task_deadline" id="reservation" value="<?php echo $arr[0]['task_deadline'] ?>">
+                  </div>
+                </div>
+
+
+                <div class="box-header with-border" style="font-size: 15px;padding-top: 15px; padding-bottom:15px;">
+                  <div class="form-group">
+                      <label for="inputPassword3" class="col-sm-2 control-label">Izvrsitelj - @</label>
+                      <select name="as_username" class="form-control select2 select2-hidden-accessible" style="width: 50% !important;" tabindex="-1" aria-hidden="true">
+                        <option selected disabled>@Korisnicko ime izvrsitelja taska</option>
+                        <?php 
+                          foreach($assignee_arr_for_proj as $assignee1)
+                          {
+                            if($assignee1['username'] == $assignee)
+                            {
+                              echo "<option selected>@".$assignee1['username']."</option>";
+                            }
+                            else
+                            {
+                              echo "<option>@".$assignee1['username']."</option>";
+                            }
+                          }
+                        ?>
+                      </select>
+                  </div>
+                </div>
+
+                <div class="box-header with-border" style="font-size: 7px;padding-top: 15px; padding-bottom:15px;">
+                  <h3 class="box-title" style="font-size:15px !important;">Projekat - <b><?php echo $arr[0]['project_name'] ?></h3>
+                </div>
+
+                <div class="box-header with-border" style="padding-top: 15px; padding-bottom:15px;">
+                    <h3 class="box-title" style="font-size:15px !important;">Prioritet taska - <b><?php echo $arr[0]['task_priority'] ?></h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+
+
+                <div class="box-footer" style="border-bottom: 1px solid #f4f4f4;">
+                    <button type="submit" class="btn btn-default">Zatvori task</button>
+                    <button type="submit" name="submit_btn" class="btn btn-info pull-right"><i class="glyphicon glyphicon-save"></i> Sacuvaj promene</button>
+                </div>
+              </form>
             </div>
-       
-          <!-- /.box-body -->
-          <div class="box-footer">
-            <button type="submit" name="submit_btn" class="btn btn-info pull-right"><i class="glyphicon glyphicon-plus"></i> Dodaj tim</button>
           </div>
-          <!-- /.box-footer -->
-        </form>
+
+          <div class="box box-info">
+              <form method="POST" action="project_teams.php" class="form-horizontal">
+                <div class="box-body">
+                  <div class="container" style="width: 95%;">
+                      <div class="form-group">
+                          <label for="inputPassword3" class="col-sm-1 control-label" style="text-align:center;">Komentari</label>
+                          <div class="col-sm-11">
+                              <textarea class="form-control" name="team_description" rows="5" placeholder="Komentar ..." ></textarea>
+                          </div>
+                      </div>
+                      <div class="form-group" style="margin-right: 4px;">  
+                          <button type="submit" name="submit_btn" class="btn btn-info pull-right"><i class="glyphicon glyphicon-plus"></i> Dodaj komentar</button>
+                      </div>
+                  </div>
+                  
+      
+              <!-- /.box-body -->
+              
+              <!-- /.box-footer -->
+              
+                </div>
+              </form>
+          </div>
+
       </div>
-    </div>
-  </div>
-    
+
+<?php } 
+      
+      else
+      {
+      ?>
+          <div class="container" style="margin-top: 30px;">
+            <div class="box box-info">
+              <form action="" method="POST">
+                <div class="container" style="width: 95%;">
+                  <div class="box-header with-border">
+                    <div class="row">
+                      <h1 class="box-title col-sm-10" style="font-size: 30px;padding-top: 20px; padding-bottom:20px;"><?php echo $arr[0]['task_name'] ?></h1>
+                      <a href='?task_id=<?php echo $_SESSION['task_id'] ?>&edit=1'><i class="glyphicon glyphicon-edit col-sm-2" style="font-size: 30px;padding-top: 20px; padding-bottom:20px; text-align:right;"></i></a>
+                    </div>
+                  </div>
+
+                  <div class="box-header with-border" style="padding-top: 35px; padding-bottom:35px;">
+                    <h3 class="box-title" style="font-size:18px !important;"><?php echo $arr[0]['task_description'] ?></h3>
+                  </div>
+
+                  <div class="box-header with-border" style="padding-top: 15px; padding-bottom:15px;">
+                      <h3 class="box-title" style="font-size:15px !important;">Rok taska - <?php echo $arr[0]['task_deadline'] ?></h3>
+                  </div>
+
+                  <div class="box-header with-border" style="font-size: 7px;padding-top: 15px; padding-bottom:15px;">
+                    <h3 class="box-title" style="font-size:15px !important;">Izvrsitelj - @<?php echo $assignee ?></h3>
+                  </div>
+
+                  <div class="box-header with-border" style="font-size: 7px;padding-top: 15px; padding-bottom:15px;">
+                    <h3 class="box-title" style="font-size:15px !important;">Projekat - <?php echo $arr[0]['project_name'] ?></h3>
+                  </div>
+
+                  <div class="box-header with-border" style="padding-top: 15px; padding-bottom:15px;">
+                      <h3 class="box-title" style="font-size:15px !important;">Prioritet taska - <?php echo $arr[0]['task_priority'] ?></h3>
+                  </div>
+                  <!-- /.box-header -->
+                  <!-- form start -->
+
+
+                  <div class="box-footer" style="border-bottom: 1px solid #f4f4f4;">
+                      <button type="submit" class="btn btn-default">Zatvori task</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="box box-info">
+                <form method="POST" action="project_teams.php" class="form-horizontal">
+                  <div class="box-body">
+                    <div class="container" style="width: 95%;">
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-1 control-label" style="text-align:center;">Komentari</label>
+                            <div class="col-sm-11">
+                                <textarea class="form-control" name="team_description" rows="5" placeholder="Komentar ..." ></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-right: 4px;">  
+                            <button type="submit" name="submit_btn" class="btn btn-info pull-right"><i class="glyphicon glyphicon-plus"></i> Dodaj komentar</button>
+                        </div>
+                    </div>
+                    
+        
+                <!-- /.box-body -->
+                
+                <!-- /.box-footer -->
+                
+                  </div>
+                </form>
+            </div>
+
+        </div>
+
+<?php } ?>
 
 
   <footer class="main-footer">
@@ -456,12 +570,31 @@
       <!-- /.tab-pane -->
 
      
-<!-- ./wrapper -->
-
 <!-- jQuery 3 -->
 <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Select2 -->
+<script src="../bower_components/select2/dist/js/select2.full.min.js"></script>
+
+<!-- InputMask -->
+<script src="../plugins/input-mask/jquery.inputmask.js"></script>
+<script src="../plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="../plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<!-- date-range-picker -->
+<script src="../bower_components/moment/min/moment.min.js"></script>
+<script src="../bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- bootstrap datepicker -->
+<script src="../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- bootstrap color picker -->
+<script src="../bower_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+<!-- bootstrap time picker -->
+<script src="../plugins/timepicker/bootstrap-timepicker.min.js"></script>
+<!-- SlimScroll -->
+<script src="../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- iCheck 1.0.1 -->
+<script src="../plugins/iCheck/icheck.min.js"></script>
+
 <!-- FastClick -->
 <script src="../bower_components/fastclick/lib/fastclick.js"></script>
 <!-- buildira App -->
@@ -478,5 +611,52 @@
 <script src="../dist/js/pages/dashboard2.js"></script>
 <!-- buildira for demo purposes -->
 <script src="../dist/js/demo.js"></script>
+
+
+<script>
+ $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' })
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+      {
+        ranges   : {
+          'Today'       : [moment(), moment()],
+          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment()
+      },
+      function (start, end) {
+        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+      }
+    )
+
+    //Date picker
+    $('#datepicker').datepicker({
+      autoclose: true
+    })
+
+
+    })
+
+</script>
+
 </body>
 </html>

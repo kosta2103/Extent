@@ -20,6 +20,8 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
 
+  <link rel="stylesheet" href="../dist/css/project_teams.css">
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -294,6 +296,19 @@
                 <li><a href="commits_view.php"><i class="fa fa-minus"></i>Prikaz komitova</a></li>
               </ul>
             </li>
+
+            <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i> <span>Taskovi</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="tasks_add.php"><i class="fa fa-minus"></i>Dodavanje taska</a></li>
+                  <li><a href="tasks_view.php"><i class="fa fa-minus"></i>Prikaz taskova</a></li>
+                </ul>
+              </li>
            </ul> 
     
       </li>
@@ -340,8 +355,8 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <h1>
-        Blank page
+      <h1 style="text-align:center;">
+        Prikaz taskova
         <small>Demo</small>
       </h1>
       <ol class="breadcrumb">
@@ -350,8 +365,82 @@
       </ol>
     </section>
 
+    <?php
+        require_once("backend_pages/tasks_view_backend.php");
+    ?>
     
   <!-- /.content-wrapper -->
+  <div class="container pt_container">
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">Prikaz svih taskova</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+
+      
+          <form method="POST" action="project_teams_view.php" class="form-horizontal" id='team_form'>
+              <div class="box-body">
+                  <ul class="sidebar-menu" data-widget="tree">
+                      <?php
+                      foreach($arr as $line)
+                      {
+                        $user_id = $line['user_id'];
+                        $username_arr = $connection->query("SELECT username FROM User WHERE user_id='$user_id'")->fetchAll();
+                        $username = $username_arr[0]['username'];
+                    ?>
+
+                        <li class="treeview pt_li_hover">
+                          <a href="#">
+                              <i class="fa fa-edit"></i> <span><?php echo $line['task_name'] ?></span>
+                              <span class="pull-right-container">
+                                  <i class="fa fa-angle-left pull-right"></i>
+                              </span>
+                          </a>
+                          <ul class="treeview-menu pt_ul">
+
+                                <li style="display: flex">
+                                    <a href="#" class="pt_a"><i class="fa fa-minus"></i> Naziv projekta - <?php echo $line['project_name'] ?></a>
+                                </li>
+
+                                <li style="display: flex">
+                                    <a href="#" class="pt_a"><i class="fa fa-minus"></i> Prioritet taska - <?php echo $line['task_priority'] ?></a>
+                                </li>
+
+                                <li style="display: flex">
+                                    <a href="#" class="pt_a"><i class="fa fa-minus"></i> Rok taska - <?php echo $line['task_deadline'] ?></a>
+                                </li>
+
+                                <li style="display: flex">
+                                    <a href="#" class="pt_a"><i class="fa fa-minus"></i> Izvrsilac taska - <?php echo $username ?></a>
+                                </li>
+                                
+                                <li class="pt_li1">
+                                    <a class="pt_a" href="tasks_view_edit.php?task_id=<?php echo $line['task_id'] ?>" >Prikaz</a>
+                                </li>
+                          </ul>
+                      </li>
+                      <?php                
+                      
+                      }
+
+                      ?>
+                      
+
+                      
+                  </ul>
+
+                              
+              </div>
+            <!-- /.box-body -->
+            
+            <!-- /.box-footer -->
+          </form>
+
+
+      </div>
+    </div>
+
 
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
