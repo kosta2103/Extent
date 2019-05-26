@@ -464,7 +464,7 @@
                         </div>
                         <div class="form-group">
                         <label for="exampleInputFile">Komit fajl</label>
-                        <input type="file" id="exampleInputFile" name="commit_file[]" title="Izaberite fajl" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/pdf, text/plain, application/msword" multiple required>
+                        <input class="glyphicon glyphicon-file-open" type="file" id="exampleInputFile" name="commit_file[]" title="Izaberite fajl" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/pdf, text/plain, application/msword" multiple required>
                         </div>
                         
                     </div>

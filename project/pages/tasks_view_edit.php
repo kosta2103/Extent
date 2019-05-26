@@ -419,7 +419,6 @@
                 <div class="box-header with-border" style="padding-top: 15px; padding-bottom:15px;display:flex;">
                       <label for="inputPassword3" style="width: 10.3%;" class="control-label">Izvrsitelj</label>
                       <select name="as_username" style="width: 25%;" class="form-control select2 select2-hidden-accessible" style="width: 50% !important;" tabindex="-1" aria-hidden="true">
-                        <option selected disabled>@Korisnicko ime izvrsitelja taska</option>
                         <?php 
                           foreach($assignee_arr_for_proj as $assignee1)
                           {
@@ -522,7 +521,14 @@
 
 
                   <div class="box-footer" style="border-bottom: 1px solid #f4f4f4;">
-                      <button type="submit" class="btn btn-default">Zatvori task</button>
+                    <div class="row">
+                      <div class="col-sm-2">
+                        <button type="submit" class="btn btn-default">Zatvori task</button>
+                      </div>
+                      <div class="col-sm-10" style="text-align:right;">
+                        <a href='?task_id=<?php echo $_SESSION['task_id'] ?>&rm=1'><i class="glyphicon glyphicon-remove" style="font-size: 30px; text-align:right;"></i></a>
+                      </div>
+                    </div>
                   </div>
                 </form>
               </div>

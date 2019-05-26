@@ -8,7 +8,7 @@
         {
             return 0;
         }
-        else if($arr[0]["team_id"] != '0')
+        else if($arr[0]["team_id"] != NULL)
         {
             return -1;
         }
@@ -46,12 +46,12 @@
     if(isset($_GET['username']))
     {
         $username = $_GET['username'];
-        try{$connection->query("UPDATE User SET team_id = 0 WHERE username='$username'");}catch(Exception $e){echo $e->getMessage();}
+        try{$connection->query("UPDATE User SET team_id = NULL WHERE username='$username'");}catch(Exception $e){echo $e->getMessage();}
     }
     if(isset($_GET['team_id']))
     {
         $team_id = $_GET['team_id'];
-        try{$connection->query("UPDATE User SET team_id='0' WHERE team_id='$team_id'");}catch(Exception $e){echo $e->getMessage();}
+        try{$connection->query("UPDATE User SET team_id= NULL WHERE team_id='$team_id'");}catch(Exception $e){echo $e->getMessage();}
         try{$connection->query("DELETE FROM Teams WHERE team_id='$team_id'");}catch(Exception $e){echo $e->getMessage();}
         echo "<script> window.location.href='project_teams_view.php'</script>";
     }

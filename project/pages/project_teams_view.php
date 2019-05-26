@@ -411,7 +411,7 @@
                       {
                         $team_id = $line['team_id'];
                         $team_leader = $line['team_leader_username'];
-                        try{$tls = $connection->query("SELECT username FROM User WHERE role_id = '3' AND team_id='0' OR username='$team_leader'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
+                        try{$tls = $connection->query("SELECT username FROM User WHERE role_id = '3' AND team_id IS NULL OR username='$team_leader'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
 
                         try{$arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
 
@@ -598,7 +598,7 @@
                                 else
                                 {
                                   try{$connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'");}catch(Exception $e){echo $e->getMessage();} 
-                                  try{$connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");}catch(Exception $e){echo $e->getMessage();}
+                                  try{$connection->query("UPDATE User SET team_id= NULL WHERE username='$old_tl'");}catch(Exception $e){echo $e->getMessage();}
                                   try{$connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");}catch(Exception $e){echo $e->getMessage();}
                                 }
                               }
@@ -633,7 +633,7 @@
                       {
                         $team_id = $line['team_id'];
                         $team_leader = $line['team_leader_username'];
-                        try{$tls = $connection->query("SELECT username FROM User WHERE role_id = '3' AND team_id='0' OR username='$team_leader'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
+                        try{$tls = $connection->query("SELECT username FROM User WHERE role_id = '3' AND team_id=NULL OR username='$team_leader'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
                         try{$arr_members = $connection->query("SELECT username FROM User WHERE team_id = '$team_id' AND username != '$team_leader'")->fetchAll();}catch(Exception $e){echo $e->getMessage();}
 
                         if($line['project_id'] == $project_id_arr[0]['project_id'])
@@ -822,7 +822,7 @@
                                 else
                                 {
                                   try{$connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'");}catch(Exception $e){echo $e->getMessage();} 
-                                  try{$connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");}catch(Exception $e){echo $e->getMessage();}
+                                  try{$connection->query("UPDATE User SET team_id= NULL WHERE username='$old_tl'");}catch(Exception $e){echo $e->getMessage();}
                                   try{$connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");}catch(Exception $e){echo $e->getMessage();}
                                 }
                               }
@@ -1026,7 +1026,7 @@
                                 else
                                 {
                                   try{$connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'");}catch(Exception $e){echo $e->getMessage();} 
-                                  try{$connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");}catch(Exception $e){echo $e->getMessage();}
+                                  try{$connection->query("UPDATE User SET team_id= NULL WHERE username='$old_tl'");}catch(Exception $e){echo $e->getMessage();}
                                   try{$connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");}catch(Exception $e){echo $e->getMessage();}
                                 }
                               }
@@ -1150,7 +1150,7 @@
                                 else
                                 {
                                   try{$connection->query("UPDATE Teams SET team_leader_username='$team_leader' WHERE team_id = '$team_id'");}catch(Exception $e){echo $e->getMessage();} 
-                                  try{$connection->query("UPDATE User SET team_id='0' WHERE username='$old_tl'");}catch(Exception $e){echo $e->getMessage();}
+                                  try{$connection->query("UPDATE User SET team_id = NULL WHERE username='$old_tl'");}catch(Exception $e){echo $e->getMessage();}
                                   try{$connection->query("UPDATE User SET team_id='$team_id' WHERE username='$team_leader'");}catch(Exception $e){echo $e->getMessage();}
                                 }
                               }
