@@ -362,6 +362,7 @@
                 <thead>
                 <tr>
                   <th>Id</th>
+				  <th>Id projekta</th>
                   <th>Uplatilac</th>
                   <th>Primalac</th>
                   <th>Iznos</th>
@@ -375,6 +376,7 @@
                 foreach($invoice as $invc){?>
                 <tr>
                   <td><?php echo $invc["invoice_id"];?></td>
+				  <td><?php echo $invc["project_id"];?></td>
                   <td><?php echo $invc["sender"];?></td>
                   <td><?php echo $invc["reciever"];?></td>
                   <td><?php echo $invc["amount"];?></td>
@@ -384,6 +386,7 @@
                       <td>
                         <form action="backend_pages/edit_invoice_logic.php" method="post">
                           <input type="hidden" value="<?php echo $invc['invoice_id']; ?>" name="hidden_field_id">
+						  <input type="hidden" value="<?php echo $invc['project_id']; ?>" name="hidden_field__project_id">
                           <input type="hidden" value="<?php echo $invc['sender']; ?>" name="hidden_field_sender">
                           <input type="hidden" value="<?php echo $invc['reciever']; ?>" name="hidden_field_reciever">
                           <input type="hidden" value="<?php echo $invc['amount']; ?>" name="hidden_field_amount">
