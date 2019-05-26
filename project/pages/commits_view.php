@@ -26,6 +26,13 @@
 
 
   <link rel="stylesheet" href="../dist/css/project_teams.css">
+  <style type="text/css">
+    .img-box{
+        display: inline-block;
+        text-align: center;
+        margin: 0 15px;
+    }
+</style>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -186,16 +193,24 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">Aca</span>
+              <?php if(!empty($_SESSION["profile_picture"])){
+                echo '<img src="data:image;base64,'. $_SESSION["profile_picture"] .'" class="user-image" alt="User Image">'; 
+              }else{
+                echo '<img src="../pictures/no_profile_picture.png" class="user-image" alt="User Image">';}?>
+              <span class="hidden-xs"><?php echo $_SESSION["first_name"];?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <?php if(!empty($_SESSION["profile_picture"])){
+                 echo '<img src="data:image;base64,'. $_SESSION["profile_picture"] .'" class="img-circle" alt="User Image">'; 
+               }
+                    else{
+                      echo '<img src="../pictures/no_profile_picture.png" class="user-image" alt="User Image">';
+                    }?>
 
                 <p>
-                  Aca - Web Developer
+                  <?php echo $_SESSION["first_name"] . " " . $_SESSION["last_name"] . " - " . $_SESSION["profession"]; ?>
                   <small>Član od Nov. 2012</small>
                 </p>
               </li>
@@ -207,7 +222,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profil</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Odjava</a>
+                  <a href="backend_pages/logout.php" class="btn btn-default btn-flat">Odjava</a>
                 </div>
               </li>
             </ul>
@@ -223,10 +238,15 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <?php if(!empty($_SESSION["profile_picture"])){
+                 echo '<img src="data:image;base64,'. $_SESSION["profile_picture"] .'" class="img-circle" alt="User Image">'; 
+               }
+                    else{
+                      echo '<img src="../pictures/no_profile_picture.png" class="user-image" alt="User Image">';
+                    }?>
         </div>
         <div class="pull-left info">
-          <p>Aca</p>
+          <p><?php echo $_SESSION["first_name"];?></p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -460,18 +480,35 @@
                     ?>
                       <li class="treeview">
                         <a href="#" class="pt_a">
-                        <i class="fa fa-minus"></i> <span><?php echo $commit["commit_id"]; ?></span>
+                        <i class="fa fa-minus"></i> <span><?php
+                          $commitID = $commit["commit_id"];
+                          $sql_query4 = "SELECT username FROM User WHERE user_id=(SELECT user_id FROM Tasks WHERE task_name='$task_name')";
+                          $sql_query5 = "SELECT commit_comment FROM Commits WHERE commit_id=$commitID";
+
+                          try{
+                              $stmt4 = $connection->prepare($sql_query4);
+                              $stmt4->execute();
+                              $users = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+                              $stmt5 = $connection->prepare($sql_query5);
+                              $stmt5->execute();
+                              $comments = $stmt5->fetchAll(PDO::FETCH_ASSOC);
+                          }catch(Exception $e){
+                              echo $e->getMessage();
+                          }finally{
+                              //$connection = null;
+                          } 
+                          echo $commit["commit_id"] . " | " . $users[0]["username"] . " | " . $comments[0]["commit_comment"]; ?></span>
                         
                         </a>
                     
                     <?php 
-                      $commitID = $commit["commit_id"];
-                      $sql_query4 = "SELECT files_path FROM Files WHERE files_id IN (SELECT files_id FROM Commit_Files WHERE commit_id=$commitID)";
+                      
+                      $sql_query6 = "SELECT files_path FROM Files WHERE files_id IN (SELECT files_id FROM Commit_Files WHERE commit_id=$commitID)";
                     
                       try{
-                          $stmt4 = $connection->prepare($sql_query4);
-                          $stmt4->execute();
-                          $files = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+                          $stmt6 = $connection->prepare($sql_query6);
+                          $stmt6->execute();
+                          $files = $stmt6->fetchAll(PDO::FETCH_ASSOC);
                       }catch(Exception $e){
                           echo $e->getMessage();
                       }finally{
@@ -479,16 +516,19 @@
                       }
                     ?>
                     <ul class="treeview-menu pt_ul">
-                    <?php foreach($files as $file){ echo $file["files_path"]; ?>
+                    
+                    <?php foreach($files as $file){ ?>
+                      <div class="img-box">
                       <li class="treeview">
                         <a href="#" class="pt_a">
-                        <i class=""></i> <span><a href="<?php echo $file["files_path"]; ?>" download>
+                        <span><a href="<?php echo $file["files_path"]; ?>">
                             <img src="../img/datoteka.png" width="20" height="20">
                         </span>
                         
                         </a>
-                        
+                        </div>
                     <?php }?>
+                    
                     </li>
                     </ul>
                   

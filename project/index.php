@@ -330,7 +330,7 @@
       
         </li>
         <li>
-          <a href="pages/calendar.html">
+          <a href="pages/calendar.php">
             <i class="fa fa-calendar"></i> <span>Kalendar</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-red">3</small>
