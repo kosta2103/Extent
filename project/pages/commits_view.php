@@ -43,7 +43,7 @@
 
     <header class="main-header">
     <!-- Logo -->
-    <a href="../index.html" class="logo">
+    <a href="../index.php" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>B</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -438,19 +438,17 @@
                         <i class="fa fa-circle-o"></i> <span><?php echo $commit["commit_id"]; ?></span>
                         
                         </a>
-                    </li>
+                    
                     <?php } ?>
-
+                      </li>
                     </ul>
-                    </li>
+                      
                     
-                    
-                   
-                    
-                    <?php } ?>
+                    </li>   
                 </ul>
-                  <?php } ?>  
-            </li>
+                
+                  <?php }} ?>  
+                  </li>
         <?php
                 
             }
