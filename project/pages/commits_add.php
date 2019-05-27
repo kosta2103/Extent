@@ -309,29 +309,42 @@
           </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-table"></i> <span>Tiketi</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-              <li class="treeview">
+          <i class="fa fa-table"></i> <span>Tiketi</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-circle-o"></i> <span>Komitovi</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="commits_add.php"><i class="fa fa-minus"></i>Dodavanje komita</a></li>
+                <li><a href="commits_view.php"><i class="fa fa-minus"></i>Prikaz komitova</a></li>
+              </ul>
+            </li>
+
+            <li class="treeview">
                 <a href="#">
-                  <i class="fa fa-circle-o"></i> <span>Komitovi</span>
+                  <i class="fa fa-circle-o"></i> <span>Taskovi</span>
                   <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i>
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="commits_add.php"><i class="fa fa-minus"></i>Dodavanje komita</a></li>
-                  <li><a href="commits_view.php"><i class="fa fa-minus"></i>Prikaz komitova</a></li>
+                  <li><a href="tasks_add.php"><i class="fa fa-minus"></i>Dodavanje taska</a></li>
+                  <li><a href="tasks_view.php"><i class="fa fa-minus"></i>Prikaz taskova</a></li>
                 </ul>
               </li>
-             </ul> 
-      
+           </ul> 
+        
         </li>
         <li>
-          <a href="pages/calendar.html">
+          <a href="calendar.php">
             <i class="fa fa-calendar"></i> <span>Kalendar</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-red">3</small>
@@ -464,7 +477,11 @@
                         </div>
                         <div class="form-group">
                         <label for="exampleInputFile">Komit fajl</label>
+<<<<<<< HEAD
                         <input class="glyphicon glyphicon-file-open" type="file" id="exampleInputFile" name="commit_file[]" title="Izaberite fajl" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/pdf, text/plain, application/msword" multiple required>
+=======
+                        <input type="file" id="exampleInputFile" name="commit_file[]" title="Izaberite fajl" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/pdf, text/plain, application/msword, image/*" multiple required>
+>>>>>>> dd4cdbadac1067f14bcdb55632b548d187d3dd30
                         </div>
                         
                     </div>
@@ -533,7 +550,7 @@
         }
     
         try{
-          
+
             if(!empty($files)){
               $sql_insert_commit = "INSERT INTO Commits(commit_comment, commit_time, task_id)
                                   VALUES('$comment', '$date', (SELECT task_id FROM Tasks WHERE task_name = '$task_id'))";

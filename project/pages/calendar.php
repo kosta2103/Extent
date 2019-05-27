@@ -264,17 +264,45 @@
           <ul class="treeview-menu">
             <li><a href="project_management.php"><i class="fa fa-circle-o"></i> Upravljanje</a></li>
             <li><a href="pages/teams.html"><i class="fa fa-circle-o"></i> Projektni timovi</a></li>
-            <li><a href="pages/commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>
+            <!--<li><a href="pages/commits.html"><i class="fa fa-circle-o"></i> Komitovi</a></li>-->
           </ul>
         </li>
         <li class="treeview">
-          <a href="#">
-            <i class="fa fa-table"></i> <span>Tiketi</span>
-            <span class="pull-right-container">
-            </span>
-          </a>
-         
-        </li>
+        <a href="#">
+          <i class="fa fa-table"></i> <span>Tiketi</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-circle-o"></i> <span>Komitovi</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="commits_add.php"><i class="fa fa-minus"></i>Dodavanje komita</a></li>
+                <li><a href="commits_view.php"><i class="fa fa-minus"></i>Prikaz komitova</a></li>
+              </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i> <span>Taskovi</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="tasks_add.php"><i class="fa fa-minus"></i>Dodavanje taska</a></li>
+                  <li><a href="tasks_view.php"><i class="fa fa-minus"></i>Prikaz taskova</a></li>
+                </ul>
+              </li>
+           </ul> 
+    
+      </li>
         <li class="active">
           <a href="calendar.html">
             <i class="fa fa-calendar"></i> <span>Kalendar</span>
