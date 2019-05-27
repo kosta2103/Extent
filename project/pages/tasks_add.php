@@ -414,13 +414,10 @@
               <div class="col-sm-10">
                 <select name="project_name" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true" required>
                   <?php 
+                    echo "<option disabled>Naziv projekata u okviru kog se kreira task</option>";
                     if(isset($_POST['project_name']))
                     {
                       echo "<option selected disabled>".$_POST['project_name']."</option>";
-                    }
-                    else
-                    {
-                      echo "<option selected disabled>Naziv projekata u okviru kog se kreira task</option>";
                     }
                   
                     foreach($project_arr as $project)
@@ -480,7 +477,7 @@
                   <label for="inputPassword3" class="col-sm-2 control-label">Izvrsitelj</label>
                   <div class="col-sm-10">
                     <select name="as_username" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                      <option selected disabled>@Korisnicko ime izvrsitelja taska</option>
+                      <option disabled>@Korisnicko ime izvrsitelja taska</option>
                       <?php 
                         foreach($assignee_arr_for_proj as $assignee)
                         {
@@ -500,7 +497,7 @@
                   <label for="inputPassword3" class="col-sm-2 control-label">Izvrsitelj</label>
                   <div class="col-sm-10">
                     <select name="as_username" class="form-control select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                      <option selected disabled>@Korisnicko ime izvrsitelja taska</option>
+                      <option disabled>@Korisnicko ime izvrsitelja taska</option>
                       <?php 
                         foreach($assignee_arr as $assignee)
                         {
