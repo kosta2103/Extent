@@ -41,7 +41,7 @@
 
     <header class="main-header">
     <!-- Logo -->
-    <a href="../index.html" class="logo">
+    <a href="../index.php" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>B</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -290,7 +290,7 @@
       
         </li>
         <li>
-          <a href="pages/calendar.html">
+          <a href="calendar.html">
             <i class="fa fa-calendar"></i> <span>Kalendar</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-red">3</small>
@@ -306,17 +306,31 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-folder"></i> <span>Finansije</span>
+            <i class="fa fa-table"></i> <span>Finansije</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/invoice.html"><i class="fa fa-circle-o"></i> Uplate</a></li>
-            <li><a href="pages/payments.html"><i class="fa fa-circle-o"></i> Izvestaji</a></li>
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i> <span>Uplate</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="invoice_create.php"><i class="fa fa-minus"></i>Dodavanje uplate</a></li>
+                  <li><a href="invoice.php"><i class="fa fa-minus"></i>Prikaz uplata</a></li>
+                </ul>
+              </li>
 
-
-         </ul>
+              <li>
+					<a href="invoice.html">
+					<i class="fa fa-circle-o"></i> Izveštaji</a>
+			  </li>
+          </ul> 
+      
         </li>
       </ul>
     </section>
@@ -329,7 +343,7 @@
     <section class="content-header">
       <h1>
         Faktura
-        <small>#007612</small>
+        <small>#007452 <?php echo $_POST['hidden_field_or1'];?></small> <!-- ovde nece da prosledi-->
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -382,7 +396,7 @@
         </div>
         <!-- /.col -->
         <div class="col-sm-4 invoice-col">
-          <b>Faktura br #007612</b><br>
+          <b>Faktura br 007452 <?php echo $_POST['hidden_field_or1'];?></b><br>  <!-- ovde nece da prosledi-->
           <br>
           <b>Projekat:</b> 4F3S8J<br>
           <b>Datum:</b> 22/05/2019<br>

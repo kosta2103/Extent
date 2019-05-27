@@ -341,22 +341,14 @@
                 </a>
                 <ul class="treeview-menu">
                   <li><a href="invoice_create.php"><i class="fa fa-minus"></i>Dodavanje uplate</a></li>
-                  <li><a href="pages/invoice.php"><i class="fa fa-minus"></i>Prikaz uplata</a></li>
+                  <li><a href="invoice.php"><i class="fa fa-minus"></i>Prikaz uplata</a></li>
                 </ul>
               </li>
 
-              <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-circle-o"></i> <span>Izveštaji</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li><a href="#"><i class="fa fa-minus"></i>Pravljenje izveštaja</a></li>
-                  <li><a href="pages/payments.php"><i class="fa fa-minus"></i>Prikaz izveštaja</a></li>
-                </ul>
-              </li>
+              <li>
+					<a href="invoice.html">
+					<i class="fa fa-circle-o"></i> Izveštaji</a>
+			  </li>
           </ul> 
       
         </li>

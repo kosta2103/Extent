@@ -371,18 +371,10 @@
                 </ul>
               </li>
 
-              <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-circle-o"></i> <span>Izveštaji</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li><a href="#"><i class="fa fa-minus"></i>Pravljenje izveštaja</a></li>
-                  <li><a href="pages/payments.php"><i class="fa fa-minus"></i>Prikaz izveštaja</a></li>
-                </ul>
-              </li>
+              <li>
+					<a href="pages/invoice.html">
+					<i class="fa fa-circle-o"></i> Izveštaji</a>
+			  </li>
           </ul> 
       
         </li>
@@ -630,7 +622,12 @@
                   </thead>
                   <tbody>
                   <tr>
-                    <td><a href="pages/examples/invoice.html">OR9842</a></td>
+                    <td>
+						<form action="pages/invoice.html" method="post">
+							<input type="hidden" value="OR9842" name="hidden_field_or1">
+							<a href="pages/invoice.html">OR9842</a>
+						</form>
+					</td>
                     <td>NN firma</td>
                     <td><span class="label label-success">Planiranje</span></td>
                     <td>
@@ -638,7 +635,12 @@
                     </td>
                   </tr>
                   <tr>
-                    <td><a href="pages/examples/invoice.html">OR1848</a></td>
+                    <td>
+						<form action="pages/invoice.html" method="post">
+							<input type="hidden" value="OR1848" name="hidden_field_or1">
+							<a href="pages/invoice.html">OR1848</a>
+						</form>
+					</td>
                     <td> NN firma 2</td>
                     <td><span class="label label-warning">Stopirano</span></td>
                     <td>
@@ -646,7 +648,12 @@
                     </td>
                   </tr>
                   <tr>
-                    <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                    <td>
+						<form action="pages/invoice.html" method="post">
+							<input type="hidden" value="OR7429" name="hidden_field_or1">
+							<a href="pages/invoice.html">OR7429</a>
+						</form>
+					</td>
                     <td>NN firma 2</td>
                     <td><span class="label label-danger">Isporučeno</span></td>
                     <td>
@@ -654,7 +661,12 @@
                     </td>
                   </tr>
                   <tr>
-                    <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                    <td>
+						<form action="pages/invoice.html" method="post">
+							<input type="hidden" value="OR3647" name="hidden_field_or1">
+							<a href="pages/invoice.html">OR3647</a>
+						</form>
+					</td>
                     <td>NN firma 3</td>
                     <td><span class="label label-info">U toku</span></td>
                     <td>
@@ -662,7 +674,12 @@
                     </td>
                   </tr>
                   <tr>
-                    <td><a href="pages/examples/invoice.html">OR1848</a></td>
+                    <td>
+						<form action="pages/invoice.html" method="post">
+							<input type="hidden" value="OR1848" name="hidden_field_or1">
+							<a href="pages/invoice.html">OR1848</a>
+						</form>
+					</td>
                     <td>NN firma 3</td>
                     <td><span class="label label-warning">Stopirano</span></td>
                     <td>
@@ -670,7 +687,12 @@
                     </td>
                   </tr>
                   <tr>
-                    <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                    <td>
+						<form action="pages/invoice.html" method="post">
+							<input type="hidden" value="OR6280" name="hidden_field_or1">
+							<a href="pages/invoice.html">OR6280</a>
+						</form>
+					</td>
                     <td>NN firma 3</td>
                     <td><span class="label label-danger">Isporučeno</span></td>
                     <td>
@@ -678,7 +700,12 @@
                     </td>
                   </tr>
                   <tr>
-                    <td><a href="pages/examples/invoice.html">OR9842</a></td>
+                    <td>
+						<form action="pages/invoice.html" method="post">
+							<input type="hidden" value="OR1450" name="hidden_field_or1">
+							<a href="pages/invoice.html">OR1450</a>
+						</form>
+					</td>
                     <td>NN firma 4</td>
                     <td><span class="label label-success">Planiranje</span></td>
                     <td>
