@@ -419,6 +419,10 @@
                     {
                       echo "<option selected disabled>".$_POST['project_name']."</option>";
                     }
+                    else
+                    {
+                      echo "<option>".$project_arr[0]['project_name']."</option>";
+                    }
                   
                     foreach($project_arr as $project)
                     {
